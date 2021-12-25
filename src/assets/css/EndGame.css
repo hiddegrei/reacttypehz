@@ -1,0 +1,27 @@
+.end{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    place-content: center;
+    width:100%;
+    height:1000px; 
+    overflow-y:hidden;
+    /* background-color: rgb(0, 0, 0); */
+   
+    color: white;
+    /* background-image: url("../img/background/product_image_bank-heist-4d_175f1d92e0631561ada7c2b1e91a2bde84ef47c112abba5b443d0f36fab4a134_opti.png");
+    background-size:cover; */
+   
+    text-align: center;
+    border:1px solid black;
+}
+.img{
+    position: absolute;
+    left:0;
+    top:0;
+    z-index: 10;
+    background-image:url("../img/objects/4541104.png");
+    background-size:cover;
+    width:400px;
+    height:450px;
+}
