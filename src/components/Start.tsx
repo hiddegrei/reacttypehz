@@ -9,6 +9,9 @@ function Start(){
     const [password,setPassword]=useState("")
 
     useEffect(()=>{
+        if(!user){
+            history.push("/login")
+        }
 
     },[])
 
