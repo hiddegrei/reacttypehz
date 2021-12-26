@@ -8,9 +8,6 @@ import {useHistory} from "react-router-dom";
 function Main() {
     const[{user,username,password}]=useStateValue();
     const history=useHistory()
-    // let canvas;
-    // let ctx;
-    // let test
     
        
 
