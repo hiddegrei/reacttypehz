@@ -51,6 +51,7 @@ if(useruser.uid){
                   profile:doc.data(),
                  }
                 )
+                
     });
 }).catch((error)=>console.log(error))
 }
@@ -139,7 +140,7 @@ function playguest(){
                 
                 <h5>Email</h5>
                 <input onChange={(e)=>{setEmail(e.target.value)
-                console.log(e.target.value)
+               
                 }}value={email} type="text"></input>
 
                 <h5>Password</h5>

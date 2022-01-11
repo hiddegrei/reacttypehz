@@ -1,7 +1,5 @@
-import InfoDisplay from './InformationDisplay';
-
-export default class Score extends InfoDisplay {
-  private score: number;
+export default class Score {
+  private scoreProperty: number;
 
   /**
    * score
@@ -9,26 +7,15 @@ export default class Score extends InfoDisplay {
    * @param score score of the player
    * @param canvas canvas
    */
-  public constructor(score: number, canvas: HTMLCanvasElement) {
-    super(canvas);
-    this.score = score;
+  public constructor(score: number) {
+    this.scoreProperty = score;
   }
 
-  /**
-   * Set the score of the player
-   *
-   * @param scoreChange change the score of the player
-   */
-  public setScore(scoreChange: number): void {
-    this.score += scoreChange;
+  public set score(dScore: number) {
+    this.scoreProperty += dScore;
   }
 
-  /**
-   * Get score
-   *
-   * @returns score
-   */
-  public getScore(): number {
+  public get score(): number {
     return this.score;
   }
 }

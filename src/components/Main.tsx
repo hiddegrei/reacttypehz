@@ -2,11 +2,11 @@ import React,{useEffect,useState} from 'react';
 import {db} from "../firebase";
 import {useStateValue} from "../Stateprovider";
 import "../assets/css/Main.css"
-import Game from '../classes/Game';
-import TimeLimit from '../classes/TimeLimit';
+import Game from "../classes/Game";
+import TimeLimit from "../classes/TimeLimit";
 import {useHistory} from "react-router-dom";
 function Main() {
-    const[{user,username,password}]=useStateValue();
+    const[{user,profile,username,password}]=useStateValue();
     const history=useHistory()
     // let canvas;
     // let ctx;
@@ -26,6 +26,9 @@ function Main() {
             let timelimit=new TimeLimit(password)
             time=timelimit.timeLimit
             console.log(time)
+
+            localStorage.setItem("username",profile.username)
+            
 
         }else{
 history.push("/start")

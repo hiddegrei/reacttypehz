@@ -34,6 +34,7 @@ auth.createUserWithEmailAndPassword(newemail,password).then((userCredential) => 
     userId:newuser.uid,
     imageUrl:'',
     bio:'',
+    highscore:0
     
 })
 

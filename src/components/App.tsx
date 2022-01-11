@@ -6,6 +6,7 @@ import Register  from './Register';
 import Main  from "./Main";
 import Start from "./Start"
 import EndGame from './EndGame';
+import MiniGame from "./MiniGame"
 
 
 function App() {
@@ -37,6 +38,12 @@ function App() {
       <Route path="/end">
 
         <EndGame/>
+
+      </Route>
+
+      <Route path="/minigame">
+
+        <MiniGame/>
 
       </Route>
 

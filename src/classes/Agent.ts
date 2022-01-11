@@ -2,6 +2,7 @@ import Border from "./Border";
 import Particle from "./Particle";
 import Ray from "./Ray";
 import Vector from "./Vector";
+import Game from "./Game"
 export default class Agent{
 
     public ctx: CanvasRenderingContext2D;
@@ -33,16 +34,31 @@ export default class Agent{
     public viewRays:Array<Ray>;
     public sight:number;
 
+    //random or searching blauw/groen sight
     public mode:string;
 
     public checkAngle:number;
 
     public checkRays: Array<Ray>=[];
 
-    constructor(x: number, y: number, ctx: CanvasRenderingContext2D, widthHall:number,mode:string) {
+    public keyNum:number
+
+    //moeilijkheidsgraad defense geel,oranje,rood
+    public status:string
+
+    public hackRange:number;
+
+    private goldkeyImg:HTMLImageElement
+
+    constructor(x: number, y: number, ctx: CanvasRenderingContext2D, widthHall:number,mode:string,keyNum:number,status:string) {
         this.ctx = ctx;
+        this.keyNum=keyNum
         this.mode=mode
         this.pos = new Vector(x,y)
+        //this.goldkeyImg=Game.loadNewImage("./assets/img/objects/goldkey.png")
+        this.goldkeyImg = new Image();
+        this.goldkeyImg.src = "./img/objects/goldkey.png"
+    
         this.rays = []
         this.radius = 10
         this.speed = 1
@@ -60,7 +76,17 @@ export default class Agent{
          this.target=new Vector(x,y)
          this.viewRays=[]
          this.sight=80;
-         this.checkAngle=5;
+         this.checkAngle=8;
+         this.status=status
+         this.hackRange=0
+
+         if(status==="yellow"){
+             this.hackRange=100
+         }else if(status==="orange"){
+             this.hackRange=80
+         }else if(status==="red"){
+             this.hackRange=60
+         }
          
 
 
@@ -255,7 +281,7 @@ export default class Agent{
                 
             }
         }
-        if(record>this.widthHall-5&&this.inv(angle)!=this.lastAngle){
+        if(record>this.widthHall-8&&this.inv(angle)!=this.lastAngle){
             
         }else{
 return false
@@ -283,7 +309,7 @@ return false
         if(angle===270){
             return 90
         }
-        console.log("yo")
+        //console.log("yo")
         return angle
 
     }
@@ -299,9 +325,20 @@ return false
 
     }
     show(ctx:CanvasRenderingContext2D) {
+        
+        this.ctx.drawImage(this.goldkeyImg,0,0,this.goldkeyImg.width,this.goldkeyImg.height,this.pos.x-20,this.pos.y-35,30,30)
+        this.writeTextToCanvas(`${this.keyNum}`,20,this.pos.x+15,this.pos.y-10)
+        let color="yellow"
+        if(this.status==="yellow"){
+            color="rgb(255,255,0)"
+        }else if(this.status==="orange"){
+            color="rgb(255, 165, 0)"
+        }else if(this.status==="red"){
+            color="rgb(255, 0, 0)"
+        }
         if(this.mode==="random"){
         ctx.lineWidth = 1;
-        ctx.fillStyle = "rgb(0,0,255)";
+        ctx.fillStyle = color;
         ctx.beginPath();
         ctx.arc(this.pos.x, this.pos.y, this.radius, 0, 2 * Math.PI);
         ctx.stroke();
@@ -309,7 +346,7 @@ return false
         ctx.fill()
     }else{
         ctx.lineWidth = 1;
-        ctx.fillStyle = "rgb(0,255,0)";
+        ctx.fillStyle = color;
         ctx.beginPath();
         ctx.arc(this.pos.x, this.pos.y, this.radius, 0, 2 * Math.PI);
         ctx.stroke();
