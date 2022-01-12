@@ -8,7 +8,7 @@ export default class MiniGame7 extends MGMain {
     private locked: boolean;
     private wheels: number[];
     private position: number;
-    private lockImage: HTMLImageElement;
+    private lockImage!: HTMLImageElement;
     private canvas: HTMLCanvasElement;
     private time: number;
     private positionKeyPressed: boolean;
@@ -46,16 +46,14 @@ export default class MiniGame7 extends MGMain {
         this.randomNumberPositionDY.push(Room.randomNumber(10*value,(window.innerHeight/1.1)));
         this.randomSize.push(Room.randomNumber(15,25));
       })
-      //this.lockImage = Room.loadNewImage('./img/objects/4541104.png');
-      this.lockImage = new Image();
-      this.lockImage.src = "./img/objects/4541104.png"
       
       //document.onkeydown=this.checkLocks.bind(this)
     }
 
 
     public update(){
-      this.check();
+      if (this.locked === true) {
+        this.check();
       if(this.started){
         document.onkeydown = this.checkLocks.bind(this);
         this.started=false
@@ -67,6 +65,7 @@ export default class MiniGame7 extends MGMain {
         this.numberKeyPressed = false;
       }
       this.time++;
+      }
     }
 
     public checkLocks(e:any){
@@ -80,16 +79,16 @@ export default class MiniGame7 extends MGMain {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       Room.drawImageScaled(
         this.ctx,
-        './img/background/bank-room-interior-backdrop-metal-safe-door-vault-background-racks-deposit-boxes-secure-currency-storage-inside-174243488.jpg',
+        './assets/img/background/bank-room-interior-backdrop-metal-safe-door-vault-background-racks-deposit-boxes-secure-currency-storage-inside-174243488.jpg',
         1,
         1,
         0,
         35,
         );
-     
+      this.lockImage = Room.loadNewImage('assets/img/objects/4541104.png');
       this.ctx.drawImage(this.lockImage,-20, window.innerHeight/6);
       this.explanation();
-      //this.lockImage = Room.loadNewImage('./img/objects/pngwing.com (500).png');
+      this.lockImage = Room.loadNewImage('assets/img/objects/pngwing.com (500).png');
       this.ctx.drawImage(this.lockImage,window.innerWidth / 3, -12);
       this.wheels.forEach((value: number, index: number) => {
         if (this.position === index) {
@@ -157,13 +156,13 @@ export default class MiniGame7 extends MGMain {
     }
 
     private explanation() {
-      this.writeTextToCanvas(`this is room`+this.roomId,20,window.innerWidth/3,window.innerHeight/1.1);
-      this.writeTextToCanvas(`Try to unlock this lock`,20,225,300);
-      this.writeTextToCanvas(`using the arrow keys`,20,225,325);
-      this.writeTextToCanvas(`Arrow up = number up`,20,225,400);
-      this.writeTextToCanvas(`Arrow down = number down`,20,225,450);
-      this.writeTextToCanvas(`Arrow left = position left`,20,225,500);
-      this.writeTextToCanvas(`Arrow right = position right`,20,225,550);
+      this.writeTextToCanvas(`Dit is kamer `+this.roomId,20,window.innerWidth/3,window.innerHeight/1.1);
+      this.writeTextToCanvas(`Probeer de code te kraken`,20,225,300);
+      this.writeTextToCanvas(`Gebruik de pijltestoetsen (en misschien ook wat hints)`,20,225,325);
+      this.writeTextToCanvas(`Pijl omhoog = cijfer omhoog`,20,225,400);
+      this.writeTextToCanvas(`Pijl omlaag = cijfer omlaag`,20,225,450);
+      this.writeTextToCanvas(`Pijl naar links = positie naar links`,20,225,500);
+      this.writeTextToCanvas(`Pijl naar rechts = positie naar rechts`,20,225,550);
     }
 
     private hints(){
@@ -204,6 +203,7 @@ export default class MiniGame7 extends MGMain {
     private answer(){
       this.room.miniGameFinished = true;
       this.room.answer = true;
+      this.room.getHintsGame().foundHint('e');
     }
 
     private combinationCheck(): boolean {

@@ -1,8 +1,10 @@
 export default class Progress {
     private progressProperty!: number;
+    public progressNum:number
 
     public constructor() {
         this.progress = 0;
+        this.progressNum=0
     }
 
     public get progress(): number {
@@ -15,7 +17,7 @@ export default class Progress {
     }
 
     public increaseProgress(dProgress: number) {
-        this.progress = this.progress + dProgress;
+        this.progressNum = this.progress + dProgress;
     }
 
     private updateProgressBar(): void {

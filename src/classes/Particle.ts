@@ -52,16 +52,13 @@ export default class Particle {
         this.ctx = ctx
         this.pos = new Vector(x,y)
         this.rays = []
-        this.radius = 10
+        this.radius = 5
         this.speed = 2;
         this.maxspeed=3
         this.dir = { x: 0, y: 0 }
         this.mouse = { x: 0, y: 0 }
         this.angleView = 18;
-        //this.imageSprite=Game.loadNewImage("./img/players/bkspr01.png")
-        this.imageSprite = new Image();
-        this.imageSprite.src = "./img/players/bkspr01.png"
-       
+        this.imageSprite=Game.loadNewImage("./img/players/bkspr01.png")
         console.log(this.imageSprite.width,this.imageSprite.height)
         this.images.push([20,150,95,130,300,300,Particle.WP,Particle.HP])
         this.images.push([132,50,95,130,300,300,Particle.WP,Particle.HP])
@@ -203,7 +200,7 @@ export default class Particle {
     hack(agents:Array<Agent>){
         for(let i=0;i<agents.length;i++){
             
-            if(Vector.dist(this.pos,agents[i].pos)<agents[i].hackRange){
+            if(Vector.dist(this.pos,agents[i].pos)<agents[i].hackRange&&agents[i].sleeping!=true){
                  
 
         this.hacking=true
@@ -222,7 +219,7 @@ export default class Particle {
 
     animate(){
         this.imgIndex+=0.05
-        this.hackIndex+=1
+        this.hackIndex+=0.5
     }
 
 

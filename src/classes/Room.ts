@@ -14,14 +14,17 @@ import MiniGame6 from "./minigames/MiniGame6";
 import MiniGame7 from "./minigames/MiniGame7";
 import MiniGame8 from "./minigames/MiniGame8";
 import MiniGame9 from "./minigames/MiniGame9";
-import Scene from "./Scene.js";
+import Scene from "./Scene";
+import MiniGameP from "./minigames/MiniGameP";
+import Hints from "./Hints";
+import MiniGameC from "./minigames/MiniGameC";
 
 export default class Room{
     public visitedRooms:Array<boolean>=[];
     public roomId:number
     public ctx:CanvasRenderingContext2D;
     protected keyboard:KeyboardListener;
-    private scene:Scene;
+    protected scene:Scene;
     private minigame0:MiniGame0
     private minigame1:MiniGame1
     private minigame2:MiniGame2
@@ -37,12 +40,15 @@ export default class Room{
     private minigame12:MiniGame12
     private minigame13:MiniGame13
     private minigame14:MiniGame14
+    private minigameC:MiniGameC;
+    private minigameP:MiniGameP
+    private hints: Hints;
 
     public miniGameFinished:boolean
     public answer:boolean
     public canvas:HTMLCanvasElement
 
-    //private img: HTMLImageElement;
+    private img!: HTMLImageElement;
 
     
 
@@ -61,7 +67,7 @@ export default class Room{
         this.minigame3=new MiniGame3(this.ctx,this)
         this.minigame4=new MiniGame4(this.ctx,this)
         this.minigame5=new MiniGame5(this.ctx,this)
-        this.minigame6=new MiniGame6(this.ctx,this)
+        this.minigame6=new MiniGame6(this.ctx,this, this.canvas)
         this.minigame7=new MiniGame7(this.ctx,this, this.canvas)
         this.minigame8=new MiniGame8(this.ctx,this)
         this.minigame9=new MiniGame9(this.ctx,this)
@@ -70,9 +76,13 @@ export default class Room{
         this.minigame12=new MiniGame12(this.ctx,this)
         this.minigame13=new MiniGame13(this.ctx,this)
         this.minigame14=new MiniGame14(this.ctx,this)
+        this.minigameC=new MiniGameC(this.ctx,this,this.canvas)
+        this.minigameP=new MiniGameP(this.ctx,this)
 
         this.miniGameFinished=false
         this.answer=false
+
+        this.hints = new Hints(this.canvas,this.scene);
         
 
         for(let i=0;i<16;i++){
@@ -86,7 +96,27 @@ export default class Room{
         this.scene.insideRoom=false
         this.visitsNew(this.roomId)
         if(this.answer){
+          if(this.roomId===80){
+            //this.minigameP.started=true
+            this.miniGameFinished=false
+            this.answer=false
+            this.minigameP.started=true
+            return 80
+
+          }
+          if(this.roomId===100){
+            //this.minigameP.started=true
+            this.miniGameFinished=false
+            this.answer=false
+            this.minigameC.started=true
+            return 100
+
+          }
+          this.miniGameFinished=false
+          this.answer=false
           return true;
+        }else if(this.roomId===100){
+          return 101
         }else{
           return false
         }
@@ -128,14 +158,22 @@ export default class Room{
           this.minigame13.update()
         }else if(this.roomId===14){
           this.minigame14.update()
+        }else if (this.roomId===100) {
+          this.minigameC.update()
+        }else if(this.roomId===80){
+          this.minigameP.update(this.scene.lockedUp)
         }
        
 
     }
 
+    public getScene(){
+      return this.scene;
+    }
+
     public render(){
         // this.writeTextToCanvas(`room: ${this.roomId}`,20,100,100)
-        this.writeTextToCanvas("press spacebar to leave room",20,700,600)
+        //this.writeTextToCanvas("press spacebar to leave room",20,700,600)
 
         if(this.roomId===0){
           this.minigame0.render()
@@ -168,6 +206,10 @@ export default class Room{
           this.minigame13.render()
         }else if(this.roomId===14){
           this.minigame14.render()
+        }else if(this.roomId===80){
+          this.minigameP.render()
+        }else if (this.roomId===100) {
+          this.minigameC.render()
         }
 
     }
@@ -176,6 +218,10 @@ export default class Room{
         this.roomId=roomId
         
 
+    }
+
+    public getHintsGame() {
+      return this.hints;
     }
 
     public visitsNew(roomId:number){

@@ -2,7 +2,7 @@ import Room from "../Room";
 import MGMain from "./MGMain";
 import Game from "../Game"
 
-export default class MiniGame2 extends MGMain{
+export default class MiniGameP extends MGMain{
     public ctx:CanvasRenderingContext2D;
     private secretW:Array<string>=[]
     private attempts:number
@@ -11,14 +11,20 @@ export default class MiniGame2 extends MGMain{
     private complete:any
     private attemptsArr:Array<string>=[]
     private foundStr:string
-    private started:boolean
-    private image!: HTMLImageElement;
+    public started:boolean
+    private lockedUp!: number;
     
 
     constructor(ctx:CanvasRenderingContext2D,room:Room){
-      super(2,room)
+      super(80,room)
       this.ctx=ctx
-      this.secretW=["1","7","1","s","m","i","t","h"]
+     
+    //   if(this.lockedUp===1){
+    //   this.secretW=["k","a","r","e","l","9","3","2"]
+    //   }else{
+    //     this.secretW=["9","4","p","e","r","e","n","8"]
+
+    //   }
       this.found=[null,null,null,null,null,null,null,null]
       //window.addEventListener('keydown',this.checkKey,false);
       // document.onkeydown = this.checkKey.bind(this);
@@ -27,7 +33,6 @@ export default class MiniGame2 extends MGMain{
       this.foundStr=""
      // this.complete=false
      this.started=true
-     this.image = Game.loadNewImage("./img/background/password2.jpg")
 
     }
 
@@ -45,7 +50,7 @@ export default class MiniGame2 extends MGMain{
             break;
           }
         }
-        console.log(this.found[this.index])
+       
         if(e.keyCode<=57){
           this.found[this.index]=String.fromCharCode(e.keyCode)
           
@@ -102,36 +107,51 @@ export default class MiniGame2 extends MGMain{
   }
 
   public answer(){
+    this.found=[null,null,null,null,null,null,null,null]
+    this.attempts=5
+    this.foundStr=""
+    this.attemptsArr=[]
+    this.complete=null
+    this.index=0
     this.room.miniGameFinished=true
+    document.removeEventListener("onkeydown",this.checkKey.bind(this))
     this.room.answer=true
-    this.room.getHintsGame().foundHint('o');
+    
     
 
   }
 
 
-    public update(){
+    public update(lockedUp:number){
       this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
       if(this.started){
         document.onkeydown = this.checkKey.bind(this);
+        this.lockedUp=lockedUp
+        if(lockedUp===1){
+            this.secretW=["k","a","r","e","l","9","3","2"]
+
+        }else{
+            this.secretW=["9","4","p","e","r","e","n","8"]
+
+        }
+        
         this.started=false
       }
 
     }
 
     public render(){
-      this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
-      this.ctx.strokeStyle = "rgb(0,255,0)"
-      this.ctx.fillStyle="rgb(255,255,255)"
-      this.ctx.beginPath()
-      this.ctx.rect(100, 100, 700, 300)
-      this.ctx.closePath()
-      this.ctx.stroke()
-      this.ctx.fill()
+      this.ctx.strokeStyle="rgb(0,255,0)"
+        this.ctx.beginPath()
+        this.ctx.rect(100,100,600,300)
+        this.ctx.closePath()
+        this.ctx.stroke()
         this.writeTextToCanvas("Je hebt 5 pogingen om het wachtwoord te raden, na elke poging kun je zien welke",16,110,130)
         this.writeTextToCanvas("characters je goed hebt geraden",16,110,150)
 
         this.writeTextToCanvas("Druk op ENTER  om je poging te testen.",16,110,50)
+        this.writeTextToCanvas("Je bent opgesloten door de bewakers! En de bewakers hebben een wachtwoord op de deur gezet! ",16,110,70)
+        this.writeTextToCanvas("Hack het wachtwoord om vrij te komen",16,110,90)
         if(this.attemptsArr){
         for(let i=0;i<this.attemptsArr.length;i++){
           this.writeTextToCanvas(`Poging ${i}: ${this.attemptsArr[i]}`,19,110,170+i*20)
@@ -142,12 +162,20 @@ export default class MiniGame2 extends MGMain{
         this.ctx.beginPath()
         this.ctx.rect(700,100,300,500)
         this.ctx.closePath()
-        this.writeTextToCanvas("Informatie die je hebt verkregen:",20,750,100)
-        this.writeTextToCanvas("voornaam: Rik",20,750,130)
-        this.writeTextToCanvas("voornaam: Smith",20,750,160)
-        this.writeTextToCanvas("leeftijd: 17",20,750,190)
-        this.writeTextToCanvas("geboorte datum: 17/10/2001",20,750,220)
-        this.writeTextToCanvas("woonplaats: Utrecht",20,750,250)
+        this.writeTextToCanvas("Informatie van de bewaker die het wachtwoord heeft verzonnen:",20,750,100)
+        if(this.lockedUp===1){
+        this.writeTextToCanvas("voornaam: Karel",20,750,130)
+        this.writeTextToCanvas("achternaam: De 2e",20,750,160)
+        this.writeTextToCanvas("leeftijd: 32",20,750,190)
+        this.writeTextToCanvas("geboorte datum: 02/01/1990",20,750,220)
+        this.writeTextToCanvas("woonplaats: De Bank",20,750,250)
+        }else{
+            this.writeTextToCanvas("voornaam: Peter",20,750,130)
+        this.writeTextToCanvas("achternaam: Peren",20,750,160)
+        this.writeTextToCanvas("leeftijd: 28",20,750,190)
+        this.writeTextToCanvas("geboorte datum: 28/02/1994",20,750,220)
+        this.writeTextToCanvas("woonplaats: De Bank",20,750,250)
+        }
 
         this.ctx.beginPath()
         this.ctx.rect(100,500,50,50)
@@ -175,7 +203,7 @@ export default class MiniGame2 extends MGMain{
         if(this.complete){
           this.writeTextToCanvas("Je hebt het wachtwoord geraden!",30,100,900)
         }else if(this.complete===0){
-          this.writeTextToCanvas("Helaas, dit is fout",30,100,900)
+          this.writeTextToCanvas("not good",30,100,900)
 
         }
         

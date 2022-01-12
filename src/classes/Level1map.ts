@@ -1,4 +1,4 @@
-import Scene from "./Scene"
+import Scene from "./Scene.js"
 export default class Level1map {
 
     public level1: Array<any>=[];
@@ -436,6 +436,10 @@ export default class Level1map {
             [(this.canvas.width / 2)+8*this.widthHall ,300+9*this.widthHall, (this.canvas.width/2)+8*this.widthHall ,300+10*this.widthHall],
 
 
+            //wall rechts voor prison room
+            [(this.canvas.width/2)+18*this.widthHall,100+3*this.widthHall,this.canvas.width,100+3*this.widthHall],
+
+
 
 
 
@@ -644,6 +648,9 @@ export default class Level1map {
               [(this.canvas.width/2)-8*this.widthHall,100+15*this.widthHall,(this.canvas.width/2)-7*this.widthHall,100+15*this.widthHall],
               [(this.canvas.width/2)+12*this.widthHall,100+3*this.widthHall,(this.canvas.width/2)+12*this.widthHall,100+4*this.widthHall],
 
+              
+
+
              
           ]
       }
@@ -665,8 +672,9 @@ export default class Level1map {
               [(this.canvas.width/2)+12*this.widthHall+20,100+7*this.widthHall+15,"11"],
               [(this.canvas.width/2)+8*this.widthHall-20,100+4*this.widthHall+15,"12"],
               [(this.canvas.width/2)+11*this.widthHall-20,100+this.widthHall+15,"13"],
-              [(this.canvas.width/2)+4*this.widthHall-10,100+3*this.widthHall-25,"14"],
-              [(this.canvas.width/2)+this.widthHall-20,100+5*this.widthHall+15,"c"],
+              [(this.canvas.width/2)+4*this.widthHall-15,100+3*this.widthHall-25,"14"],
+              [(this.canvas.width/2)+this.widthHall-20,100+5*this.widthHall+15,"100"],
+              [(this.canvas.width/2)+18*this.widthHall,100+5*this.widthHall,"80"]
               
           ]
       }

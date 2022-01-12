@@ -8,3 +8,39 @@ canvas {
     margin: 0 auto;
     display: block;
 }
+div.hud {
+    color: black;
+    background-color: rgb(255, 255, 255);
+    padding: 5px;
+    position: fixed;
+    border: 1px;
+    width: max-content;
+    height: max-content;
+}
+
+div#timeLimit.hud {
+    top: 0px;
+    left: 0px;
+    border-radius: 0px 0px 10px 0px;
+}
+
+div#score.hud {
+    top: 0px;
+    right: 0px;
+    border-radius: 0px 0px 0px 10px;
+}
+
+div#progressBar.hud {
+    bottom: 0px;
+    right: 0px;
+    border-radius: 10px 0px 0px 0px;
+    height: 2vh;
+    width: 20vw;
+    background: linear-gradient(90deg, rgb(0, 255, 0) 0%, rgba(0, 255, 0) 0%, rgba(255, 0, 0) 0%, rgba(255, 0, 0) 100%);
+}
+
+div#progress.hud {
+    bottom: 0px;
+    left: 0px;
+    border-radius: 0px 10px 0px 0px;
+}

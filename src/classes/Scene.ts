@@ -14,6 +14,7 @@ import Progress from './Progress';
 import Room from './Room';
 import Keys from './Keys';
 import ScoreToDatabase from './ScoreToDatabase';
+import Hints from './Hints';
 
 
 export default class Scene {
@@ -62,9 +63,9 @@ export default class Scene {
   private agents:Array<Agent>=[];
 
   private timeLimit!: TimeLimit;
-  private time: number;
-  private timeLeft!: number;
-  private progress: Progress;
+  private time:number;
+  private timeLeft:number
+  public progress: Progress;
 
   private roomsIds:Array<any>=[]
   public insideRoom:boolean;
@@ -74,8 +75,18 @@ export default class Scene {
 
   public timeHacking:number;
 
-  private showKeys:boolean;
+  private showKeys:boolean
 
+  public lockedUp:number
+
+  private hints: Hints;
+
+  public howGameEnded:string
+  /**
+   * @param canvas
+   * @param game
+   */
+  | undefined
 
   
 
@@ -87,11 +98,11 @@ export default class Scene {
   constructor(canvas: HTMLCanvasElement, game: Game,time:number) {
     this.timeArray = [Date.now()];
     this.canvas = canvas;
-    this.time=0
     this.canvas.width = 1920;
     this.canvas.height = 969;
     this.ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
     this.camera=new Camera()
+    this.lockedUp=0
     this.currentTrans = new Vector(0, 0)
     // this.canvas.width = window.innerWidth;
     // this.canvas.height = window.innerHeight;
@@ -141,26 +152,26 @@ export default class Scene {
     }
     // this.border= new Border(300,50,300,200,this.ctx)
     // this.ray=new Ray(50,150, this.ctx)
-    this.particle = new Particle(100, 100+0.5*this.level.widthHall, this.ctx);
-    this.agents.push(new Agent(1.5*this.level.widthHall, 100+0.5*this.level.widthHall, this.ctx,this.level.widthHall,"random",0,"yellow"))
+    this.particle = new Particle(100+this.level.widthHall, 100+0.5*this.level.widthHall, this.ctx);
+    this.agents.push(new Agent(1.5*this.level.widthHall, 100+1.5*this.level.widthHall, this.ctx,this.level.widthHall,"random",0,"yellow"))
     this.agents.push(new Agent((this.canvas.width/2)+3.5*this.level.widthHall, 300+2*this.level.widthHall, this.ctx,this.level.widthHall,"random",1,"orange"))
     this.agents.push(new Agent((this.canvas.width/2)+12.5*this.level.widthHall, 300+8*this.level.widthHall, this.ctx,this.level.widthHall,"random",2,"yellow"))
-    this.agents.push(new Agent((this.canvas.width/2)-(0.5*this.level.widthHall), 100+3*this.level.widthHall, this.ctx,this.level.widthHall,"search",3,"red"))
+    this.agents.push(new Agent((this.canvas.width/2)-(0.5*this.level.widthHall), 100+3*this.level.widthHall, this.ctx,this.level.widthHall,"random",3,"red"))
     this.keys.inPossesion[0]=true
     this.keys.inPossesion[1]=true
     this.keys.inPossesion[2]=true
     this.keys.inPossesion[3]=true
     this.mouse = { x: 0, y: 0 };
-    
-    
 
     // window.addEventListener("mousemove",this.mouseDown.bind(this), false)
     this.count = 0;
 
-    this.timeLeft = Math.round(time/1000)
-    //this.timeLeft = this.timeLimit.timeLimit
+    //this.timeLimit = new TimeLimit(this.game.password);
+    this.timeLeft = time
 
-    // this.time=0;
+    this.time=0;
+
+    this.hints = this.room.getHintsGame()
   }
 
   
@@ -183,6 +194,10 @@ export default class Scene {
 
   }
 
+  public getProgress() {
+    return this.progress;
+  }
+
 
   
 
@@ -190,21 +205,40 @@ export default class Scene {
    *@param condition boolean
    */
   update(elapsed: number): void {
-    if(this.game.isEnd){
+    if(false){
     //if (this.timeLeft < 0) {
-     // this.game.isEnd = true;
-     
-    }else if(this.insideRoom&&this.room.visitedRooms[this.inRoomNum]!=true){
+      this.game.isEnd = true;
+      this.scoreToDatabase.update(this.totalScore)
+    }else if(this.insideRoom&&(this.room.visitedRooms[this.inRoomNum]!=true||this.inRoomNum===80||this.inRoomNum===100)){
       this.room.update()
       let isMiniGameComplete=this.room.checkDone()
-      if(isMiniGameComplete){
+      if(isMiniGameComplete===true){
         this.totalScore++
+      }
+      if(isMiniGameComplete!=80&&isMiniGameComplete!=false){
+        this.keys.total--
+
+      }
+      if(isMiniGameComplete===100){
+        this.howGameEnded="gekraakt"
+        this.game.isEnd=true
+        
+      }
+      if(isMiniGameComplete===101){
+        this.howGameEnded="outofattempts"
+        this.game.isEnd=true
+        
+      }
+      if(isMiniGameComplete===80){
+        this.particle.pos.x=(this.canvas.width/2)+18.5*this.level.widthHall
+        this.particle.pos.y=100+2*this.level.widthHall
       }
 
 
     } else {
-      //this.timeLeft -= elapsed;
-      
+      // this.timeLeft -= elapsed;
+      // document.querySelector('div#timeLimit.hud span').innerHTML = (JSON.stringify(Math.floor(this.timeLeft / 1000)));
+      // document.querySelector('div#score.hud span').innerHTML = JSON.stringify(this.totalScore); //TODO goede score
       if(this.time>=1000){
         this.timeLeft-=1
         this.time=0
@@ -216,9 +250,6 @@ export default class Scene {
         this.scoreToDatabase.update(this.totalScore)
         this.game.isEnd=true
       }
-
-      // document.querySelector('div#timeLimit.hud span').innerHTML = (JSON.stringify(Math.floor(this.timeLeft / 1000)));
-      // document.querySelector('div#score.hud span').innerHTML = JSON.stringify(this.totalScore); //TODO goede score
       // this.progress.updateProgressBar();
 
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -252,42 +283,80 @@ export default class Scene {
       // this.progression.pBar(this.ctx);
       // this.score[0].writeTextToCanvas(`Score: ${this.totalScore}`, this.canvas.width / 2, 20);
 
-      if (this.keyboard.isKeyDown(82)) {
+     // if (this.keyboard.isKeyDown(82)) {
         // this.endGame = new EndGame(this.canvas);
-        this.game.isEnd = true;
-      }
+      //  this.game.isEnd = true;
+     // }
 
     
       document.onmousemove = this.mouseDown.bind(this);
       
       let roomNum=this.particle.isInRoom(this.roomsIds)
       if(roomNum!=-1
-        //&&this.keys.keys[roomNum]
+        &&(this.keys.total>0||roomNum===80)
         ){
         //player is inside a room or central hub
         this.insideRoom=true;
         this.inRoomNum=roomNum;
         this.room.setRoomId(this.inRoomNum)
+        
+        
 
         
         
       };
       this.count += 1;
 
+      this.writeTextToCanvas(`Verzamelde hints: `, 30, window.innerWidth / 6, window.innerHeight / 15)
+      this.hints.getHint().forEach((value: string, index: number) => {
+        this.writeTextToCanvas(`${value}`, 25, window.innerWidth / 4 + (index * 40), window.innerHeight / 15)
+      })
+      
+
      
 
+      //check if player is insight of agents
       for(let i=0;i<this.agents.length;i++){
-        this.agents[i].inSight(this.particle,this.ctx)
+        if(Vector.dist(this.particle.pos,this.agents[i].pos)<80){
+        let inSight=this.agents[i].inSight(this.particle,this.ctx,this.borders)
+        if(inSight){
+          if(this.lockedUp===2){
+            this.game.isEnd=true
+            this.howGameEnded="caught"
+          }
+          if(this.agents.length<=5){
+         this.agents.push(new Agent(100+5*this.level.widthHall, 100+0.5*this.level.widthHall, this.ctx,this.level.widthHall,"random",this.agents.length,"yellow"))
+          }
+          //player in room
+          this.lockedUp++
+          this.particle.pos.x=(this.canvas.width/2)+18*this.level.widthHall
+          this.particle.pos.y=100+5*this.level.widthHall
+         
+        }
+      }
+        
+        //updateing and moving agents
         this.agents[i].update(this.particle, this.borders);
         this.agents[i].move()
+         //this.agents[i].look(this.borders,this.ctx)
+        if( this.agents[i].sleepingTime>=20000){
+          this.agents[i].sleepingTime=0
+          this.agents[i].sleeping=false
+
+        
+        }else{
+          this.agents[i].sleepingTime+=elapsed
+        }
 
       }
-
+      //updateing and moving player
       this.particle.update(this.mouse.x, this.mouse.y, this.borders);
       this.particle.hack(this.agents);
       this.particle.move()
 
-      let timeHack=0
+
+      //hack agents and retrieve keys
+      let timeHack=5000
       if(this.agents[this.particle.hackAgent].status==="yellow"){
        timeHack=5000
       }else if(this.agents[this.particle.hackAgent].status==="orange"){
@@ -300,9 +369,11 @@ export default class Scene {
       
       }else if(!this.particle.hacking){
         this.timeHacking=0
-      }else if(this.timeHacking>=timeHack){
+      }else if(this.timeHacking>=timeHack&&this.agents[this.particle.hackAgent].sleeping===false){
         let key=this.agents[this.particle.hackAgent].keyNum
+        this.agents[this.particle.hackAgent].sleeping=true
         this.keys.keys[key]=true
+        this.keys.total++
         this.timeHacking=0
         if(this.agents[this.particle.hackAgent].status==="yellow"){
           this.agents[this.particle.hackAgent].status="orange"
@@ -313,7 +384,7 @@ export default class Scene {
           }else if(this.agents[this.particle.hackAgent].mode="search"){
             this.agents[this.particle.hackAgent].maxspeed+=0.2
           }
-        //console.log("hacked room num:" ,key)
+       // console.log("hacked room num:" ,key)
         for(let i=0;i<this.keys.keys.length;i++){
           if(!this.keys.inPossesion[i]){
             this.agents[this.particle.hackAgent].keyNum=i
@@ -328,9 +399,15 @@ export default class Scene {
    
   }
 
+
+  public gethintGame() {
+    return this.hints;
+  }
   
 
-  
+  public getGame(){
+    return this.game;
+  }
 
   
 
@@ -339,19 +416,21 @@ export default class Scene {
    */
   render() {
     // this.border.show()
+    //this.writeTextToCanvas(`${this.lockedUp}`,30,300,40)
    
     
-    if(this.game.isEnd){
+    if(false){
       //if (this.timeLeft - elapsed < 0) {
         this.game.isEnd = true;
-      }else if(this.insideRoom&&this.room.visitedRooms[this.inRoomNum]!=true){
+      }else if(this.insideRoom&&(this.room.visitedRooms[this.inRoomNum]!=true||this.inRoomNum===80||this.inRoomNum===100)){
         this.room.render()
   
   
       } else {
-        this.writeTextToCanvas("press t to show keys, press y to hide keys",20,window.innerWidth/2,30)
-        this.writeTextToCanvas(`time left: ${this.timeLeft}`,20,100,40)
-        this.writeTextToCanvas(`score: ${this.totalScore}`,20,window.innerWidth-100,40)
+       // this.writeTextToCanvas("press t to show keys, press y to hide keys",20,window.innerWidth/2,30)
+       this.writeTextToCanvas(`time left: ${this.timeLeft}`,20,100,40)
+       this.writeTextToCanvas(`score: ${this.totalScore}`,20,window.innerWidth-100,40)
+       this.writeTextToCanvas(`voortgang: ${this.progress.progressNum}%`,20,window.innerWidth-300,40)
 
     this.particle.show();
     this.particle.animate();
@@ -361,11 +440,11 @@ export default class Scene {
     }
     this.particle.look(this.borders);
 
-    this.writeTextToCanvas('Central hub', 20, this.canvas.width / 2, 400);
+    this.writeTextToCanvas('Grote Kluis', 20, this.canvas.width / 2, 400);
 
     for(let i=0;i<this.agents.length;i++){
     this.agents[i].show(this.ctx)
-    this.agents[i].look(this.borders,this.ctx)
+     this.agents[i].look(this.borders,this.ctx)
     }
 
     for(let i=0;i<this.roomsIds.length;i++){
@@ -380,10 +459,10 @@ export default class Scene {
     }
   }
 
-  if(this.showKeys){
+ 
    this.keys.show(this.ctx)
    
-  }
+  
     
   }
 

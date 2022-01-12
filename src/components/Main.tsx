@@ -40,7 +40,7 @@ history.push("/start")
     //      ctx=canvas.getContext("2d")
     //  test= new Test(ctx)
 
-     const game = new Game(document.getElementById('canvas'),time)
+     const game = new Game(document.getElementById('canvas'),time/10)
      game.start()
         
         //  test.display()
@@ -55,6 +55,8 @@ history.push("/start")
            
                 
                 <canvas width="400px" height="400px" id="canvas"></canvas>
+                <div className="hud" id="progressBar"></div>
+    <div className="hud" id="progress">Voortgang: <span id="progressNumber"></span>%</div>
             
         </div>
     )

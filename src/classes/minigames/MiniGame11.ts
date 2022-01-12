@@ -19,7 +19,7 @@ export default class MiniGame11 extends MGMain{
 
     public render(){
 
-        this.writeTextToCanvas(`this is room`+this.roomId,20,200,200)
+        this.writeTextToCanvas(`Dit is kamer `+this.roomId,20,200,200)
         
     }
 

@@ -12,6 +12,7 @@ export default class MiniGame14 extends MGMain{
     private attemptsArr:Array<string>=[]
     private foundStr:string
     private started:boolean
+    private image!: HTMLImageElement;
     
 
     constructor(ctx:CanvasRenderingContext2D,room:Room){
@@ -27,6 +28,7 @@ export default class MiniGame14 extends MGMain{
       this.foundStr=""
       this.started=true
      // this.complete=false
+     this.image = Game.loadNewImage("./img/background/password2.jpg")
 
     }
 
@@ -44,7 +46,7 @@ export default class MiniGame14 extends MGMain{
             break;
           }
         }
-        
+        console.log(this.found[this.index])
         if(e.keyCode<=57){
           this.found[this.index]=String.fromCharCode(e.keyCode)
           
@@ -103,6 +105,7 @@ export default class MiniGame14 extends MGMain{
   public answer(){
     this.room.miniGameFinished=true
     this.room.answer=true
+    this.room.getHintsGame().foundHint('n');
     
 
   }
@@ -118,11 +121,14 @@ export default class MiniGame14 extends MGMain{
     }
 
     public render(){
-      this.ctx.strokeStyle="rgb(0,255,0)"
-        this.ctx.beginPath()
-        this.ctx.rect(100,100,600,300)
-        this.ctx.closePath()
-        this.ctx.stroke()
+      this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
+    this.ctx.strokeStyle = "rgb(0,255,0)"
+    this.ctx.fillStyle="rgb(255,255,255)"
+    this.ctx.beginPath()
+    this.ctx.rect(100, 100, 640, 300)
+    this.ctx.closePath()
+    this.ctx.stroke()
+    this.ctx.fill()
         this.writeTextToCanvas("Je hebt 5 pogingen om het wachtwoord te raden, na elke poging kun je zien welke",16,110,130)
         this.writeTextToCanvas("characters je goed hebt geraden",16,110,150)
 
@@ -170,7 +176,7 @@ export default class MiniGame14 extends MGMain{
         if(this.complete){
           this.writeTextToCanvas("Je hebt het wachtwoord geraden!",30,100,900)
         }else if(this.complete===0){
-          this.writeTextToCanvas("not good",30,100,900)
+          this.writeTextToCanvas("Helaas, dit antwoord is fout",30,100,900)
 
         }
         
@@ -199,7 +205,7 @@ export default class MiniGame14 extends MGMain{
     xCoordinate: number,
     yCoordinate: number,
     alignment: CanvasTextAlign = 'start',
-    color: string = 'red',
+    color: string = 'black',
   ): void {
     this.ctx.font = `${fontSize}px sans-serif`;
     this.ctx.fillStyle = color;

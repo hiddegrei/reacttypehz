@@ -3,24 +3,90 @@ import MGMain from "./MGMain";
 import Game from "../Game"
 
 export default class MiniGame6 extends MGMain{
+    private canvas: HTMLCanvasElement;
     public ctx:CanvasRenderingContext2D;
+    private fullFingerprint: HTMLImageElement[];
+    private partFingerprint: HTMLImageElement[];
+    private randomNumber: number;
+    private started: boolean;
+    private titelText: string;
+    private color: string;
+    private size: number;
     
 
-    constructor(ctx:CanvasRenderingContext2D,room:Room){
-      super(6,room)
-      this.ctx=ctx
-
+    constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
+      super(6,room);
+      this.canvas = canvas;
+      this.ctx=ctx;
+      this.fullFingerprint = [Room.loadNewImage('./img/fingerPrints/resized-fingerprint-1382652_1920.jpg'),Room.loadNewImage('assets/img/fingerPrints/resized-detective-fingerprints-print.png'),Room.loadNewImage('assets/img/fingerPrints/resized-istockphoto-534450004-612x612.jpg')];
+      this.partFingerprint = [Room.loadNewImage('./img/fingerPrints/detective-fingerprints-arch.png'),Room.loadNewImage('assets/img/fingerPrints/detective-fingerprints-loop.png'),Room.loadNewImage('assets/img/fingerPrints/detective-fingerprints-whorl.png')];
+      this.randomNumber = Room.randomNumber(0,2);
+      this.started = true;
+      this.titelText = 'Vergelijk de vingerafdruk met de kleinere en kies welke het meest overeenkomt';
+      this.color = 'red';
+      this.size = 20;
     }
 
 
     public update(){
-
+      if(this.started){
+        document.onkeydown = this.checkLocks.bind(this);
+        this.started=false
+      }
     }
 
     public render(){
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.writeTextToCanvas(`Dit is kamer `+this.roomId,20,200,200)
+      this.writeTextToCanvas(this.titelText, this.size, window.innerWidth / 2, window.innerHeight / 8,'center', this.color)
+      this.loadFingerPrints();
+      this.writeTextToCanvas(`Pijltjestoets naar links <`, 20, window.innerWidth / 1.3, window.innerHeight / 4 * (0 + 1.2))
+      this.writeTextToCanvas(`Pijltjestoets omhoog ^`, 20, window.innerWidth / 1.3, window.innerHeight / 4 * (1 + 1.2))
+      this.writeTextToCanvas(`Pijltjestoets naar rechts >`, 20, window.innerWidth / 1.3, window.innerHeight / 4 * (2 + 1.2))
+    }
 
-        this.writeTextToCanvas(`this is room`+this.roomId,20,200,200)
-        
+    public checkLocks(e:any){
+      this.checkKeyboard(e.keyCode);
+    }
+
+    private loadFingerPrints() {
+      this.ctx.drawImage(this.fullFingerprint[this.randomNumber], window.innerWidth / 3, window.innerHeight/3);
+      this.partFingerprint.forEach((value: HTMLImageElement, index: number) => this.ctx.drawImage(value, window.innerWidth / 1.5, window.innerHeight / 4 * (index + 1)))
+    }
+
+    private checkKeyboard(keycode: number){
+      if (keycode===37 && this.randomNumber===2) {
+        this.titelText = 'Goed geantwoord';
+        this.color = 'green';
+        this.size = 30;
+        setTimeout(this.answer.bind(this),3000);
+      } else if (keycode===38 && this.randomNumber === 1) {
+        this.titelText = 'Goed geantwoord';
+        this.color = 'green';
+        this.size = 30;
+        setTimeout(this.answer.bind(this),3000);
+      } else if (keycode===39 && this.randomNumber === 0) {
+        this.titelText = 'Goed geantwoord';
+        this.color = 'green';
+        this.size = 30;
+        setTimeout(this.answer.bind(this),3000);
+      } else {
+        this.titelText = 'Fout geantwoord';
+        this.color = 'red';
+        this.size = 30;
+        setTimeout(this.answerWrong.bind(this),3000);
+      }
+    }
+
+    private answerWrong(){
+      this.room.miniGameFinished = true;
+      this.room.answer = false;
+    }
+
+    private answer(){
+      this.room.miniGameFinished = true;
+      this.room.answer = true;
+      this.room.getHintsGame().foundHint('R');
     }
 
      /**
