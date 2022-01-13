@@ -36,7 +36,10 @@ button {
 }
 
 h1 {
-    font-size: 6em;
+    font-size: 4em;
+    display: flex;
+    align-items: center;
+    place-content: center;
 }
 
 #start {
@@ -53,11 +56,23 @@ h1 {
     flex-direction: column;
     color:black
 }
-form{
+label{
+    font-weight: bold;
+}
+.description{
+    display:flex;
+    font-size: 19px;
+}
+.form{
     display:flex;
     flex-direction: column;
     place-content: center;
     align-items: center;
+}
+.bottom{
+    display:flex;
+    align-items: center;
+    place-content: center;
 }
 button{
     display:flex;

@@ -79,17 +79,17 @@ export default class MiniGame7 extends MGMain {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       Room.drawImageScaled(
         this.ctx,
-        './assets/img/background/bank-room-interior-backdrop-metal-safe-door-vault-background-racks-deposit-boxes-secure-currency-storage-inside-174243488.jpg',
+        './img/background/bank-room-interior-backdrop-metal-safe-door-vault-background-racks-deposit-boxes-secure-currency-storage-inside-174243488.jpg',
         1,
         1,
         0,
         35,
         );
-      this.lockImage = Room.loadNewImage('assets/img/objects/4541104.png');
+      this.lockImage = Room.loadNewImage('./img/objects/4541104.png');
       this.ctx.drawImage(this.lockImage,-20, window.innerHeight/6);
       this.explanation();
-      this.lockImage = Room.loadNewImage('assets/img/objects/pngwing.com (500).png');
-      this.ctx.drawImage(this.lockImage,window.innerWidth / 3, -12);
+      this.lockImage = Room.loadNewImage('./img/objects/pngwing.com (500).png');
+      this.ctx.drawImage(this.lockImage,this.canvas.width / 3, -12);
       this.wheels.forEach((value: number, index: number) => {
         if (this.position === index) {
           this.writeTextToCanvas(

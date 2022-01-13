@@ -13,6 +13,7 @@ export default class MiniGameP extends MGMain{
     private foundStr:string
     public started:boolean
     private lockedUp!: number;
+    private image:HTMLImageElement
     
 
     constructor(ctx:CanvasRenderingContext2D,room:Room){
@@ -33,6 +34,7 @@ export default class MiniGameP extends MGMain{
       this.foundStr=""
      // this.complete=false
      this.started=true
+     this.image=Game.loadNewImage("./img/background/cell2.jpg")
 
     }
 
@@ -141,12 +143,13 @@ export default class MiniGameP extends MGMain{
     }
 
     public render(){
+      this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
       this.ctx.strokeStyle="rgb(0,255,0)"
         this.ctx.beginPath()
         this.ctx.rect(100,100,600,300)
         this.ctx.closePath()
         this.ctx.stroke()
-        this.writeTextToCanvas("Je hebt 5 pogingen om het wachtwoord te raden, na elke poging kun je zien welke",16,110,130)
+        this.writeTextToCanvas(`Je hebt ${this.attempts} pogingen om het wachtwoord te raden, na elke poging kun je zien welke`,16,110,130)
         this.writeTextToCanvas("characters je goed hebt geraden",16,110,150)
 
         this.writeTextToCanvas("Druk op ENTER  om je poging te testen.",16,110,50)

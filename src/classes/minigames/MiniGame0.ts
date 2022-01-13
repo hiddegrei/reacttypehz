@@ -36,11 +36,22 @@ export default class MiniGame0 extends MGMain {
    
 
     this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
-    this.writeTextToCanvas("Dit is Bob, Bob heeft een account op twitter.com. De profielnaam van Bob op Twitter is Bob12 en zijn wachtwoord is 'ABC54@#2as'. "
+    this.ctx.strokeStyle = "rgb(0,0,0)"
+    this.ctx.fillStyle="rgb(255,255,255)"
+    this.ctx.beginPath()
+    this.ctx.rect(80, 80, window.innerWidth-200, 90)
+    this.ctx.closePath()
+    this.ctx.stroke()
+    this.ctx.fill()
+    this.writeTextToCanvas("Dit is Bob, Bob heeft een account op twitter.com. "
       , 20, 100, 100)
-    this.writeTextToCanvas("Bob maakt een account aan op Instagram, wat is het beste wachtwoord dat hij kan kiezen? Hieronder staan de verdere gegevens van Bob", 20, 100, 120,)
+      this.writeTextToCanvas("De profielnaam van Bob op Twitter is Bob12 en zijn wachtwoord is 'ABC54@#2as'. "
+      , 20, 100, 120)
+    this.writeTextToCanvas("Bob maakt een account aan op Instagram, wat is het beste wachtwoord dat hij kan kiezen?", 20, 100, 140,)
+    this.writeTextToCanvas("Hieronder staan de verdere gegevens van Bob", 20, 100, 160,)
 
-    this.ctx.strokeStyle = "rgb(255,255,255)"
+
+    this.ctx.strokeStyle = "rgb(0,0,0)"
     this.ctx.fillStyle="rgb(255,255,255)"
     this.ctx.beginPath()
     this.ctx.rect(100, 200, 400, 400)

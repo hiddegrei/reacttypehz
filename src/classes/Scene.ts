@@ -88,6 +88,8 @@ export default class Scene {
    */
   | undefined
 
+  private imgBank:HTMLImageElement
+
   
 
 
@@ -113,6 +115,8 @@ export default class Scene {
    this.timeHacking=0;
    this.showKeys=false
    this.scoreToDatabase=new ScoreToDatabase()
+
+   this.imgBank=Game.loadNewImage("./img/background/bankheistmap.jpg")
    
    
    
@@ -283,10 +287,10 @@ export default class Scene {
       // this.progression.pBar(this.ctx);
       // this.score[0].writeTextToCanvas(`Score: ${this.totalScore}`, this.canvas.width / 2, 20);
 
-     // if (this.keyboard.isKeyDown(82)) {
-        // this.endGame = new EndGame(this.canvas);
-      //  this.game.isEnd = true;
-     // }
+     if (this.keyboard.isKeyDown(82)) {
+      //  this.endGame = new EndGame(this.canvas);
+       this.game.isEnd = true;
+     }
 
     
       document.onmousemove = this.mouseDown.bind(this);
@@ -379,8 +383,10 @@ export default class Scene {
           this.agents[this.particle.hackAgent].status="orange"
          }else if(this.agents[this.particle.hackAgent].status==="orange"){
           this.agents[this.particle.hackAgent].status="red"
+          this.agents[this.particle.hackAgent].maxspeed+=0.25
           }else if(this.agents[this.particle.hackAgent].status==="red"){
             this.agents[this.particle.hackAgent].mode="search"
+            this.agents[this.particle.hackAgent].maxspeed+=0.25
           }else if(this.agents[this.particle.hackAgent].mode="search"){
             this.agents[this.particle.hackAgent].maxspeed+=0.2
           }
@@ -432,6 +438,8 @@ export default class Scene {
        this.writeTextToCanvas(`score: ${this.totalScore}`,20,window.innerWidth-100,40)
        this.writeTextToCanvas(`voortgang: ${this.progress.progressNum}%`,20,window.innerWidth-300,40)
 
+       this.ctx.drawImage(this.imgBank,550,800,1150,750,(this.canvas.width/2)-4*this.level.widthHall,100+5*this.level.widthHall,7*this.level.widthHall,4*this.level.widthHall)
+
     this.particle.show();
     this.particle.animate();
     // this.writeTextToCanvas("hi",100,100)
@@ -440,7 +448,7 @@ export default class Scene {
     }
     this.particle.look(this.borders);
 
-    this.writeTextToCanvas('Grote Kluis', 20, this.canvas.width / 2, 400);
+    this.writeTextToCanvas('Grote Kluis', 30, (this.canvas.width / 2)-2*this.level.widthHall, 400,"start","black");
 
     for(let i=0;i<this.agents.length;i++){
     this.agents[i].show(this.ctx)
@@ -448,6 +456,7 @@ export default class Scene {
     }
 
     for(let i=0;i<this.roomsIds.length;i++){
+      if(this.roomsIds[i][2]!="100"){
       this.ctx.lineWidth = 1;
         this.ctx.fillStyle = "rgb(255,0,0)";
         this.ctx.beginPath();
@@ -456,6 +465,7 @@ export default class Scene {
         this.ctx.closePath()
         this.ctx.fill()
         this.writeTextToCanvas(this.roomsIds[i][2],20,this.roomsIds[i][0],this.roomsIds[i][1]-20)
+      }
     }
   }
 

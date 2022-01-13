@@ -26,7 +26,7 @@ export default abstract class InfoDisplay {
     yCoordinate: number,
     fontSize: number = 20,
     color: string = 'red',
-    alignment: CanvasTextAlign = 'center',
+    alignment: CanvasTextAlign = 'start',
   ): void {
     const ctx = this.canvas.getContext('2d') as CanvasRenderingContext2D;
     ctx.font = `${fontSize}px sans-serif`;

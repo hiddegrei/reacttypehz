@@ -92,7 +92,7 @@ export default class Room{
     }
 
     public checkDone(){
-      if(this.keyboard.isKeyDown(32)||this.miniGameFinished){
+      if((this.keyboard.isKeyDown(32)&&this.roomId!=80)||this.miniGameFinished){
         this.scene.insideRoom=false
         this.visitsNew(this.roomId)
         if(this.answer){

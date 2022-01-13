@@ -18,6 +18,7 @@ export default class MiniGameC extends MGMain{
     private wrongLetter!: string;
     private gotit:number
     private pass!: string[];
+    private imgBank:HTMLImageElement
 
     constructor(ctx:CanvasRenderingContext2D,room:Room, canvas:HTMLCanvasElement){
       super(100,room);
@@ -35,6 +36,7 @@ export default class MiniGameC extends MGMain{
       this.attempts = 5;
       this.gotit=0
       this.wrong = ``
+      this.imgBank=Game.loadNewImage("./img/background/bankback.jpg")
     }
     //TODO: meerdere keren bosslevel kunnen starten
 
@@ -83,6 +85,8 @@ export default class MiniGameC extends MGMain{
     }
 
     public render(){
+       
+        this.ctx.drawImage( this.imgBank, 0, 0,  this.imgBank.width,  this.imgBank.height, 0, 0, window.innerWidth, window.innerHeight)
 
         this.writeTextToCanvas(`Dit is de Grote Kluis`,30,50,200);
         this.writeTextToCanvas(`Kraak de kluis met de verzamelde hints`,20,50,250);
@@ -90,7 +94,7 @@ export default class MiniGameC extends MGMain{
         this.writeTextToCanvas(`Pogingen: ${this.attempts}`,30,50,400);
         this.writeTextToCanvas("Let op je pogingen! Druk op de spatiebalk om de kamer te verlaten",20,50,500);
         this.room.getHintsGame().getHint().forEach((value: string, index: number) => {
-            this.writeTextToCanvas(`${value}`, 20,200 + index * 30,350)
+            this.writeTextToCanvas(`${value}`, 20,250 + index * 30,300)
           })
 
         this.writeTextToCanvas(`${this.r} ${this.e} ${this.g} ${this.e} ${this.n} ${this.b} ${this.o} ${this.o} ${this.g} ${this.q}`, 50, window.innerWidth / 2, window.innerHeight / 2);
@@ -113,7 +117,7 @@ export default class MiniGameC extends MGMain{
     xCoordinate: number,
     yCoordinate: number,
     alignment: CanvasTextAlign = 'start',
-    color: string = 'red',
+    color: string = 'white',
   ): void {
     this.ctx.font = `${fontSize}px sans-serif`;
     this.ctx.fillStyle = color;

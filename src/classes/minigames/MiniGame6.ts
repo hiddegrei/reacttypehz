@@ -18,8 +18,8 @@ export default class MiniGame6 extends MGMain{
       super(6,room);
       this.canvas = canvas;
       this.ctx=ctx;
-      this.fullFingerprint = [Room.loadNewImage('./img/fingerPrints/resized-fingerprint-1382652_1920.jpg'),Room.loadNewImage('assets/img/fingerPrints/resized-detective-fingerprints-print.png'),Room.loadNewImage('assets/img/fingerPrints/resized-istockphoto-534450004-612x612.jpg')];
-      this.partFingerprint = [Room.loadNewImage('./img/fingerPrints/detective-fingerprints-arch.png'),Room.loadNewImage('assets/img/fingerPrints/detective-fingerprints-loop.png'),Room.loadNewImage('assets/img/fingerPrints/detective-fingerprints-whorl.png')];
+      this.fullFingerprint = [Game.loadNewImage('./img/fingerPrints/resized-fingerprint-1382652_1920.jpg'),Game.loadNewImage('./img/fingerPrints/resized-detective-fingerprints-print.png'),Game.loadNewImage('./img/fingerPrints/resized-istockphoto-534450004-612x612.jpg')];
+      this.partFingerprint = [Game.loadNewImage('./img/fingerPrints/detective-fingerprints-arch.png'),Game.loadNewImage('./img/fingerPrints/detective-fingerprints-loop.png'),Game.loadNewImage('./img/fingerPrints/detective-fingerprints-whorl.png')];
       this.randomNumber = Room.randomNumber(0,2);
       this.started = true;
       this.titelText = 'Vergelijk de vingerafdruk met de kleinere en kies welke het meest overeenkomt';
@@ -29,6 +29,7 @@ export default class MiniGame6 extends MGMain{
 
 
     public update(){
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       if(this.started){
         document.onkeydown = this.checkLocks.bind(this);
         this.started=false
@@ -36,13 +37,14 @@ export default class MiniGame6 extends MGMain{
     }
 
     public render(){
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.writeTextToCanvas(`Dit is kamer `+this.roomId,20,200,200)
-      this.writeTextToCanvas(this.titelText, this.size, window.innerWidth / 2, window.innerHeight / 8,'center', this.color)
-      this.loadFingerPrints();
-      this.writeTextToCanvas(`Pijltjestoets naar links <`, 20, window.innerWidth / 1.3, window.innerHeight / 4 * (0 + 1.2))
-      this.writeTextToCanvas(`Pijltjestoets omhoog ^`, 20, window.innerWidth / 1.3, window.innerHeight / 4 * (1 + 1.2))
-      this.writeTextToCanvas(`Pijltjestoets naar rechts >`, 20, window.innerWidth / 1.3, window.innerHeight / 4 * (2 + 1.2))
+     // this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
+    
+    this.writeTextToCanvas(`Dit is kamer ` + this.roomId, 20, 200, 200)
+    this.writeTextToCanvas(this.titelText, this.size, window.innerWidth / 2, window.innerHeight / 8, 'center', this.color)
+    this.loadFingerPrints();
+    this.writeTextToCanvas(`Pijltjestoets naar links <`, 20, window.innerWidth / 1.7, window.innerHeight / 4 * (0 + 1.2))
+    this.writeTextToCanvas(`Pijltjestoets omhoog ^`, 20, window.innerWidth / 1.7, window.innerHeight / 4 * (1 + 1.2))
+    this.writeTextToCanvas(`Pijltjestoets naar rechts >`, 20, window.innerWidth / 1.7, window.innerHeight / 4 * (2 + 1.2))
     }
 
     public checkLocks(e:any){
@@ -103,9 +105,9 @@ export default class MiniGame6 extends MGMain{
     xCoordinate: number,
     yCoordinate: number,
     alignment: CanvasTextAlign = 'center',
-    color: string = 'red',
+    color: string = 'white',
   ): void {
-    this.ctx.font = `${fontSize}px sans-serif`;
+    this.ctx.font = `700 ${fontSize}px sans-serif`;
     this.ctx.fillStyle = color;
     this.ctx.textAlign = alignment;
     this.ctx.fillText(text, xCoordinate, yCoordinate);

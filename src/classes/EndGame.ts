@@ -4,6 +4,7 @@ import HighScores from './HighScores';
 import InfoDisplay from './InformationDisplay';
 import KeyboardListener from './KeyboardListener';
 import Scene from './Scene';
+import {db} from "../firebase"
 
 export default class EndGame extends InfoDisplay {
   
@@ -24,6 +25,10 @@ export default class EndGame extends InfoDisplay {
 
   private scene:Scene;
 
+  private image1:HTMLImageElement;
+  private image2:HTMLImageElement;
+  private image3:HTMLImageElement;
+  private userData:any[]=[]
   /**
    * constructor
    *
@@ -39,6 +44,17 @@ export default class EndGame extends InfoDisplay {
     // console.log(this.game.username);
     // this.highscores.addHighscore(this.game.username, 999, this.game.password);
     this.scene=scene
+    this.image1=Game.loadNewImage("./img/background/product_image_bank-heist-4d_175f1d92e0631561ada7c2b1e91a2bde84ef47c112abba5b443d0f36fab4a134_opti.png")
+    this.image2=Game.loadNewImage("./img/objects/4541104.png")
+    this.image3=Game.loadNewImage("./img/background/the-button-859351_960_720.png")
+
+    db.collection("users").orderBy("highscore","desc").limit(10).get().then((shot)=>{
+      shot.forEach((doc)=>{
+        this.userData.push(doc.data())
+      })
+      
+
+    })
   }
 
   /**
@@ -61,11 +77,12 @@ export default class EndGame extends InfoDisplay {
    */
    public render(): void {
     let limit;
-    this.drawImageScaled(this.ctx, './img/background/product_image_bank-heist-4d_175f1d92e0631561ada7c2b1e91a2bde84ef47c112abba5b443d0f36fab4a134_opti.png', 1, 1, 0, 0);
-    this.draw(this.ctx, './img/objects/4541104.png', this.canvas.width / 25, this.canvas.height / 4.8);
-    this.drawImageScaled(this.ctx, './img/background/the-button-859351_960_720.png', 0.34, 0.3, this.canvas.width / 30, -80);
-    this.writeTextToCanvas('Kraak de kluis', this.canvas.width / 6, this.canvas.height / 15, 70, 'black');
-    this.writeTextToCanvas('HighScores', this.canvas.width / 6, this.canvas.height / 2.9, 25, 'black');
+    this.ctx.drawImage(this.image1,0,0,this.image1.width,this.image1.height,0,0,window.innerWidth,window.innerHeight)
+    //this.drawImageScaled(this.ctx, './img/background/product_image_bank-heist-4d_175f1d92e0631561ada7c2b1e91a2bde84ef47c112abba5b443d0f36fab4a134_opti.png', 1, 1, 0, 0);
+    this.draw(this.ctx, './img/objects/4541104.png', window.innerWidth / 25, window.innerHeight / 4.8);
+    this.drawImageScaled(this.ctx, './img/background/the-button-859351_960_720.png', 0.34, 0.3,  window.innerWidth / 30, -80);
+    this.writeTextToCanvas('Kraak de kluis',  230, 80, 70, 'black');
+    this.writeTextToCanvas('HighScores',  250, 340, 25, 'black');
     // this.writeTextToCanvas('1#   BugSlayer - 300 points', this.canvas.width / 6, this.canvas.height / 2.6);
     // this.writeTextToCanvas('1#   BugSlayer - 300 points', this.canvas.width / 6, this.canvas.height / 1.45);
     if (this.highscores.highscores.length > 10) {
@@ -73,9 +90,13 @@ export default class EndGame extends InfoDisplay {
     } else {
       limit = this.highscores.highscores.length;
     }
-    for (let index = 0; index < limit ; index++) {
-      this.writeTextToCanvas(`#${index + 1} - ${this.highscores.highscores[index][0]} - ${this.highscores.highscores[index][1]} Punten`, this.canvas.width / 5.85, ((this.canvas.height / 2.6) + (((this.canvas.height / 1.4) - (this.canvas.height / 2.6)) / 10) * index));
-    }
+    // for (let index = 0; index < limit ; index++) {
+    //   this.writeTextToCanvas(`#${index + 1} - ${this.highscores.highscores[index][0]} - ${this.highscores.highscores[index][1]} Punten`, this.canvas.width / 5.85, ((this.canvas.height / 2.6) + (((this.canvas.height / 1.4) - (this.canvas.height / 2.6)) / 10) * index));
+    // }
+
+    this.userData.forEach((doc,index)=>{
+      this.writeTextToCanvas(`#${index+1} ${doc.username}: ${doc.highscore} punten`,220,380+(30*index))
+    })
 
     this.ctx.strokeStyle = "rgb(255,0,0)"
     this.ctx.fillStyle="rgb(255,255,255)"
@@ -85,16 +106,26 @@ export default class EndGame extends InfoDisplay {
     this.ctx.stroke()
     this.ctx.fill()
     if(this.scene.howGameEnded==="caught"){
-      this.writeTextToCanvas("Je bent gepakt door de politie!",window.innerWidth-250,300)
-    }
-    if(this.scene.howGameEnded==="gekraakt"){
-      this.writeTextToCanvas("Je hebt de bank gekraakt, gefeliciteerd!",window.innerWidth-250,300)
-    }
-    if(this.scene.howGameEnded==="outofattempts"){
-      this.writeTextToCanvas("Je poging om de bank te kraken duurde te lang,",window.innerWidth-250,300)
-      this.writeTextToCanvas("je bent gepakt door de politie",window.innerWidth-250,320)
+      this.writeTextToCanvas("Je bent gepakt door de politie!",window.innerWidth-450,300)
+    }else if(this.scene.howGameEnded==="gekraakt"){
+      this.writeTextToCanvas("Je hebt de bank gekraakt, gefeliciteerd!",window.innerWidth-450,300)
+    }else if(this.scene.howGameEnded==="outofattempts"){
+      this.writeTextToCanvas("Je poging om de bank te kraken duurde te lang,",window.innerWidth-450,300)
+      this.writeTextToCanvas("je bent gepakt door de politie",window.innerWidth-450,320)
+    }else{
+      this.writeTextToCanvas("Je bent gepakt door de politie!",window.innerWidth-450,300)
+
     }
    
+
+    this.ctx.strokeStyle = "rgb(255,0,0)"
+    this.ctx.fillStyle="rgb(255,255,255)"
+    this.ctx.beginPath()
+    this.ctx.rect(window.innerWidth-500, 100, 200, 60)
+    this.ctx.closePath()
+    this.ctx.stroke()
+    this.ctx.fill()
+    this.writeTextToCanvas(`Jouw score: ${this.scene.totalScore}`,window.innerWidth-490,120,14)
   }
 
   private draw(ctx:CanvasRenderingContext2D, image: string, xPos: number, yPos: number): void {
