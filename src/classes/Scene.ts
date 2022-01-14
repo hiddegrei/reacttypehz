@@ -216,7 +216,7 @@ export default class Scene {
     if (e.keyCode >= 48 && e.keyCode <= 57 && this.insideRoom === false) {
       this.room.setRoomId(e.keyCode - 48);
       this.inRoomNum = e.keyCode - 48;
-      this.insideRoom = true;
+     // this.insideRoom = true;
 
       document.onkeydown = this.checkKeyScene.bind(this);
     }
@@ -301,12 +301,18 @@ export default class Scene {
       //
 
       //check in what room the player is if any
-      let roomNum = this.particle.isInRoom(this.roomsIds);
-      if (roomNum != -1 && (this.keys.total > 0 || roomNum === 80)) {
-        //player is inside a room or central hub
+      // let roomNum = this.particle.isInRoom(this.roomsIds);
+      // if (roomNum != -1 && (this.keys.total > 0 || roomNum === 80)) {
+      //   //player is inside a room or central hub
+      //   this.insideRoom = true;
+      //   this.inRoomNum = roomNum;
+      //   this.room.setRoomId(this.inRoomNum);
+      // }
+
+      if(this.keyboard.isKeyDown(81)){
         this.insideRoom = true;
-        this.inRoomNum = roomNum;
-        this.room.setRoomId(this.inRoomNum);
+        
+
       }
 
       //check if player is insight of agents
