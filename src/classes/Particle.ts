@@ -218,7 +218,7 @@ export default class Particle {
     }
 
     animate(){
-        this.imgIndex+=0.05
+        this.imgIndex+=0.1
         this.hackIndex+=0.5
     }
 
@@ -273,60 +273,9 @@ export default class Particle {
            
 
     }
-    look(borders: Array<Border>) {
+    
 
-        for (let ray of this.rays) {
-            let closest = { x: -1, y: -1 }
-            let record = Infinity
-
-
-
-            for (let border of borders) {
-
-                const p = ray.cast(border)
-
-                if (p) {
-
-                    //reken distance tussen particle en point op border
-
-
-                    const a = p.x - this.pos.x
-                    const b = p.y - this.pos.y
-                    const d = Math.sqrt((a * a) + (b * b))
-
-
-
-                    if (d <= record) {
-                        //this.writeTextToCanvas(Math.round(d),p.x,p.y+30)
-
-                        //console.log("record: "+ record, "newD: " + Math.round(d))
-                        record = d
-                        closest.x = p.x
-                        closest.y = p.y
-                    }
-                }
-
-            }
-            if (closest.x != -1) {
-                //this.ctx.fillStyle = "#FF0000";
-                // this.ctx.fillRect(closest.x, closest.y, 10, 10);
-
-
-                // this.ctx.beginPath();
-                // this.ctx.moveTo(this.pos.x, this.pos.y);
-                // this.ctx.lineTo(closest.x, closest.y);
-                // this.ctx.stroke();
-                // this.ctx.closePath()
-                // this.ctx.fill()
-
-
-
-            }
-
-
-        }
-
-    }
+    
     public writeTextToCanvas(
         text: string,
         fontSize: number = 20,
