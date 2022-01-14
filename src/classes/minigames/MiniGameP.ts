@@ -200,13 +200,13 @@ export default class MiniGameP extends MGMain {
         		this.complete=true;
      
         		//setTimeout(this.answer,2000);
-        		setTimeout(this.answer.bind(this), 2000);
+        		setTimeout(this.answerP.bind(this), 2000);
         		//this.answer();
      
       		}
     	}else{
       		this.complete=0;
-      		setTimeout(this.answer.bind(this), 2000);
+      		setTimeout(this.answerP.bind(this), 2000);
       		//this.answer();
     	}
   	}
@@ -214,7 +214,7 @@ export default class MiniGameP extends MGMain {
   	/**
    	* If the answer is true the player will be released
    	*/
-  	public answer(){
+  	private answerP(){
     	this.found=[null,null,null,null,null,null,null,null];
     	this.attempts=5;
     	this.foundStr="";

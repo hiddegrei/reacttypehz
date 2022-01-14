@@ -17,7 +17,7 @@ function Main() {
     useEffect(()=>{
          let time=0
         if(user){
-            console.log(user)
+           // console.log(user)
         }else{
             history.push("/login")
         }

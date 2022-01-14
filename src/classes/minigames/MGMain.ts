@@ -24,6 +24,25 @@ export default class MGMain{
     }
 
     /**
+	 * Functie die bepaalt wat er gebeurt als het antwoord goed is
+	 */
+     public answer(){
+        this.room.answer = true;
+        this.room.miniGameFinished = true;
+       
+      //   this.room.getHintsGame().foundHint('R');
+      }
+
+      	/**
+	 * functie die bepaalt wat er gebeurt als het antwoord fout is
+	 */
+    public answerWrong(){
+        this.room.answer = false;
+        this.room.miniGameFinished = true;
+       
+      }
+
+    /**
      * @param text
      * @param xCoordinate
      * @param yCoordinate

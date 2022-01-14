@@ -229,7 +229,7 @@ export default class MiniGame7 extends MGMain {
 	/**
 	 * functie zorgt dat de speler de kamer na enige tijd kan verlaten als de combinatie klopt
 	 */
-    private check() {
+    public check() {
       	if (this.combinationCheck() === true) {
         	this.locked = false;
         	setTimeout(this.answer.bind(this),4000)
@@ -238,14 +238,7 @@ export default class MiniGame7 extends MGMain {
       	}
     }
 
-	/**
-	 * Functie die ervoor zorgt dat de speler de kamer verlaat en een hint kan krijgen
-	 */
-    private answer(){
-      	this.room.miniGameFinished = true;
-      	this.room.answer = true;
-      	// this.room.getHintsGame().foundHint('e');
-    }
+	
 
 	/**
 	 * Checkt of de combinatie klopt

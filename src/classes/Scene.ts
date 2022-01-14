@@ -47,7 +47,7 @@ export default class Scene {
 
   private keyboard: KeyboardListener;
 
-  private camera: Camera;
+  public camera: Camera;
 
   private agents: Array<Agent> = [];
 
@@ -100,7 +100,8 @@ export default class Scene {
     this.scoreToDatabase = new ScoreToDatabase();
 
     this.imgBank = Game.loadNewImage("./img/background/bankheistmap.jpg");
-    document.onkeydown = this.checkKeyScene.bind(this);
+    //document.onkeydown = this.checkKeyScene.bind(this);
+   
 
     this.game = game;
 
@@ -233,11 +234,12 @@ export default class Scene {
   public update(elapsed: number): void {
     if (
       this.insideRoom
-      //&&(
-      //this.room.visitedRooms[this.inRoomNum]!=true||
-      //this.inRoomNum===80||this.inRoomNum===100)
+      &&(
+      this.room.visitedRooms[this.inRoomNum]!=true||
+      this.inRoomNum===80||this.inRoomNum===100)
     ) {
       this.room.update(this.mouse.x,this.mouse.y);
+      document.onmousemove = this.mouseDown.bind(this);
       let isMiniGameComplete = this.room.checkDone();
 
       if (isMiniGameComplete != 80 &&isMiniGameComplete != 100 && isMiniGameComplete != false) {
@@ -288,13 +290,13 @@ export default class Scene {
       //
 
       //check in what room the player is if any
-      // let roomNum = this.particle.isInRoom(this.roomsIds);
-      // if (roomNum != -1 && (this.keys.total > 0 || roomNum === 80)) {
-      //   //player is inside a room or central hub
-      //   this.insideRoom = true;
-      //   this.inRoomNum = roomNum;
-      //   this.room.setRoomId(this.inRoomNum);
-      // }
+      let roomNum = this.particle.isInRoom(this.roomsIds);
+      if (roomNum != -1 && (this.keys.total > 0 || roomNum === 80)) {
+        //player is inside a room or central hub
+        this.insideRoom = true;
+        this.inRoomNum = roomNum;
+        this.room.setRoomId(this.inRoomNum);
+      }
 
       if(this.keyboard.isKeyDown(81)){
         this.insideRoom = true;
@@ -415,9 +417,9 @@ export default class Scene {
   public render():void {
     if (
       this.insideRoom
-      //&&(
-      //this.room.visitedRooms[this.inRoomNum]!=true||
-      //this.inRoomNum===80||this.inRoomNum===100)
+      &&(
+      this.room.visitedRooms[this.inRoomNum]!=true||
+      this.inRoomNum===80||this.inRoomNum===100)
     ) {
       this.room.render();
     } else {
@@ -476,7 +478,7 @@ export default class Scene {
       );
 
       //show the player
-      this.particle.show();
+      this.particle.show(false,"green");
       
       // show the borders
       for (let i = 0; i < this.borders.length; i++) {

@@ -111,7 +111,7 @@ export default class MiniGame14 extends MGMain{
       }
   
       if (this.complete) {
-        this.writeTextToCanvas("Je hebt het wachtwoord geraden! Gebruik dus nooit je eigen gegevens in je wachtwoord, je ziet wat er dan kan gebeuren!", 20, 100, window.innerHeight-150)
+        this.writeTextToCanvas("Je hebt het wachtwoord geraden! Gebruik dus nooit je eigen gegevens in je wachtwoord, je ziet hoe makkelijk het is om dan je wachtwoord te raden!", 20, 100, window.innerHeight-150)
       } else if (this.complete === 0) {
         this.writeTextToCanvas("Helaas, dit antwoord is fout", 30, 100, 900)
   
@@ -203,14 +203,7 @@ export default class MiniGame14 extends MGMain{
   		}
   	}
 
-	/**
-	 * Returns the game to the main screen. Also gives a hint
-	 */
-  	public answer(){
-    	this.room.miniGameFinished=true;
-    	this.room.answer=true;
-    	// this.room.getHintsGame().foundHint('n');
-  	}
+	
 
     /**
    	* @param text

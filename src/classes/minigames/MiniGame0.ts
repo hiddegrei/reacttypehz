@@ -72,14 +72,7 @@ export default class MiniGame0 extends MGMain {
       }
   	}
 
-    /**
-	 * Functie die ervoor zorgt dat de speler de kamer verlaat en een hint kan krijgen
-	 */
-  	public answer(){
-    	this.room.miniGameFinished=true;
-    	this.room.answer=true;
-    
-  	}
+   
 
   	/**
      * Functie om de minigame te renderen
@@ -93,7 +86,7 @@ export default class MiniGame0 extends MGMain {
     	this.ctx.closePath();
     	this.ctx.stroke();
     	this.ctx.fill();
-    	this.explenation();
+    	
 
     	this.ctx.strokeStyle = "rgb(0,0,0)";
     	this.ctx.fillStyle="rgb(255,255,255)";
@@ -104,13 +97,14 @@ export default class MiniGame0 extends MGMain {
     	this.ctx.fill();
 
     	this.ctx.beginPath();
-    	this.ctx.rect(590, 270, 750, 300);
+    	this.ctx.rect(590, 220, 750, 350);
     	this.ctx.closePath();
     	this.ctx.stroke();
     	this.ctx.fill();
 
     	this.ctx.drawImage(this.imageBob, 100, 200);
 
+      this.explenation();
     	this.informationAboutBob();
 
       this.particle.show(true,this.color)
@@ -150,6 +144,8 @@ export default class MiniGame0 extends MGMain {
 		this.writeTextToCanvas("De profielnaam van Bob op Twitter is Bob12 en zijn wachtwoord is 'ABC54@#2as'. ", 20, 100, 120);
 		this.writeTextToCanvas("Bob maakt een account aan op Instagram, wat is het beste wachtwoord dat hij kan kiezen?", 20, 100, 140);
 		this.writeTextToCanvas("Hieronder staan de verdere gegevens van Bob", 20, 100, 160);
+
+    this.writeTextToCanvas("Loop naar het goede antwoord en druk op enter als je het zeker weet", 20, 600, 250)
 	}
 
   	/**

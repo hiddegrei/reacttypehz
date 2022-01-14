@@ -104,13 +104,7 @@ export default class MiniGame4 extends MGMain{
   }
   }
 
-  public answer(){
-    this.room.miniGameFinished=true
-    this.room.answer=true
-    // this.room.getHintsGame().foundHint('o');
-    
-
-  }
+ 
 
   /**
    * Functie om de game te updaten
@@ -185,7 +179,7 @@ export default class MiniGame4 extends MGMain{
     }
 
     if (this.complete) {
-      this.writeTextToCanvas("Je hebt het wachtwoord geraden! Gebruik dus nooit je eigen gegevens in je wachtwoord, je ziet wat er dan kan gebeuren!", 20, 100, window.innerHeight-150)
+      this.writeTextToCanvas("Je hebt het wachtwoord geraden! Gebruik dus nooit je eigen gegevens in je wachtwoord, je ziet hoe makkelijk het is om dan je wachtwoord te raden!", 20, 100, window.innerHeight-150)
     } else if (this.complete === 0) {
       this.writeTextToCanvas("Helaas, dit is fout", 30, 100, 900)
 

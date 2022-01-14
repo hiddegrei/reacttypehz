@@ -101,22 +101,7 @@ export default class MiniGame6 extends MGMain{
       	}
     }
 
-	/**
-	 * functie die bepaalt wat er gebeurt als het antwoord fout is
-	 */
-    private answerWrong(){
-      this.room.miniGameFinished = true;
-      this.room.answer = false;
-    }
-
-	/**
-	 * Functie die bepaalt wat er gebeurt als het antwoord goed is
-	 */
-    private answer(){
-      this.room.miniGameFinished = true;
-      this.room.answer = true;
-    //   this.room.getHintsGame().foundHint('R');
-    }
+	
 
     /**
    	 * @param text

@@ -131,15 +131,17 @@ export default class Room{
     public update(mousex:number,mousey:number){
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+      this.scene.camera.createMatrix(0, 0, 0, 0);
+      this.ctx.translate(0, 0);
        
         if(this.roomId===0){
           this.minigame0.update(mousex,mousey)
         }else if(this.roomId===1){
-          this.minigame1.update()
+          this.minigame1.update(mousex,mousey)
         }else if(this.roomId===2){
           this.minigame2.update()
         }else if(this.roomId===3){
-          this.minigame3.update()
+          this.minigame3.update(mousex,mousey)
         }else if(this.roomId===4){
           this.minigame4.update()
         }else if(this.roomId===5){

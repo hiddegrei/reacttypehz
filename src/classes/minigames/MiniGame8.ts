@@ -84,14 +84,7 @@ export default class MiniGame8 extends MGMain{
 
     }
 
-    /**
-	 * Functie die ervoor zorgt dat de speler de kamer verlaat en een hint kan krijgen
-	 */
-  	public answer(){
-    	this.room.miniGameFinished=true;
-    	this.room.answer=true;
     
-  	}
 
     
 
