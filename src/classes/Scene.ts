@@ -150,6 +150,17 @@ export default class Scene {
     );
     this.agents.push(
       new Agent(
+        1.5 * this.level.widthHall,
+        100 + 8 * this.level.widthHall,
+        this.ctx,
+        this.level.widthHall,
+        "random",
+        0,
+        "yellow"
+      )
+    );
+    this.agents.push(
+      new Agent(
         this.canvas.width / 2 + 3.5 * this.level.widthHall,
         300 + 2 * this.level.widthHall,
         this.ctx,
@@ -249,23 +260,39 @@ export default class Scene {
       this.room.update(this.mouse.x,this.mouse.y);
       document.onmousemove = this.mouseDown.bind(this);
       let isMiniGameComplete = this.room.checkDone();
+      if(isMiniGameComplete===0){
+       this.room.answer=false
+       this.room.miniGameFinished=false
+        this.totalScore++;
+        this.keys.total--;
+        this.hints.foundHintInScene(isMiniGameComplete);
+      }
 
-      if (isMiniGameComplete != 80 &&isMiniGameComplete != 100 && isMiniGameComplete != false) {
+      if ((isMiniGameComplete != 80 &&isMiniGameComplete != 100 && isMiniGameComplete != false)) {
+        this.room.answer=false
+       this.room.miniGameFinished=false
         this.totalScore++;
         this.keys.total--;
         //isMiniGameComplete is de variable die het nummer van de minigame bevat als de minigame succesvol is afgerond
         this.hints.foundHintInScene(isMiniGameComplete);
+
       }
       if (isMiniGameComplete === 100) {
+        this.room.answer=false
+        this.room.miniGameFinished=false
         this.howGameEnded = "gekraakt";
         this.game.isEnd = true;
       } else if (isMiniGameComplete === 101) {
+        this.room.answer=false
+        this.room.miniGameFinished=false
         this.howGameEnded = "outofattempts";
         this.game.isEnd = true;
-        this.particle.pos.x =(this.canvas.width/2)-this.level.widthHall+20;
-        this.particle.pos.y = 100+5*this.level.widthHall;
+        this.particle.pos.x =(this.canvas.width/2)+this.level.widthHall;
+        this.particle.pos.y = 100+5*this.level.widthHall+20;
         
       } else if (isMiniGameComplete === 80) {
+        this.room.answer=false
+        this.room.miniGameFinished=false
         this.particle.pos.x =this.canvas.width / 2 + 18.5 * this.level.widthHall;
         this.particle.pos.y = 100 + 2 * this.level.widthHall;
       }
@@ -414,7 +441,7 @@ export default class Scene {
 
 
     //timeout rooms
-    for(let i=0;i<this.room.timeoutRooms.length;i++){
+    for(let i=0;i<17;i++){
       if(this.room.timeoutRooms[i][1]===true&&this.room.timeoutRooms[i][0]>=40000){
         this.room.timeoutRooms[i]=[0,false]
        

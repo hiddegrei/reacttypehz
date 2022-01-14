@@ -22,6 +22,8 @@
         private answer1:boolean
     
         private complete:any;
+
+       
     /**
        * Create an instance of this object
        * @param ctx canvas rendering context 2D
@@ -39,6 +41,7 @@
           this.borders.push(new Border(0, this.canvas.height, this.canvas.width, this.canvas.height,ctx,"normal"))
           this.color="rgb(255,255,255)"
           this.answer1=false
+          
          
     
         
@@ -69,6 +72,7 @@
           }
     
           if(this.keyboard.isKeyDown(13)){
+            
             if(this.answer1){
               this.complete=true
               setTimeout(this.answer.bind(this), 4000);

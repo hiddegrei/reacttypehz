@@ -18,6 +18,8 @@ export default class MiniGame0 extends MGMain {
 
     private complete:any;
 
+    
+
   	/**
      * Create an instance of this object
      * @param ctx canvas rendering context 2D
@@ -35,6 +37,7 @@ export default class MiniGame0 extends MGMain {
       this.borders.push(new Border(0, this.canvas.height, this.canvas.width, this.canvas.height,ctx,"normal"))
       this.color="rgb(255,255,255)"
       this.answer1=false
+      
   	}
 
   	/**
@@ -60,9 +63,12 @@ export default class MiniGame0 extends MGMain {
       }
 
       if(this.keyboard.isKeyDown(13)){
+        
         if(this.answer1){
           this.complete=true
           setTimeout(this.answer.bind(this), 4000);
+          // this.room.answer=true
+          // this.room.miniGameFinished=true
         }else{
           this.complete=0
           setTimeout(this.answerWrong.bind(this), 2000);

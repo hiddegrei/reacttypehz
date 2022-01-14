@@ -76,7 +76,7 @@ export default class MiniGame14 extends MGMain{
   
       this.ctx.fillStyle = "rgb(255,255,255)"
       this.ctx.beginPath()
-      this.ctx.rect(790, 100, 330, 300)
+      this.ctx.rect(790, 100, 530, 300)
       this.ctx.closePath()
       this.ctx.fill()
       this.writeTextToCanvas("Dit is de grote kluis", 20, 800, 130)
@@ -102,9 +102,9 @@ export default class MiniGame14 extends MGMain{
   
       	for (let i = 1; i < this.secretW.length+1; i++) {
         	if (this.found[i - 1] != null) {
-          		this.writeTextToCanvas(this.found[i - 1], 40, i * 100 + 10, 540);
+          		this.writeTextToCanvas(this.found[i - 1], 40, i * 100 + 10, 540,"start","rgb(255,69,0)");
         	} else {
-          		this.writeTextToCanvas("*", 40, i * 100 + 10, 550);
+          		this.writeTextToCanvas("*", 40, i * 100 + 10, 550,"start","rgb(255,69,0)");
         	}
       	}
   

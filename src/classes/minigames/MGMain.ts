@@ -7,6 +7,7 @@ export default class MGMain{
     public keyboard:KeyboardListener;
     protected ctx: CanvasRenderingContext2D;
     protected canvas: HTMLCanvasElement;
+    private bezig:boolean
 
     /**
      * Create an instance of this object
@@ -21,14 +22,18 @@ export default class MGMain{
         this.keyboard=new KeyboardListener();
         this.ctx = ctx;
         this.canvas = canvas;
+        this.bezig=true
     }
 
     /**
 	 * Functie die bepaalt wat er gebeurt als het antwoord goed is
 	 */
      public answer(){
+         if(this.bezig){
+             this.bezig=false
         this.room.answer = true;
         this.room.miniGameFinished = true;
+         }
        
       //   this.room.getHintsGame().foundHint('R');
       }

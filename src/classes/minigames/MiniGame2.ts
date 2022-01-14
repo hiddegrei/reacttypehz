@@ -12,6 +12,7 @@ export default class MiniGame2 extends MGMain{
     private foundStr:string;
     private started:boolean;
     private image!: HTMLImageElement;
+
     
     /**
      * Create an instance of this object
@@ -31,6 +32,7 @@ export default class MiniGame2 extends MGMain{
      	// this.complete=false;
      	this.started=true;
      	this.image = Game.loadNewImage("./img/background/password2.jpg");
+     
     }
 
 	/**
@@ -64,7 +66,7 @@ export default class MiniGame2 extends MGMain{
             		break;
           		}
         	}
-        	console.log(this.found[this.index]);
+        
         	if(e.keyCode<=57){
           		this.found[this.index]=String.fromCharCode(e.keyCode);
 	        }else{
@@ -102,6 +104,7 @@ export default class MiniGame2 extends MGMain{
     		}
     		this.attempts--;
     		if(complete){
+          
       			this.complete=true;
      
       			//setTimeout(this.answer,2000);
@@ -110,8 +113,11 @@ export default class MiniGame2 extends MGMain{
     		}
 
   		}else{
+        
+         
     		this.complete=0;
     		setTimeout(this.answerWrong.bind(this), 2000);
+        
    			//this.answer();
   		}
   	}

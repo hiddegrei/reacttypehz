@@ -31,8 +31,8 @@ export default class Hints extends InfoDisplay{
     // }
 
     public foundHintInScene(roomNumber: number) {
-        if (10-roomNumber >= 0) {
-            this.returnHint.push(this.hintsArray[10 - roomNumber].valueOf());
+        if (roomNumber >= 0&&roomNumber<=9) {
+            this.returnHint.push(this.hintsArray[ 9-roomNumber].valueOf());
         }
         this.scene.progress.increaseProgress(10);
     }

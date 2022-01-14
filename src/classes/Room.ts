@@ -92,6 +92,8 @@ export default class Room{
            
             
         }
+        this.timeoutRooms[80]=[0,false]
+        this.timeoutRooms[100]=[0,false]
         
     }
 
@@ -100,33 +102,43 @@ export default class Room{
         this.scene.insideRoom=false
         
         if(this.answer){
+          console.log(this.roomId)
+          
           this.visitsNew(this.roomId)
           if(this.roomId===80){
             //this.minigameP.started=true
+           
             this.miniGameFinished=false
             this.answer=false
+            
             this.minigameP.started=true
             return 80
 
           }else if(this.roomId===100){
             //this.minigameP.started=true
+            
+           
             this.miniGameFinished=false
             this.answer=false
             this.minigameC.started=true
             return 100
 
           }else{
+            
             this.miniGameFinished=false
             this.answer=false
+            
             return this.roomId;
 
           }
          
         }else if(this.roomId===100){
+          this.miniGameFinished=false
           //timeout room
           return 101
         }else{
           //timeout room
+          this.miniGameFinished=false
           this.timeoutRooms[this.roomId]=[0,true]
           return false
         }

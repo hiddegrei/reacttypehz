@@ -31,6 +31,7 @@ export default class MiniGame5 extends MGMain{
      // this.complete=false
      this.started=true
      this.image = Game.loadNewImage("./img/background/password2.jpg")
+     this.complete=false
 
     }
 
@@ -48,7 +49,7 @@ export default class MiniGame5 extends MGMain{
             break;
           }
         }
-        console.log(this.found[this.index])
+       
         if(e.keyCode<=57){
           this.found[this.index]=String.fromCharCode(e.keyCode)
           
