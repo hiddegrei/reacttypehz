@@ -488,7 +488,7 @@ export default class Scene {
 
       //show the room ids(rondjes)
       for (let i = 0; i < this.roomsIds.length; i++) {
-        if (this.roomsIds[i][2] != "100") {
+        if (this.roomsIds[i][2] != "100"&&this.room.visitedRooms[+this.roomsIds[i][2]]!=true) {
           this.ctx.lineWidth = 1;
           this.ctx.fillStyle = "rgb(255,0,0)";
           this.ctx.beginPath();

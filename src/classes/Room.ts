@@ -94,7 +94,9 @@ export default class Room{
     public checkDone(){
       if((this.keyboard.isKeyDown(32)&&this.roomId!==80)||this.miniGameFinished){
         this.scene.insideRoom=false
+        if(this.answer){
         this.visitsNew(this.roomId)
+        }
         if(this.answer){
           if(this.roomId===80){
             //this.minigameP.started=true
