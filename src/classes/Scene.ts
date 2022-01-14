@@ -239,10 +239,9 @@ export default class Scene {
     ) {
       this.room.update(this.mouse.x,this.mouse.y);
       let isMiniGameComplete = this.room.checkDone();
-      if (isMiniGameComplete === true) {
+
+      if (isMiniGameComplete != 80 &&isMiniGameComplete != 100 && isMiniGameComplete != false) {
         this.totalScore++;
-      }
-      if (isMiniGameComplete != 80 && isMiniGameComplete != false) {
         this.keys.total--;
       }
       if (isMiniGameComplete === 100) {

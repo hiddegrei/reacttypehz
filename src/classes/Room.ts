@@ -114,7 +114,7 @@ export default class Room{
           }else{
             this.miniGameFinished=false
             this.answer=false
-            return true;
+            return this.roomId;
 
           }
          
