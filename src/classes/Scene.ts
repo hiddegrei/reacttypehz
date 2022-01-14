@@ -106,8 +106,6 @@ export default class Scene {
 
     this.progress = new Progress();
     this.room = new Room(0, this.ctx, this, this.canvas);
-    console.log("window widht:", window.innerWidth);
-    console.log("window height:", window.innerHeight);
 
     this.score = [];
     this.score.push(new Score(0));
@@ -232,7 +230,7 @@ export default class Scene {
    * update the scene
    *@param elapsed time passed
    */
-  update(elapsed: number): void {
+  public update(elapsed: number): void {
     if (
       this.insideRoom
       //&&(

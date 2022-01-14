@@ -5,8 +5,11 @@ import {useStateValue} from "../Stateprovider";
 export default class ScoreToDatabase {
 
     
-
-    update(score:number){
+/**
+ * update highscore in database als er is ingelogd
+ * @param score totalscore of current game
+ */
+    public update(score:number){
         let data: firebase.firestore.DocumentData | undefined;
         //db.collection("users").doc()
         //const[{user,username,password}]=useStateValue();

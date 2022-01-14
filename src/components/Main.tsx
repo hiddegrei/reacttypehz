@@ -22,10 +22,10 @@ function Main() {
             history.push("/login")
         }
         if(username&&password){
-            console.log(username,password)
+           
             let timelimit=new TimeLimit(password)
             time=timelimit.timeLimit
-            console.log(time)
+            
 
             localStorage.setItem("username",profile.username)
             
