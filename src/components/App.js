@@ -1,5 +1,6 @@
+import React,{useEffect,useState} from "react"
 import '../assets/css/App.css';
-import {db} from "../firebase";
+import {db,auth} from "../firebase";
 import {BrowserRouter as Router,Switch,Route} from "react-router-dom";
 import Login from "./Login"
 import Register  from './Register';
@@ -7,14 +8,42 @@ import Main  from "./Main";
 import Start from "./Start"
 import EndGame from './EndGame';
 import MiniGame from "./MiniGame"
+import {useStateValue} from "../Stateprovider";
 
 
 function App() {
+  const[{user},dispatch]=useStateValue();
+  const [loaded,setLoaded]=useState(false)
+
+  useEffect(()=>{
+    let isSubscribed=true
+    if(isSubscribed){
+auth.onAuthStateChanged((authUser)=>{
+  // console.log('the user is:',authUser);
+  if(authUser){
+setLoaded(true)
+         dispatch({
+           type:'SET_USER',
+           user:authUser})
+  }else{
+    setLoaded(true)
+dispatch({
+  type:'SET_USER',
+  user:null})
+  }
+})
+    }
+    return () => isSubscribed = false
+  },[user])
 
   
+  if(!user&&!loaded){return (
+    <div style={{flex:1,justifyContent:'center'}}>
+      Loading..
+    </div>
+  )}
 
-
-  return (
+   return (
     <Router>
     <div className="app">
     <Switch>
