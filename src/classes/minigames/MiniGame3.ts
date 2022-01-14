@@ -31,7 +31,7 @@
               super(2,room,ctx,canvas)
               this.ctx=ctx
               this.image = Game.loadNewImage("./img/background/password2.jpg")
-              this.particle=new Particle(window.innerWidth/2,window.innerHeight,ctx)
+              this.particle=new Particle(window.innerWidth/2,window.innerHeight/2,ctx)
               this.borders.push(new Border(0, 0, this.canvas.width, 0,ctx,"normal"))
               this.borders.push(new Border(0, 0, 0, this.canvas.height,ctx,"normal"))
               this.borders.push(new Border(this.canvas.width, 0, this.canvas.width, this.canvas.height,ctx,"normal"))

@@ -301,7 +301,7 @@ export default class Scene {
 
       //check in what room the player is if any
       let roomNum = this.particle.isInRoom(this.roomsIds);
-      if (roomNum != -1 && (this.keys.total > 0 || roomNum === 80)) {
+      if (roomNum != -1 && (this.keys.total > 0 || roomNum === 80)&&this.room.timeoutRooms[roomNum][1]!=true) {
         //player is inside a room or central hub
         this.insideRoom = true;
         this.inRoomNum = roomNum;
@@ -415,7 +415,7 @@ export default class Scene {
 
     //timeout rooms
     for(let i=0;i<this.room.timeoutRooms.length;i++){
-      if(this.room.timeoutRooms[i].bool===true&&this.room.timeoutRooms[i].time>=40000){
+      if(this.room.timeoutRooms[i][1]===true&&this.room.timeoutRooms[i][0]>=40000){
         this.room.timeoutRooms[i]=[0,false]
        
 
