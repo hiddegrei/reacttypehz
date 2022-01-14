@@ -100,15 +100,6 @@ export default class MiniGame14 extends MGMain{
         	}
       	}
   
-      for (let i = 1; i < 9; i++) {
-        if (this.found[i - 1] != null) {
-          this.writeTextToCanvas(this.found[i - 1], 40, i * 100 + 10, 540)
-  
-        } else {
-          this.writeTextToCanvas("*", 40, i * 100 + 10, 550)
-  
-        }
-      }
   
       if (this.complete) {
         this.writeTextToCanvas("Je hebt het wachtwoord geraden! Gebruik dus nooit je eigen gegevens in je wachtwoord, je ziet hoe makkelijk het is om dan je wachtwoord te raden!", 20, 100, window.innerHeight-150)
@@ -198,7 +189,7 @@ export default class MiniGame14 extends MGMain{
     		}
   		}else{
     		this.complete=0;
-    		setTimeout(this.answer.bind(this), 2000);
+    		setTimeout(this.answerWrong.bind(this), 2000);
    			//this.answer();
   		}
   	}

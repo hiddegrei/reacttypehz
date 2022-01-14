@@ -21,10 +21,11 @@ import MiniGameC from "./minigames/MiniGameC";
 
 export default class Room{
     public visitedRooms:Array<boolean>=[];
+    public timeoutRooms:any[]=[] ;
     public roomId:number
     public ctx:CanvasRenderingContext2D;
     protected keyboard:KeyboardListener;
-    protected scene:Scene;
+    public scene:Scene;
     private minigame0:MiniGame0
     private minigame1:MiniGame1
     private minigame2:MiniGame2
@@ -85,8 +86,11 @@ export default class Room{
         this.hints = new Hints(this.canvas,this.scene);
         
 
-        for(let i=0;i<16;i++){
+        for(let i=0;i<17;i++){
             this.visitedRooms[i]=false
+            this.timeoutRooms[i]=[0,false]
+           
+            
         }
         
     }
@@ -94,7 +98,7 @@ export default class Room{
     public checkDone(){
       if((this.keyboard.isKeyDown(32)&&this.roomId!==80)||this.miniGameFinished){
         this.scene.insideRoom=false
-       
+        
         if(this.answer){
           this.visitsNew(this.roomId)
           if(this.roomId===80){
@@ -119,8 +123,11 @@ export default class Room{
           }
          
         }else if(this.roomId===100){
+          //timeout room
           return 101
         }else{
+          //timeout room
+          this.timeoutRooms[this.roomId]=[0,true]
           return false
         }
       }

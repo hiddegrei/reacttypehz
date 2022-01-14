@@ -77,7 +77,7 @@
                   setTimeout(this.answer.bind(this), 4000);
                 }else{
                   this.complete=0
-                  setTimeout(this.answer.bind(this), 2000);
+                  setTimeout(this.answerWrong.bind(this), 2000);
                   
         
                 }

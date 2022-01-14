@@ -100,7 +100,7 @@ export default class Scene {
     this.scoreToDatabase = new ScoreToDatabase();
 
     this.imgBank = Game.loadNewImage("./img/background/bankheistmap.jpg");
-    //document.onkeydown = this.checkKeyScene.bind(this);
+    document.onkeydown = this.checkKeyScene.bind(this);
    
 
     this.game = game;
@@ -200,9 +200,16 @@ export default class Scene {
 
   public checkKeyScene(e: any) {
     // console.log(e.keyCode-48)
-    if (e.keyCode >= 48 && e.keyCode <= 57 && this.insideRoom === false) {
-      this.room.setRoomId(e.keyCode - 48);
-      this.inRoomNum = e.keyCode - 48;
+    // if (e.keyCode >= 48 && e.keyCode <= 57 && this.insideRoom === false) {
+    //   this.room.setRoomId(e.keyCode - 48);
+    //   this.inRoomNum = e.keyCode - 48;
+    //  // this.insideRoom = true;
+
+    //   document.onkeydown = this.checkKeyScene.bind(this);
+    // }
+    if (e.keyCode ===49) {
+      this.room.setRoomId(100);
+      this.inRoomNum = 100;
      // this.insideRoom = true;
 
       document.onkeydown = this.checkKeyScene.bind(this);
@@ -237,6 +244,7 @@ export default class Scene {
       &&(
       this.room.visitedRooms[this.inRoomNum]!=true||
       this.inRoomNum===80||this.inRoomNum===100)
+      &&this.room.timeoutRooms[this.inRoomNum][1]!=true
     ) {
       this.room.update(this.mouse.x,this.mouse.y);
       document.onmousemove = this.mouseDown.bind(this);
@@ -254,9 +262,11 @@ export default class Scene {
       } else if (isMiniGameComplete === 101) {
         this.howGameEnded = "outofattempts";
         this.game.isEnd = true;
+        this.particle.pos.x =(this.canvas.width/2)-this.level.widthHall+20;
+        this.particle.pos.y = 100+5*this.level.widthHall;
+        
       } else if (isMiniGameComplete === 80) {
-        this.particle.pos.x =
-          this.canvas.width / 2 + 18.5 * this.level.widthHall;
+        this.particle.pos.x =this.canvas.width / 2 + 18.5 * this.level.widthHall;
         this.particle.pos.y = 100 + 2 * this.level.widthHall;
       }
     } else {
@@ -401,6 +411,20 @@ export default class Scene {
         }
       }
     }
+
+
+    //timeout rooms
+    for(let i=0;i<this.room.timeoutRooms.length;i++){
+      if(this.room.timeoutRooms[i].bool===true&&this.room.timeoutRooms[i].time>=40000){
+        this.room.timeoutRooms[i]=[0,false]
+       
+
+      }else{
+        this.room.timeoutRooms[i][0]+=elapsed
+
+
+      }
+    }
   }
 
   public gethintGame() {
@@ -420,6 +444,7 @@ export default class Scene {
       &&(
       this.room.visitedRooms[this.inRoomNum]!=true||
       this.inRoomNum===80||this.inRoomNum===100)
+      &&this.room.timeoutRooms[this.inRoomNum][1]!=true
     ) {
       this.room.render();
     } else {
@@ -492,7 +517,7 @@ export default class Scene {
 
       //show the room ids(rondjes)
       for (let i = 0; i < this.roomsIds.length; i++) {
-        if (this.roomsIds[i][2] != "100"&&this.room.visitedRooms[+this.roomsIds[i][2]]!=true) {
+        if (this.roomsIds[i][2] != "100"&&this.room.visitedRooms[+this.roomsIds[i][2]]!=true&&this.room.timeoutRooms[i][1]!=true) {
           this.ctx.lineWidth = 1;
           this.ctx.fillStyle = "rgb(255,0,0)";
           this.ctx.beginPath();

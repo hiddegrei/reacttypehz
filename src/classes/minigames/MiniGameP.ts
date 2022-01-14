@@ -215,6 +215,7 @@ export default class MiniGameP extends MGMain {
    	* If the answer is true the player will be released
    	*/
   	private answerP(){
+      if(this.complete){
     	this.found=[null,null,null,null,null,null,null,null];
     	this.attempts=5;
     	this.foundStr="";
@@ -224,6 +225,11 @@ export default class MiniGameP extends MGMain {
     	this.room.miniGameFinished=true;
     	document.removeEventListener("onkeydown",this.checkKey.bind(this));
     	this.room.answer=true;
+      }else{
+        this.room.scene.howGameEnded = "outofattempts";
+        this.room.scene.game.isEnd = true;
+
+      }
   	}
 
   	/**

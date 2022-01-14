@@ -1,128 +1,214 @@
+// this.writeTextToCanvas(`Dit is de Grote Kluis`,30,50,200);
+// this.writeTextToCanvas(`Kraak de kluis met de verzamelde hints`,20,50,250);
+// this.writeTextToCanvas(`Verzamelde hints:`,20,50,300);
+// this.writeTextToCanvas(`Pogingen: ${this.attempts}`,30,50,400);
+// this.writeTextToCanvas("Let op je pogingen! Druk op de spatiebalk om de kamer te verlaten",20,50,500);
+// this.imgBank=Game.loadNewImage("./img/background/bankback.jpg");
+
 import Room from "../Room";
 import MGMain from "./MGMain";
 import Game from "../Game";
 
-export default class MiniGameC extends MGMain{
-    public started:boolean;
-    private r:string;
-    private e:string;
-    private g:string;
-    private n:string;
-    private b:string
-    private o:string;
-    private q:string;
-    private attempts:number;
-    private wrongSentence:string;
-    private wrongLetter!: string;
-    private pass!: string[];
-    private imgBank:HTMLImageElement;
+export default class MiniGame14 extends MGMain{
+  	private secretW:Array<string>=[];
+  	private attempts:number;
+  	private found:any[];
+  	private index:number;
+  	private complete:any;
+ 	private attemptsArr:Array<string>=[];
+  	private foundStr:string;
+  	public started:boolean;
+  	private image!: HTMLImageElement;
+    
+  	/**
+  	* Create an instance of this object
+  	* @param ctx canvas rendering context 2D
+  	* @param room A room
+  	* @param canvas canvas
+  	*/
+  	constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
+  		super(14,room, ctx, canvas);
+  		this.secretW=["r","e","g","e","n","b","o","o","g"];
+   		this.found=[null,null,null,null,null,null,null,null,null];
+   		//window.addEventListener('keydown',this.checkKey,false);
+   		// document.onkeydown = this.checkKey14.bind(this);
+   		//document.removeEventListener("onkeydown",this.checkKey14.bind(this))
+   		this.index=0;
+   		this.attempts=5;
+   		this.foundStr="";
+   		this.started=true;
+   		// this.complete=false;
+   		this.image = Game.loadNewImage("./img/background/bankback.jpg");
+  	}
+
+	/**
+   	* Functie om de game te updaten
+   	*/
+	public update(){
+    	this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
+      	if(this.started){
+        	document.onkeydown = this.checkKey14.bind(this);
+        	this.started=false;
+      	}
+    }
 
     /**
-    * Create an instance of this object
-    * @param ctx canvas rendering context 2D
-    * @param room A room
-    * @param canvas canvas
-    */
-    constructor(ctx:CanvasRenderingContext2D,room:Room, canvas:HTMLCanvasElement){
-      	super(100,room, ctx, canvas);
-      	this.started = true;
-      	this.r = '_';
-      	this.e = '_';
-      	this.g = '_';
-      	this.n = '_';
-      	this.b = '_';
-      	this.o = '_';
-      	this.q = '_';
+   	* Functie om de minigame te renderen
+   	*/
+    public render(){
+      	this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight);
+      	this.ctx.strokeStyle = "rgb(0,0,0)";
+      	this.ctx.fillStyle = "rgb(255,255,255)";
+      	this.ctx.beginPath();
+      	this.ctx.rect(100, 100, 680, 300);
+      	this.ctx.closePath();
+      	this.ctx.stroke();
+      	this.ctx.fill();
+      	this.writeTextToCanvas("Je hebt 5 pogingen om het wachtwoord te raden, na elke poging kun je zien welke", 16, 110, 130);
+      	this.writeTextToCanvas("characters je goed hebt geraden", 16, 110, 150);
+  
+      	this.writeTextToCanvas("PRESS ENTER  om je poging te testen.", 16, 110, 50);
+      	if (this.attemptsArr) {
+        	for (let i = 0; i < this.attemptsArr.length; i++) {
+          		this.writeTextToCanvas(`Poging ${i}: ${this.attemptsArr[i]}`, 19, 110, 170 + i * 20);
+        	}
+      	}
+  
+      this.ctx.fillStyle = "rgb(255,255,255)"
+      this.ctx.beginPath()
+      this.ctx.rect(790, 100, 330, 300)
+      this.ctx.closePath()
+      this.ctx.fill()
+      this.writeTextToCanvas("Dit is de grote kluis", 20, 800, 130)
+      this.writeTextToCanvas("Kraak de kluis met de verzamelde hints", 20, 800, 160)
+      this.writeTextToCanvas("Hints: ", 20, 800, 190)
+      this.room.getHintsGame().getHint().forEach((value: string, index: number) => {
+        this.writeTextToCanvas(`${value}`, 20,825 + index * 30,190);
+    });
+  
+      	this.ctx.strokeStyle = "rgb(0,0,0)";
+      	this.ctx.beginPath();
+      	this.ctx.rect(100, 500, 50, 50);
+      	this.ctx.rect(200, 500, 50, 50);
+      	this.ctx.rect(300, 500, 50, 50);
+      	this.ctx.rect(400, 500, 50, 50);
+      	this.ctx.rect(500, 500, 50, 50);
+      	this.ctx.rect(600, 500, 50, 50);
+      	this.ctx.rect(700, 500, 50, 50);
+      	this.ctx.rect(800, 500, 50, 50);
+        this.ctx.rect(900, 500, 50, 50);
+      	this.ctx.closePath();
+      	this.ctx.stroke();
+  
+      	for (let i = 1; i < this.secretW.length+1; i++) {
+        	if (this.found[i - 1] != null) {
+          		this.writeTextToCanvas(this.found[i - 1], 40, i * 100 + 10, 540);
+        	} else {
+          		this.writeTextToCanvas("*", 40, i * 100 + 10, 550);
+        	}
+      	}
+  
       
-      	this.attempts = 5;
-      	this.wrongSentence = ``;
-      	this.imgBank=Game.loadNewImage("./img/background/bankback.jpg");
+  
+      if (this.complete) {
+        this.writeTextToCanvas("Je hebt het wachtwoord geraden! Gebruik dus nooit je eigen gegevens in je wachtwoord, je ziet hoe makkelijk het is om dan je wachtwoord te raden!", 20, 100, window.innerHeight-150)
+      } else if (this.complete === 0) {
+        this.writeTextToCanvas("Helaas, dit antwoord is fout", 30, 100, 900)
+  
+      }
+        
+       
     }
-    //TODO: meerdere keren bosslevel kunnen starten
+
+	/**
+	 * check if pressed key is correct
+	 * @param e Key pressed
+	 */
+  	public checkKey14(e:any) {
+      	//console.log(e.keyCode);
+      	if(e.keyCode===8){
+        	this.found[this.index--]=null;
+        	//this.index--;
+      	}else if(e.keyCode===13){
+        	this.checkAttempt();
+      	}else if(this.index<=this.secretW.length-1){
+        	for(let i=0;i<this.found.length;i++){
+          		if(this.found[i]===null){
+            		this.index=i;
+            		break;
+          		}
+        	}
+        	//console.log(this.found[this.index])
+        	if(e.keyCode<=57){
+          		this.found[this.index]=String.fromCharCode(e.keyCode);
+        	}else{
+          		this.found[this.index]=String.fromCharCode(e.keyCode+32);
+        	}
+        	this.index++;
+      	}
+  	}
+
+	/**
+	 * Checks the answer. If correct: return to main page, if not: the amount of attempts gets lowered
+	 */
+  	public checkAttempt(){
+    	for(let i=0;i<this.found.length;i++){
+      		this.foundStr+=this.found[i];
+    	}
+    	this.attemptsArr.push(this.foundStr);
+    	this.foundStr="";
+
+	    let complete=true;
+    	if(this.attempts>0){
+    		for(let i=0;i<this.secretW.length;i++){
+      			if(this.found[i]===this.secretW[i]){
+        			this.found[i]=this.secretW[i];
+      			}else{
+        			this.found[i]=null;
+        			complete=false;
+      			}
+    		}
+    		for(let i=0;i<this.found.length;i++){
+      			if(this.found[i]===null){
+        			this.index=i;
+        			break;
+      			}
+    		}
+    		this.attempts--;
+    		if(complete){
+      			this.complete=true;
+      			//setTimeout(this.answer,2000);
+      			setTimeout(this.answer.bind(this), 2000);
+      			//this.answer();
+    		}
+  		}else{
+    		this.complete=0;
+    		setTimeout(this.answerWrong.bind(this), 2000);
+   			//this.answer();
+  		}
+  	}
+
+	
 
     /**
-    * Functie om de game te updaten
-    */
-    public update() {
-        this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
-        if (this.attempts<=0){
-            this.started = false;
-            // this.room.getScene().getGame().isEnd = true;
-            this.room.miniGameFinished=true;
-            this.room.answer=false;
-        }
-        if(this.started){
-            document.onkeydown = this.checkKey.bind(this);
-            this.started=false;
-        }
-        if(this.r!=='_'&&this.e!=='_'&&this.g!=='_'&&this.n!=='_'&&this.b!=='_'&&this.o!=='_'&&this.q!=='_'){
-            this.room.miniGameFinished=true;
-            this.room.answer=true;
-
-        }
-    }
-
-    /**
-    * Functie om de minigame te renderen
-    */
-    public render() {
-        this.ctx.drawImage( this.imgBank, 0, 0,  this.imgBank.width,  this.imgBank.height, 0, 0, window.innerWidth, window.innerHeight);
-        this.writeTextToCanvas(`Dit is de Grote Kluis`,30,50,200);
-        this.writeTextToCanvas(`Kraak de kluis met de verzamelde hints`,20,50,250);
-        this.writeTextToCanvas(`Verzamelde hints:`,20,50,300);
-        this.writeTextToCanvas(`Pogingen: ${this.attempts}`,30,50,400);
-        this.writeTextToCanvas("Let op je pogingen! Druk op de spatiebalk om de kamer te verlaten",20,50,500);
-
-        this.room.getHintsGame().getHint().forEach((value: string, index: number) => {
-            this.writeTextToCanvas(`${value}`, 20,250 + index * 30,300);
-        });
-
-        this.writeTextToCanvas(`${this.r} ${this.e} ${this.g} ${this.e} ${this.n} ${this.b} ${this.o} ${this.o} ${this.g} ${this.q}`, 50, window.innerWidth / 2, window.innerHeight / 2);
-        this.writeTextToCanvas(this.wrongSentence,20,window.innerWidth /2,window.innerHeight / 6);
-    }
-
-    private checkKey(e:any){
-        if(e.keyCode===82) {
-            this.r = 'R';
-            
-        } else if (e.keyCode===69) {
-            this.e = 'e';
-        } else if (e.keyCode===71) {
-            this.g = 'g';
-        } else if(e.keyCode===78) {
-            this.n = 'n';
-        } else if (e.keyCode===66) {
-            this.b = 'b';
-        } else if (e.keyCode===79) {
-            this.o = 'o';
-        } else if (e.keyCode===49) {
-            this.q = '!';
-        } else {
-            this.attempts--;
-            this.wrongLetter = String.fromCharCode(e.keyCode);
-            this.wrongSentence = `De letter: ${this.wrongLetter} is fout!`;
-        }
-    }
-
-     /**
-    * @param text
-    * @param xCoordinate
-    * @param yCoordinate
-    * @param fontSize
-    * @param color
-    * @param alignment
-    */
-    public writeTextToCanvas(
-        text: string,
-        fontSize: number = 20,
-        xCoordinate: number,
-        yCoordinate: number,
-        alignment: CanvasTextAlign = 'start',
-        color: string = 'white',
-    ): void {
-        this.ctx.font = `${fontSize}px sans-serif`;
-        this.ctx.fillStyle = color;
-        this.ctx.textAlign = alignment;
-        this.ctx.fillText(text, xCoordinate, yCoordinate);
-    }
+   	* @param text
+   	* @param xCoordinate
+   	* @param yCoordinate
+   	* @param fontSize
+   	* @param color
+   	* @param alignment
+   	*/
+  	public writeTextToCanvas(
+    	text: string,
+    	fontSize: number = 20,
+    	xCoordinate: number,
+    	yCoordinate: number,
+    	alignment: CanvasTextAlign = 'start',
+    	color: string = 'black',
+  	): void {
+    	this.ctx.font = `700 ${fontSize}px sans-serif`;
+    	this.ctx.fillStyle = color;
+    	this.ctx.textAlign = alignment;
+    	this.ctx.fillText(text, xCoordinate, yCoordinate);
+  	}
 }
