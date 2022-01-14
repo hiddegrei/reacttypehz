@@ -136,13 +136,13 @@ export default class MiniGame2 extends MGMain{
     this.ctx.closePath()
     this.ctx.stroke()
     this.ctx.fill()
-    this.writeTextToCanvas("Je hebt 5 pogingen om het wachtwoord te raden, na elke poging kun je zien welke", 16, 110, 130)
+    this.writeTextToCanvas(`Je hebt nog ${this.attempts} pogingen om het wachtwoord te raden, na elke poging kun je zien welke`, 16, 110, 130)
     this.writeTextToCanvas("characters je goed hebt geraden", 16, 110, 150)
 
     this.writeTextToCanvas("Druk op ENTER  om je poging te testen.", 16, 110, 50)
     if (this.attemptsArr) {
       for (let i = 0; i < this.attemptsArr.length; i++) {
-        this.writeTextToCanvas(`Poging ${i}: ${this.attemptsArr[i]}`, 19, 110, 170 + i * 20)
+        this.writeTextToCanvas(`Poging ${i+1}: ${this.attemptsArr[i]}`, 19, 110, 170 + i * 20)
       }
     }
 
@@ -154,7 +154,7 @@ export default class MiniGame2 extends MGMain{
     this.ctx.fill()
     this.writeTextToCanvas("Informatie die je hebt verkregen:", 20, 850, 130)
     this.writeTextToCanvas("voornaam: Rik", 20, 850, 160)
-    this.writeTextToCanvas("voornaam: Smith", 20, 850, 190)
+    this.writeTextToCanvas("achternaam: Smith", 20, 850, 190)
     this.writeTextToCanvas("leeftijd: 17", 20, 850, 220)
     this.writeTextToCanvas("geboorte datum: 17/10/2001", 20, 850, 250)
     this.writeTextToCanvas("woonplaats: Utrecht", 20, 850, 280)
@@ -183,7 +183,7 @@ export default class MiniGame2 extends MGMain{
     }
 
     if (this.complete) {
-      this.writeTextToCanvas("Je hebt het wachtwoord geraden!", 30, 100, 900)
+      this.writeTextToCanvas("Je hebt het wachtwoord geraden! Gebruik dus nooit je eigen gegevens in je wachtwoord, je ziet wat er dan kan gebeuren!", 20, 100, window.innerHeight-150)
     } else if (this.complete === 0) {
       this.writeTextToCanvas("Helaas, dit is fout", 30, 100, 900)
 

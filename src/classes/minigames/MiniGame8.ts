@@ -1,25 +1,40 @@
 import Room from "../Room";
 import MGMain from "./MGMain";
 import Game from "../Game"
+import Hints from "../Hints";
 
-export default class MiniGame8 extends MGMain{
+export default class MiniGame3 extends MGMain{
+    public ctx:CanvasRenderingContext2D;
+
+    private image!: HTMLImageElement;
     
-
-  /**
+/**
    * Create an instance of this object
    * @param ctx canvas rendering context 2D
    * @param room A room
    * @param canvas canvas
    */
-    constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
-      super(8,room, ctx, canvas)
-
+    constructor(ctx:CanvasRenderingContext2D,room:Room,canvas:HTMLCanvasElement){
+      super(3,room,ctx,canvas)
+      this.ctx=ctx
+      this.image = Game.loadNewImage("./img/background/password2.jpg")
+    
+  
     }
-
     /**
    * Functie om de game te updaten
    */
     public update(){
+      this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
+      if (this.keyboard.isKeyDown(65)) {
+        this.room.miniGameFinished = true
+        this.room.answer = true
+        this.room.getHintsGame().foundHint('g');
+      } else if (this.keyboard.isKeyDown(66) || this.keyboard.isKeyDown(67)||this.keyboard.isKeyDown(68)) {
+        this.room.miniGameFinished = true
+        this.room.answer = false
+  
+      }
 
     }
 
@@ -28,7 +43,51 @@ export default class MiniGame8 extends MGMain{
    */
     public render(){
 
-        this.writeTextToCanvas(`Dit is kamer `+this.roomId,20,200,200)
+      this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
+
+      this.ctx.strokeStyle = "rgb(255,255,255)"
+      this.ctx.fillStyle="rgb(255,255,255)"
+      this.ctx.beginPath()
+      this.ctx.rect(90, 170, (window.innerWidth / 2) + 400, 500)
+      this.ctx.closePath()
+      this.ctx.stroke()
+      this.ctx.fill()
+  
+      this.writeTextToCanvas("Hoelang zou het duren voordat een hacker een wachtwoord van 10 tekens heeft gekraakt?", 20, 100, 200)
+  
+      this.writeTextToCanvas("1 uur", 20, 100, 300)
+      this.writeTextToCanvas("press a", 20, (window.innerWidth / 2) + 100, 300)
+  
+      this.writeTextToCanvas("1 week", 20, 100, 400)
+      this.writeTextToCanvas("press b", 20, (window.innerWidth / 2) + 100, 400)
+  
+      this.writeTextToCanvas("1 maand", 20, 100, 500)
+      this.writeTextToCanvas("press c", 20, (window.innerWidth / 2) + 100, 500)
+
+      this.writeTextToCanvas("Dat ligt aan de sterkte van je wachtwoord", 20, 100, 600)
+      this.writeTextToCanvas("press d", 20, (window.innerWidth / 2) + 100, 600)
         
     }
+
+     /**
+   * @param text
+   * @param xCoordinate
+   * @param yCoordinate
+   * @param fontSize
+   * @param color
+   * @param alignment
+   */
+  public writeTextToCanvas(
+    text: string,
+    fontSize: number = 20,
+    xCoordinate: number,
+    yCoordinate: number,
+    alignment: CanvasTextAlign = 'start',
+    color: string = 'red',
+  ): void {
+    this.ctx.font = `${fontSize}px sans-serif`;
+    this.ctx.fillStyle = color;
+    this.ctx.textAlign = alignment;
+    this.ctx.fillText(text, xCoordinate, yCoordinate);
+  }
 }

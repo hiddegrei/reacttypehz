@@ -153,7 +153,7 @@ export default class MiniGame14 extends MGMain{
       this.ctx.fill()
       this.writeTextToCanvas("Informatie die je hebt verkregen:", 20, 800, 130)
       this.writeTextToCanvas("voornaam: Jan", 20, 800, 160)
-      this.writeTextToCanvas("voornaam: Alleman", 20, 800, 190)
+      this.writeTextToCanvas("achternaam: Alleman", 20, 800, 190)
       this.writeTextToCanvas("leeftijd: 12", 20, 800, 220)
       this.writeTextToCanvas("geboorte datum: 12/12/2002", 20, 800, 250)
       this.writeTextToCanvas("woonplaats: Amsterdam", 20, 800, 280)
@@ -183,7 +183,7 @@ export default class MiniGame14 extends MGMain{
       }
   
       if (this.complete) {
-        this.writeTextToCanvas("Je hebt het wachtwoord geraden!", 30, 100, 900)
+        this.writeTextToCanvas("Je hebt het wachtwoord geraden! Gebruik dus nooit je eigen gegevens in je wachtwoord, je ziet wat er dan kan gebeuren!", 20, 100, window.innerHeight-150)
       } else if (this.complete === 0) {
         this.writeTextToCanvas("Helaas, dit antwoord is fout", 30, 100, 900)
   
