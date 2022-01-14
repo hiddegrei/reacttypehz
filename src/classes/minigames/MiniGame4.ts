@@ -1,9 +1,8 @@
 import Room from "../Room";
 import MGMain from "./MGMain";
-// import Game from "../Game";
+ import Game from "../Game";
 
 export default class MiniGame4 extends MGMain{
-<<<<<<< HEAD
     private secretW:Array<string>=[]
     private attempts:number
     private found:any[]
@@ -116,22 +115,6 @@ export default class MiniGame4 extends MGMain{
   /**
    * Functie om de game te updaten
    */
-=======
-
-  	/**
-     * Create an instance of this object
-     * @param ctx canvas rendering context 2D
-     * @param room A room
-     * @param canvas canvas
-     */
-    constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
-      	super(4,room,ctx, canvas);
-    }
-
-    /**
-     * Functie om de game te updaten
-     */
->>>>>>> 3a8d6126b98274ea997f6acf71464567089db12b
     public update(){
       this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
       if(this.started){
@@ -208,7 +191,6 @@ export default class MiniGame4 extends MGMain{
 
     }
 
-<<<<<<< HEAD
         
     }
 
@@ -234,9 +216,3 @@ export default class MiniGame4 extends MGMain{
     this.ctx.fillText(text, xCoordinate, yCoordinate);
   }
 }
-=======
-        this.writeTextToCanvas(`Dit is kamer `+this.roomId,20,200,200);
-        
-    }
-}
->>>>>>> 3a8d6126b98274ea997f6acf71464567089db12b
