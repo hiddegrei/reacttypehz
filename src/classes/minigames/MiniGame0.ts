@@ -1,10 +1,22 @@
 import Room from "../Room";
 import MGMain from "./MGMain";
 import Game from "../Game";
+import Particle from "../Particle";
+import Border from "../Border";
+import Vector from "../Vector";
 
 export default class MiniGame0 extends MGMain {
   	private imageBob: HTMLImageElement;
   	private imageBackground: HTMLImageElement;
+    private particle:Particle
+
+    private borders:Border[]=[]
+
+    private color:string;
+    
+    private answer1:boolean
+
+    private complete:any;
 
   	/**
      * Create an instance of this object
@@ -16,22 +28,57 @@ export default class MiniGame0 extends MGMain {
     	super(0, room, ctx, canvas);
     	this.imageBob = Game.loadNewImage("./img/players/bob.png");
     	this.imageBackground = Game.loadNewImage("./img/background/password2.jpg");
+      this.particle=new Particle(window.innerWidth/2,window.innerHeight,ctx)
+      this.borders.push(new Border(0, 0, this.canvas.width, 0,ctx,"normal"))
+      this.borders.push(new Border(0, 0, 0, this.canvas.height,ctx,"normal"))
+      this.borders.push(new Border(this.canvas.width, 0, this.canvas.width, this.canvas.height,ctx,"normal"))
+      this.borders.push(new Border(0, this.canvas.height, this.canvas.width, this.canvas.height,ctx,"normal"))
+      this.color="rgb(255,255,255)"
+      this.answer1=false
   	}
 
   	/**
      * Functie om de minigame te updaten
      */
-  	public update() {
+  	public update(mousex:number,mousey:number) {
     	this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
-    	if (this.keyboard.isKeyDown(67)) {
-      		this.room.miniGameFinished = true;
-      		this.room.answer = true;
-      		this.room.getHintsGame().foundHint('b');
-      		this.room.getHintsGame().foundHint('!');
-    	} else if (this.keyboard.isKeyDown(66) || this.keyboard.isKeyDown(65)) {
-      		this.room.miniGameFinished = true;
-      		this.room.answer = false;
-    	}
+    	this.particle.update(mousex,mousey,this.borders)
+      this.particle.animate();
+      this.particle.move();
+
+      if(Vector.dist(this.particle.pos,{x:1250,y:300})<50){
+        this.color="rgb(255,0,0)"
+        this.answer1=false
+      }else if(Vector.dist(this.particle.pos,{x:1250,y:400})<50){
+        this.color="rgb(0,255,0)"
+        this.answer1=false
+
+      }else if(Vector.dist(this.particle.pos,{x:1250,y:500})<50){
+        this.color="rgb(0,0,255)"
+        this.answer1=true
+
+      }
+
+      if(this.keyboard.isKeyDown(13)){
+        if(this.answer1){
+          this.complete=true
+          setTimeout(this.answer.bind(this), 4000);
+        }else{
+          this.complete=0
+          setTimeout(this.answer.bind(this), 2000);
+          
+
+        }
+      }
+  	}
+
+    /**
+	 * Functie die ervoor zorgt dat de speler de kamer verlaat en een hint kan krijgen
+	 */
+  	public answer(){
+    	this.room.miniGameFinished=true;
+    	this.room.answer=true;
+    
   	}
 
   	/**
@@ -57,7 +104,7 @@ export default class MiniGame0 extends MGMain {
     	this.ctx.fill();
 
     	this.ctx.beginPath();
-    	this.ctx.rect(590, 180, 750, 150);
+    	this.ctx.rect(590, 270, 750, 300);
     	this.ctx.closePath();
     	this.ctx.stroke();
     	this.ctx.fill();
@@ -65,6 +112,15 @@ export default class MiniGame0 extends MGMain {
     	this.ctx.drawImage(this.imageBob, 100, 200);
 
     	this.informationAboutBob();
+
+      this.particle.show(true,this.color)
+
+      if (this.complete) {
+        this.writeTextToCanvas("Goed gedaan!", 20, 100, window.innerHeight-150)
+      } else if (this.complete === 0) {
+        this.writeTextToCanvas("Helaas, dit is fout", 30, 100, 900)
+  
+      }
   }
 
   	/**
@@ -76,12 +132,14 @@ export default class MiniGame0 extends MGMain {
 		this.writeTextToCanvas("geboorte datum: 01/10/2001", 20, 110, 450);
 		this.writeTextToCanvas("woonplaats: Utrecht", 20, 110, 500);
 
-		this.writeTextToCanvas("Bob17Utrecht01", 20, 600, 210);
-		this.writeTextToCanvas("press a", 20, 1250, 210);
-		this.writeTextToCanvas("ABC54@#2as", 20, 600, 260);
-		this.writeTextToCanvas("press b", 20, 1250, 260);
-		this.writeTextToCanvas("Laat je wachtwoord-manager een wachtwoord genereren", 20, 600, 310);
-		this.writeTextToCanvas("press c", 20, 1250, 310);
+		this.writeTextToCanvas("Bob17Utrecht01", 20, 600, 300);
+		this.writeTextToCanvas("A", 20, 1250, 300,"start","red");
+    
+		this.writeTextToCanvas("ABC54@#2as", 20, 600, 400);
+		this.writeTextToCanvas("B", 20, 1250, 400,"start","green");
+
+		this.writeTextToCanvas("Laat je wachtwoord-manager een wachtwoord genereren", 20, 600, 500);
+		this.writeTextToCanvas("C", 20, 1250, 500,"start","blue");
 	}
 
   	/**
@@ -103,18 +161,16 @@ export default class MiniGame0 extends MGMain {
 	 * @param alignment
 	 */
   	public writeTextToCanvas(
-    	text: string,
-    	fontSize: number = 40,
-    	xCoordinate: number,
-    	yCoordinate: number,
-    	alignment: CanvasTextAlign = 'start',
-    	color: string = 'black',
-  	): void {
-    	this.ctx.font = `1000 ${fontSize}px sans-serif`;
-    	this.ctx.fillStyle = color;
-    	this.ctx.textAlign = alignment;
-    	this.ctx.fillText(text, xCoordinate, yCoordinate);
-    	this.ctx.strokeText(text, xCoordinate, yCoordinate);
-    	this.ctx.strokeStyle = 'white';
-  	}
+      text: string,
+      fontSize: number = 20,
+      xCoordinate: number,
+      yCoordinate: number,
+      alignment: CanvasTextAlign = 'start',
+      color: string = 'black',
+    ): void {
+      this.ctx.font = `bold ${fontSize}px sans-serif`;
+      this.ctx.fillStyle = color;
+      this.ctx.textAlign = alignment;
+      this.ctx.fillText(text, xCoordinate, yCoordinate);
+    }
 }

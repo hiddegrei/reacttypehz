@@ -31,10 +31,6 @@ export default class MiniGame8 extends MGMain{
       this.ctx=ctx
       this.image = Game.loadNewImage("./img/background/password2.jpg")
       this.particle=new Particle(window.innerWidth/2,window.innerHeight,ctx)
-       // [0, 0, this.canvas.width, 0],
-      //       [0, 0, 0, this.canvas.height],
-      //       [this.canvas.width, 0, this.canvas.width, this.canvas.height],
-      //       [0, this.canvas.height, this.canvas.width, this.canvas.height],
       this.borders.push(new Border(0, 0, this.canvas.width, 0,ctx,"normal"))
       this.borders.push(new Border(0, 0, 0, this.canvas.height,ctx,"normal"))
       this.borders.push(new Border(this.canvas.width, 0, this.canvas.width, this.canvas.height,ctx,"normal"))
@@ -94,7 +90,7 @@ export default class MiniGame8 extends MGMain{
   	public answer(){
     	this.room.miniGameFinished=true;
     	this.room.answer=true;
-    	this.room.getHintsGame().foundHint('o');
+    
   	}
 
     

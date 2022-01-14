@@ -133,7 +133,7 @@ export default class Room{
       this.ctx.setTransform(1, 0, 0, 1, 0, 0);
        
         if(this.roomId===0){
-          this.minigame0.update()
+          this.minigame0.update(mousex,mousey)
         }else if(this.roomId===1){
           this.minigame1.update()
         }else if(this.roomId===2){
