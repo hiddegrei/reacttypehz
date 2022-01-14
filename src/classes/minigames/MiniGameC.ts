@@ -1,6 +1,6 @@
 import Room from "../Room";
 import MGMain from "./MGMain";
-import Game from "../Game"
+import Game from "../Game";
 
 export default class MiniGameC extends MGMain{
     public started:boolean;
@@ -24,19 +24,19 @@ export default class MiniGameC extends MGMain{
     * @param canvas canvas
     */
     constructor(ctx:CanvasRenderingContext2D,room:Room, canvas:HTMLCanvasElement){
-      super(100,room, ctx, canvas);
-      this.started = true;
-      this.r = '_';
-      this.e = '_';
-      this.g = '_';
-      this.n = '_';
-      this.b = '_';
-      this.o = '_';
-      this.q = '_';
+      	super(100,room, ctx, canvas);
+      	this.started = true;
+      	this.r = '_';
+      	this.e = '_';
+      	this.g = '_';
+      	this.n = '_';
+      	this.b = '_';
+      	this.o = '_';
+      	this.q = '_';
       
-      this.attempts = 5;
-      this.wrongSentence = ``;
-      this.imgBank=Game.loadNewImage("./img/background/bankback.jpg");
+      	this.attempts = 5;
+      	this.wrongSentence = ``;
+      	this.imgBank=Game.loadNewImage("./img/background/bankback.jpg");
     }
     //TODO: meerdere keren bosslevel kunnen starten
 

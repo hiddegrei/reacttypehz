@@ -1,128 +1,129 @@
 import Room from "../Room";
 import MGMain from "./MGMain";
-import Game from "../Game"
+import Game from "../Game";
 
 export default class MiniGame2 extends MGMain{
-    private secretW:Array<string>=[]
-    private attempts:number
-    private found:any[]
+    private secretW:Array<string>=[];
+    private attempts:number;
+    private found:any[];
     private index:number;
-    private complete:any
-    private attemptsArr:Array<string>=[]
-    private foundStr:string
-    private started:boolean
+    private complete:any;
+    private attemptsArr:Array<string>=[];
+    private foundStr:string;
+    private started:boolean;
     private image!: HTMLImageElement;
     
     /**
-   * Create an instance of this object
-   * @param ctx canvas rendering context 2D
-   * @param room A room
-   * @param canvas canvas
-   */
+     * Create an instance of this object
+     * @param ctx canvas rendering context 2D
+     * @param room A room
+     * @param canvas canvas
+     */
     constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
-      super(2,room,ctx, canvas)
-      this.secretW=["1","7","1","s","m","i","t","h"]
-      this.found=[null,null,null,null,null,null,null,null]
-      //window.addEventListener('keydown',this.checkKey,false);
-      // document.onkeydown = this.checkKey.bind(this);
-      this.index=0
-      this.attempts=5
-      this.foundStr=""
-     // this.complete=false
-     this.started=true
-     this.image = Game.loadNewImage("./img/background/password2.jpg")
-
+      	super(2,room,ctx, canvas);
+      	this.secretW=["1","7","1","s","m","i","t","h"];
+      	this.found=[null,null,null,null,null,null,null,null];
+      	//window.addEventListener('keydown',this.checkKey,false);
+      	// document.onkeydown = this.checkKey.bind(this);
+      	this.index=0;
+      	this.attempts=5;
+      	this.foundStr="";
+     	// this.complete=false;
+     	this.started=true;
+     	this.image = Game.loadNewImage("./img/background/password2.jpg");
     }
 
-  public checkKey(e:any) {
-      //console.log(e.keyCode)
-      if(e.keyCode===8){
-        this.found[this.index--]=null
-        //this.index--
-      }else if(e.keyCode===13){
-        this.checkAttempt()
-      }else if(this.index<=7){
-        for(let i=0;i<this.found.length;i++){
-          if(this.found[i]===null){
-            this.index=i
-            break;
-          }
-        }
-        console.log(this.found[this.index])
-        if(e.keyCode<=57){
-          this.found[this.index]=String.fromCharCode(e.keyCode)
-          
+	/**
+     * Functie om de game te updaten
+     */
+	public update(){
+		this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
+		if(this.started){
+		  	document.onkeydown = this.checkKey.bind(this);
+		  	this.started=false;
+		}
+  	}
 
-        }else{
-          this.found[this.index]=String.fromCharCode(e.keyCode+32)
-          
-        }
-        
-        this.index++
-      }
+  	
 
-      
+	/**
+	 * Checks de keys pressed
+	 * @param e Key pressed
+	 */
+  	public checkKey(e:any) {
+      	//console.log(e.keyCode);
+      	if(e.keyCode===8){
+        	this.found[this.index--]=null;
+        	//this.index--;
+      	}else if(e.keyCode===13){
+        	this.checkAttempt();
+      	}else if(this.index<=7){
+        	for(let i=0;i<this.found.length;i++){
+          		if(this.found[i]===null){
+            		this.index=i;
+            		break;
+          		}
+        	}
+        	console.log(this.found[this.index]);
+        	if(e.keyCode<=57){
+          		this.found[this.index]=String.fromCharCode(e.keyCode);
+	        }else{
+          		this.found[this.index]=String.fromCharCode(e.keyCode+32);
+        	}
+        	this.index++;
+      	}
+  	}
 
-  }
+	/**
+	 * Checkt the attempt
+	 */
+  	public checkAttempt(){
+    	for(let i=0;i<this.found.length;i++){
+      		this.foundStr+=this.found[i];
+    	}
+    	this.attemptsArr.push(this.foundStr);
+    	this.foundStr="";
 
-  public checkAttempt(){
-    for(let i=0;i<this.found.length;i++){
-      this.foundStr+=this.found[i]
-    }
-    this.attemptsArr.push(this.foundStr)
-    this.foundStr=""
-
-    let complete=true
-    if(this.attempts>0){
-    for(let i=0;i<this.secretW.length;i++){
-      if(this.found[i]===this.secretW[i]){
-        this.found[i]=this.secretW[i]
-      }else{
-        this.found[i]=null
-        complete=false
-      }
-    }
-    for(let i=0;i<this.found.length;i++){
-      if(this.found[i]===null){
-        this.index=i
-        break;
-      }
-    }
-    this.attempts--
-    if(complete){
-      this.complete=true
+    	let complete=true;
+    	if(this.attempts>0){
+    		for(let i=0;i<this.secretW.length;i++){
+      			if(this.found[i]===this.secretW[i]){
+        			this.found[i]=this.secretW[i];
+      			}else{
+        			this.found[i]=null;
+        			complete=false;
+      			}
+    		}
+    		for(let i=0;i<this.found.length;i++){
+      			if(this.found[i]===null){
+        			this.index=i;
+        			break;
+      			}
+    		}
+    		this.attempts--;
+    		if(complete){
+      			this.complete=true;
      
-      //setTimeout(this.answer,2000)
-      setTimeout(this.answer.bind(this), 2000);
-      //this.answer()
-     
-    }
-  }else{
-    this.complete=0
-    setTimeout(this.answer.bind(this), 2000);
-   //this.answer()
-  }
-  }
+      			//setTimeout(this.answer,2000);
+      			setTimeout(this.answer.bind(this), 2000);
+      			//this.answer();
+    		}
 
-  public answer(){
-    this.room.miniGameFinished=true
-    this.room.answer=true
-    this.room.getHintsGame().foundHint('o');
-    
+  		}else{
+    		this.complete=0;
+    		setTimeout(this.answer.bind(this), 2000);
+   			//this.answer();
+  		}
+  	}
 
-  }
-
-  /**
-   * Functie om de game te updaten
-   */
-    public update(){
-      this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
-      if(this.started){
-        document.onkeydown = this.checkKey.bind(this);
-        this.started=false
-      }
-
-    }
+	/**
+	 * Functie die ervoor zorgt dat de speler de kamer verlaat en een hint kan krijgen
+	 */
+  	public answer(){
+    	this.room.miniGameFinished=true;
+    	this.room.answer=true;
+    	this.room.getHintsGame().foundHint('o');
+  	}
 
     /**
    * Functie om de minigame te renderen

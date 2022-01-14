@@ -1,13 +1,18 @@
 import Room from "../Room";
 import MGMain from "./MGMain";
+<<<<<<< HEAD
 import Game from "../Game"
 import Hints from "../Hints";
+=======
+// import Game from "../Game";
+>>>>>>> 3a8d6126b98274ea997f6acf71464567089db12b
 
 export default class MiniGame3 extends MGMain{
     public ctx:CanvasRenderingContext2D;
 
     private image!: HTMLImageElement;
     
+<<<<<<< HEAD
 /**
    * Create an instance of this object
    * @param ctx canvas rendering context 2D
@@ -20,10 +25,21 @@ export default class MiniGame3 extends MGMain{
       this.image = Game.loadNewImage("./img/background/password2.jpg")
     
   
+=======
+
+  	/**
+   	* Create an instance of this object
+   	* @param ctx canvas rendering context 2D
+   	* @param room A room
+   	* @param canvas canvas
+   	*/
+    constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
+      	super(8,room, ctx, canvas);
+>>>>>>> 3a8d6126b98274ea997f6acf71464567089db12b
     }
     /**
-   * Functie om de game te updaten
-   */
+   	* Functie om de game te updaten
+   	*/
     public update(){
       this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
       if (this.keyboard.isKeyDown(65)) {
@@ -39,10 +55,11 @@ export default class MiniGame3 extends MGMain{
     }
 
     /**
-   * Functie om de minigame te renderen
-   */
+   	* Functie om de minigame te renderen
+   	*/
     public render(){
 
+<<<<<<< HEAD
       this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
 
       this.ctx.strokeStyle = "rgb(255,255,255)"
@@ -91,3 +108,9 @@ export default class MiniGame3 extends MGMain{
     this.ctx.fillText(text, xCoordinate, yCoordinate);
   }
 }
+=======
+        this.writeTextToCanvas(`Dit is kamer `+this.roomId,20,200,200);
+        
+    }
+}
+>>>>>>> 3a8d6126b98274ea997f6acf71464567089db12b

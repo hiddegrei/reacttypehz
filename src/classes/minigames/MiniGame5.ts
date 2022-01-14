@@ -1,6 +1,6 @@
 import Room from "../Room";
 import MGMain from "./MGMain";
-import Game from "../Game"
+import Game from "../Game";
 
 export default class MiniGame5 extends MGMain{
     private secretW:Array<string>=[]
@@ -125,8 +125,8 @@ export default class MiniGame5 extends MGMain{
     }
 
     /**
-   * Functie om de minigame te renderen
-   */
+     * Functie om de minigame te renderen
+     */
     public render(){
       this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
     this.ctx.strokeStyle = "rgb(0,0,0)"
