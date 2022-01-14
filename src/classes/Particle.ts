@@ -59,7 +59,7 @@ export default class Particle {
         this.mouse = { x: 0, y: 0 }
         this.angleView = 18;
         this.imageSprite=Game.loadNewImage("./img/players/bkspr01.png")
-        console.log(this.imageSprite.width,this.imageSprite.height)
+        
         this.images.push([20,150,95,130,300,300,Particle.WP,Particle.HP])
         this.images.push([132,50,95,130,300,300,Particle.WP,Particle.HP])
         this.images.push([ 132,270,95,130,300,300,Particle.WP,Particle.HP])
@@ -82,18 +82,27 @@ export default class Particle {
 
     }
 
-    applyforce(force:Vector){
+    /**
+     * steer particle
+     * @param force vector
+     */
+    public applyforce(force:Vector){
         this.acc.add(force)
       }
 
-    getAngleDeg(ax: number, ay: number, bx: number, by: number) {
+    public getAngleDeg(ax: number, ay: number, bx: number, by: number) {
         var angleRad = Math.atan((ay - by) / (ax - bx));
         var angleDeg = angleRad * 180 / Math.PI;
 
         return (angleDeg);
     }
 
-    isInRoom(rooms:Array<any>): number {
+    /**
+     * check if player is inside a room
+     * @param rooms rooms
+     * @returns 
+     */
+    public isInRoom(rooms:Array<any>): number {
         for(let i=0;i<rooms.length;i++){
             let roomV={x:rooms[i][0],y:rooms[i][1]}
 
