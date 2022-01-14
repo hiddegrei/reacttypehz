@@ -61,23 +61,23 @@ export default class Room{
         this.scene=scene
         this.canvas=canvas
        
-        this.minigame0=new MiniGame0(this.ctx,this)
-        this.minigame1=new MiniGame1(this.ctx,this)
-        this.minigame2=new MiniGame2(this.ctx,this)
-        this.minigame3=new MiniGame3(this.ctx,this)
-        this.minigame4=new MiniGame4(this.ctx,this)
-        this.minigame5=new MiniGame5(this.ctx,this)
+        this.minigame0=new MiniGame0(this.ctx,this, this.canvas)
+        this.minigame1=new MiniGame1(this.ctx,this, this.canvas)
+        this.minigame2=new MiniGame2(this.ctx,this, this.canvas)
+        this.minigame3=new MiniGame3(this.ctx,this, this.canvas)
+        this.minigame4=new MiniGame4(this.ctx,this, this.canvas)
+        this.minigame5=new MiniGame5(this.ctx,this, this.canvas)
         this.minigame6=new MiniGame6(this.ctx,this, this.canvas)
         this.minigame7=new MiniGame7(this.ctx,this, this.canvas)
-        this.minigame8=new MiniGame8(this.ctx,this)
-        this.minigame9=new MiniGame9(this.ctx,this)
-        this.minigame10=new MiniGame10(this.ctx,this)
-        this.minigame11=new MiniGame11(this.ctx,this)
-        this.minigame12=new MiniGame12(this.ctx,this)
-        this.minigame13=new MiniGame13(this.ctx,this)
-        this.minigame14=new MiniGame14(this.ctx,this)
+        this.minigame8=new MiniGame8(this.ctx,this, this.canvas)
+        this.minigame9=new MiniGame9(this.ctx,this, this.canvas)
+        this.minigame10=new MiniGame10(this.ctx,this, this.canvas)
+        this.minigame11=new MiniGame11(this.ctx,this, this.canvas)
+        this.minigame12=new MiniGame12(this.ctx,this, this.canvas)
+        this.minigame13=new MiniGame13(this.ctx,this, this.canvas)
+        this.minigame14=new MiniGame14(this.ctx,this, this.canvas)
         this.minigameC=new MiniGameC(this.ctx,this,this.canvas)
-        this.minigameP=new MiniGameP(this.ctx,this)
+        this.minigameP=new MiniGameP(this.ctx,this, this.canvas)
 
         this.miniGameFinished=false
         this.answer=false
@@ -92,7 +92,7 @@ export default class Room{
     }
 
     public checkDone(){
-      if((this.keyboard.isKeyDown(32)&&this.roomId!=80)||this.miniGameFinished){
+      if((this.keyboard.isKeyDown(32)&&this.roomId!==80)||this.miniGameFinished){
         this.scene.insideRoom=false
         this.visitsNew(this.roomId)
         if(this.answer){

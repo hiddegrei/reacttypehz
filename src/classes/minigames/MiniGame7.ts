@@ -3,13 +3,11 @@ import MGMain from "./MGMain";
 import Game from "../Game"
 
 export default class MiniGame7 extends MGMain {
-    private ctx: CanvasRenderingContext2D;
     private combination: number[];
     private locked: boolean;
     private wheels: number[];
     private position: number;
     private lockImage!: HTMLImageElement;
-    private canvas: HTMLCanvasElement;
     private time: number;
     private positionKeyPressed: boolean;
     private numberKeyPressed: boolean;
@@ -19,11 +17,14 @@ export default class MiniGame7 extends MGMain {
     private randomSize: number[];
     private started:boolean
     
-
+    /**
+   * Create an instance of this object
+   * @param ctx canvas rendering context 2D
+   * @param room A room
+   * @param canvas canvas
+   */
     constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
-      super(7,room)
-      this.canvas = canvas;
-      this.ctx = ctx;
+      super(7,room, ctx, canvas)
       this.roomId=7;
       this.locked = true;
       this.combination = [];
@@ -50,7 +51,9 @@ export default class MiniGame7 extends MGMain {
       //document.onkeydown=this.checkLocks.bind(this)
     }
 
-
+    /**
+   * Functie om de game te updaten
+   */
     public update(){
       if (this.locked === true) {
         this.check();
@@ -75,6 +78,9 @@ export default class MiniGame7 extends MGMain {
 
     }
 
+    /**
+   * Functie om de minigame te renderen
+   */
     public render(){
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       Room.drawImageScaled(
@@ -219,26 +225,4 @@ export default class MiniGame7 extends MGMain {
         return false;
       }
     }
-
-  /**
-   * @param text
-   * @param xCoordinate
-   * @param yCoordinate
-   * @param fontSize
-   * @param color
-   * @param alignment
-   */
-  public writeTextToCanvas(
-    text: string,
-    fontSize: number = 20,
-    xCoordinate: number,
-    yCoordinate: number,
-    alignment: CanvasTextAlign = 'center',
-    color: string = 'red',
-  ): void {
-    this.ctx.font = `${fontSize}px sans-serif`;
-    this.ctx.fillStyle = color;
-    this.ctx.textAlign = alignment;
-    this.ctx.fillText(text, xCoordinate, yCoordinate);
-  }
 }

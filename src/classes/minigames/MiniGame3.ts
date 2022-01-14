@@ -8,15 +8,22 @@ export default class MiniGame3 extends MGMain{
 
     private image!: HTMLImageElement;
     
-
-    constructor(ctx:CanvasRenderingContext2D,room:Room){
-      super(3,room)
+/**
+   * Create an instance of this object
+   * @param ctx canvas rendering context 2D
+   * @param room A room
+   * @param canvas canvas
+   */
+    constructor(ctx:CanvasRenderingContext2D,room:Room,canvas:HTMLCanvasElement){
+      super(3,room,ctx,canvas)
       this.ctx=ctx
       this.image = Game.loadNewImage("./img/background/password2.jpg")
-
+    
+  
     }
-
-
+    /**
+   * Functie om de game te updaten
+   */
     public update(){
       this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
       if (this.keyboard.isKeyDown(65)) {
@@ -31,6 +38,9 @@ export default class MiniGame3 extends MGMain{
 
     }
 
+    /**
+   * Functie om de minigame te renderen
+   */
     public render(){
 
       this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
