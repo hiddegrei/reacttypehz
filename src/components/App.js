@@ -9,7 +9,7 @@ import Start from "./Start"
 import EndGame from './EndGame';
 import MiniGame from "./MiniGame"
 import {useStateValue} from "../Stateprovider";
-
+import Tutorial from "./Tutorial"
 
 function App() {
   const[{user},dispatch]=useStateValue();
@@ -70,9 +70,9 @@ dispatch({
 
       </Route>
 
-      <Route path="/minigame">
+      <Route path="/tutorial">
 
-        <MiniGame/>
+        <Tutorial/>
 
       </Route>
 

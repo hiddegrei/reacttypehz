@@ -338,7 +338,7 @@ return false
         if(this.status==="yellow"){
             color="rgb(255,255,0)"
         }else if(this.status==="orange"){
-            color="rgb(255, 165, 0)"
+            color="rgb(255,69,0)"
         }else if(this.status==="red"){
             color="rgb(255, 0, 0)"
         }
