@@ -451,7 +451,7 @@ return false
                      rv.sub(this.pos)
     
                      rv.limit(this.sight)
-                     this.raysEnd.push({x:rv.x,y:rv.y})
+                     //this.raysEnd.push({x:rv.x,y:rv.y})
                     ctx.beginPath();
                     ctx.moveTo(this.pos.x, this.pos.y);
                     ctx.lineTo(this.pos.x+rv.x, this.pos.y+rv.y);
