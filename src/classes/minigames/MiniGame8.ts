@@ -1,18 +1,13 @@
 import Room from "../Room";
 import MGMain from "./MGMain";
-<<<<<<< HEAD
 import Game from "../Game"
 import Hints from "../Hints";
-=======
-// import Game from "../Game";
->>>>>>> 3a8d6126b98274ea997f6acf71464567089db12b
 
 export default class MiniGame3 extends MGMain{
     public ctx:CanvasRenderingContext2D;
 
     private image!: HTMLImageElement;
     
-<<<<<<< HEAD
 /**
    * Create an instance of this object
    * @param ctx canvas rendering context 2D
@@ -25,28 +20,17 @@ export default class MiniGame3 extends MGMain{
       this.image = Game.loadNewImage("./img/background/password2.jpg")
     
   
-=======
-
-  	/**
-   	* Create an instance of this object
-   	* @param ctx canvas rendering context 2D
-   	* @param room A room
-   	* @param canvas canvas
-   	*/
-    constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
-      	super(8,room, ctx, canvas);
->>>>>>> 3a8d6126b98274ea997f6acf71464567089db12b
     }
     /**
    	* Functie om de game te updaten
    	*/
     public update(){
       this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
-      if (this.keyboard.isKeyDown(65)) {
+      if (this.keyboard.isKeyDown(68)) {
         this.room.miniGameFinished = true
         this.room.answer = true
         this.room.getHintsGame().foundHint('g');
-      } else if (this.keyboard.isKeyDown(66) || this.keyboard.isKeyDown(67)||this.keyboard.isKeyDown(68)) {
+      } else if (this.keyboard.isKeyDown(66) || this.keyboard.isKeyDown(67)||this.keyboard.isKeyDown(65)) {
         this.room.miniGameFinished = true
         this.room.answer = false
   
@@ -59,7 +43,6 @@ export default class MiniGame3 extends MGMain{
    	*/
     public render(){
 
-<<<<<<< HEAD
       this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
 
       this.ctx.strokeStyle = "rgb(255,255,255)"
@@ -108,9 +91,3 @@ export default class MiniGame3 extends MGMain{
     this.ctx.fillText(text, xCoordinate, yCoordinate);
   }
 }
-=======
-        this.writeTextToCanvas(`Dit is kamer `+this.roomId,20,200,200);
-        
-    }
-}
->>>>>>> 3a8d6126b98274ea997f6acf71464567089db12b
