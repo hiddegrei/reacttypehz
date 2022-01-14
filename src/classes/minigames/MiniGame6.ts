@@ -3,8 +3,6 @@ import MGMain from "./MGMain";
 import Game from "../Game"
 
 export default class MiniGame6 extends MGMain{
-    private canvas: HTMLCanvasElement;
-    public ctx:CanvasRenderingContext2D;
     private fullFingerprint: HTMLImageElement[];
     private partFingerprint: HTMLImageElement[];
     private randomNumber: number;
@@ -13,11 +11,14 @@ export default class MiniGame6 extends MGMain{
     private color: string;
     private size: number;
     
-
+    /**
+   * Create an instance of this object
+   * @param ctx canvas rendering context 2D
+   * @param room A room
+   * @param canvas canvas
+   */
     constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
-      super(6,room);
-      this.canvas = canvas;
-      this.ctx=ctx;
+      super(6,room, ctx, canvas);
       this.fullFingerprint = [Game.loadNewImage('./img/fingerPrints/resized-fingerprint-1382652_1920.jpg'),Game.loadNewImage('./img/fingerPrints/resized-detective-fingerprints-print.png'),Game.loadNewImage('./img/fingerPrints/resized-istockphoto-534450004-612x612.jpg')];
       this.partFingerprint = [Game.loadNewImage('./img/fingerPrints/detective-fingerprints-arch.png'),Game.loadNewImage('./img/fingerPrints/detective-fingerprints-loop.png'),Game.loadNewImage('./img/fingerPrints/detective-fingerprints-whorl.png')];
       this.randomNumber = Room.randomNumber(0,2);
@@ -27,7 +28,9 @@ export default class MiniGame6 extends MGMain{
       this.size = 20;
     }
 
-
+    /**
+   * Functie om de game te updaten
+   */
     public update(){
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       if(this.started){
@@ -36,6 +39,9 @@ export default class MiniGame6 extends MGMain{
       }
     }
 
+    /**
+   * Functie om de minigame te renderen
+   */
     public render(){
      // this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
     

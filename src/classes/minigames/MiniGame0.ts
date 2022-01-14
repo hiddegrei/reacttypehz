@@ -3,22 +3,27 @@ import MGMain from "./MGMain";
 import Game from "../Game"
 
 export default class MiniGame0 extends MGMain {
-  public ctx: CanvasRenderingContext2D;
   private imageBob: HTMLImageElement;
-  private image: HTMLImageElement;
+  private imageBackground: HTMLImageElement;
 
+  /**
+   * Create an instance of this object
+   * @param ctx canvas rendering context 2D
+   * @param room A room
+   * @param canvas canvas
+   */
+  constructor(ctx: CanvasRenderingContext2D, room: Room, canvas: HTMLCanvasElement) {
 
-  constructor(ctx: CanvasRenderingContext2D, room: Room) {
-
-    super(0, room)
-    this.ctx = ctx
+    super(0, room, ctx, canvas)
     this.imageBob = Game.loadNewImage("./img/players/bob.png")
-    this.image = Game.loadNewImage("./img/background/password2.jpg")
+    this.imageBackground = Game.loadNewImage("./img/background/password2.jpg")
   }
 
 
 
-
+  /**
+   * Functie om de minigame te updaten
+   */
   public update() {
     this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
     if (this.keyboard.isKeyDown(67)) {
@@ -32,10 +37,13 @@ export default class MiniGame0 extends MGMain {
     }
   }
 
+  /**
+   * Functie om de minigame te renderen
+   */
   public render() {
    
 
-    this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
+    this.ctx.drawImage(this.imageBackground, 0, 0, this.imageBackground.width, this.imageBackground.height, 0, 0, window.innerWidth, window.innerHeight)
     this.ctx.strokeStyle = "rgb(0,0,0)"
     this.ctx.fillStyle="rgb(255,255,255)"
     this.ctx.beginPath()

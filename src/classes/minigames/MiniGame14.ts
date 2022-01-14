@@ -3,34 +3,36 @@ import MGMain from "./MGMain";
 import Game from "../Game"
 
 export default class MiniGame14 extends MGMain{
-    public ctx:CanvasRenderingContext2D;
-    private secretW:Array<string>=[]
-    private attempts:number
-    private found:any[]
-    private index:number;
-    private complete:any
-    private attemptsArr:Array<string>=[]
-    private foundStr:string
-    private started:boolean
-    private image!: HTMLImageElement;
+  private secretW:Array<string>=[]
+  private attempts:number
+  private found:any[]
+  private index:number;
+  private complete:any
+  private attemptsArr:Array<string>=[]
+  private foundStr:string
+  private started:boolean
+  private image!: HTMLImageElement;
     
-
-    constructor(ctx:CanvasRenderingContext2D,room:Room){
-      super(14,room)
-      this.ctx=ctx
-      this.secretW=["1","2","0","2","2","j","a","n"]
-      this.found=[null,null,null,null,null,null,null,null]
-      //window.addEventListener('keydown',this.checkKey,false);
-    // document.onkeydown = this.checkKey14.bind(this);
-     //document.removeEventListener("onkeydown",this.checkKey14.bind(this))
-      this.index=0
-      this.attempts=5
-      this.foundStr=""
-      this.started=true
-     // this.complete=false
-     this.image = Game.loadNewImage("./img/background/password2.jpg")
-
-    }
+  /**
+  * Create an instance of this object
+  * @param ctx canvas rendering context 2D
+  * @param room A room
+  * @param canvas canvas
+  */
+  constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
+  	super(14,room, ctx, canvas)
+  	this.secretW=["1","2","0","2","2","j","a","n"]
+   	this.found=[null,null,null,null,null,null,null,null]
+   	//window.addEventListener('keydown',this.checkKey,false);
+   	// document.onkeydown = this.checkKey14.bind(this);
+   	//document.removeEventListener("onkeydown",this.checkKey14.bind(this))
+   	this.index=0
+   	this.attempts=5
+   	this.foundStr=""
+   	this.started=true
+   	// this.complete=false
+   	this.image = Game.loadNewImage("./img/background/password2.jpg")
+  }
 
   public checkKey14(e:any) {
       //console.log(e.keyCode)
@@ -110,7 +112,9 @@ export default class MiniGame14 extends MGMain{
 
   }
 
-
+    /**
+   * Functie om de game te updaten
+   */
     public update(){
       this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
       if(this.started){
@@ -120,6 +124,9 @@ export default class MiniGame14 extends MGMain{
 
     }
 
+    /**
+   * Functie om de minigame te renderen
+   */
     public render(){
       this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
       this.ctx.strokeStyle = "rgb(0,0,0)"

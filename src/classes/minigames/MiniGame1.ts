@@ -4,19 +4,24 @@ import Game from "../Game"
 
 
 export default class MiniGame1 extends MGMain {
-  public ctx: CanvasRenderingContext2D;
-  private image!: HTMLImageElement;
+  private image: HTMLImageElement;
 
 
-
-  constructor(ctx: CanvasRenderingContext2D, room: Room) {
-    super(1, room)
-    this.ctx = ctx
+  /**
+   * Create an instance of this object
+   * @param ctx canvas rendering context 2D
+   * @param room A room
+   * @param canvas canvas
+   */
+  constructor(ctx: CanvasRenderingContext2D, room: Room, canvas: HTMLCanvasElement) {
+    super(1, room, ctx, canvas)
 
     this.image = Game.loadNewImage("./img/background/password2.jpg")
   }
 
-
+  /**
+   * Functie om de minigame te updaten
+   */
   public update() {
     this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
     if (this.keyboard.isKeyDown(65)) {
@@ -30,6 +35,13 @@ export default class MiniGame1 extends MGMain {
     }
   }
 
+  ///////////////////////////////////////////////////////////////////////////
+
+    //TODO
+      // ik weet neit waarom deze update methode hieronder uit gecomment staat
+      // dus laat ik hm ook maar even staan
+
+  ///////////////////////////////////////////////////////////////////////////
 
   // public update() {
   //   this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
@@ -43,6 +55,16 @@ export default class MiniGame1 extends MGMain {
   //   }
 
   // }
+
+  //////////////////////////////////////////////////////////////////////////////
+
+      //einde
+      
+  //////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * Functie om de minigame te renderen
+   */
   public render() {
     this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
 

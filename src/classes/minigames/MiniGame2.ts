@@ -3,7 +3,6 @@ import MGMain from "./MGMain";
 import Game from "../Game"
 
 export default class MiniGame2 extends MGMain{
-    public ctx:CanvasRenderingContext2D;
     private secretW:Array<string>=[]
     private attempts:number
     private found:any[]
@@ -14,10 +13,14 @@ export default class MiniGame2 extends MGMain{
     private started:boolean
     private image!: HTMLImageElement;
     
-
-    constructor(ctx:CanvasRenderingContext2D,room:Room){
-      super(2,room)
-      this.ctx=ctx
+    /**
+   * Create an instance of this object
+   * @param ctx canvas rendering context 2D
+   * @param room A room
+   * @param canvas canvas
+   */
+    constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
+      super(2,room,ctx, canvas)
       this.secretW=["1","7","1","s","m","i","t","h"]
       this.found=[null,null,null,null,null,null,null,null]
       //window.addEventListener('keydown',this.checkKey,false);
@@ -109,7 +112,9 @@ export default class MiniGame2 extends MGMain{
 
   }
 
-
+  /**
+   * Functie om de game te updaten
+   */
     public update(){
       this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
       if(this.started){
@@ -119,6 +124,9 @@ export default class MiniGame2 extends MGMain{
 
     }
 
+    /**
+   * Functie om de minigame te renderen
+   */
     public render(){
       this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight)
     this.ctx.strokeStyle = "rgb(0,0,0)"
