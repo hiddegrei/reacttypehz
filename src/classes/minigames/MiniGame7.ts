@@ -244,7 +244,7 @@ export default class MiniGame7 extends MGMain {
     private answer(){
       	this.room.miniGameFinished = true;
       	this.room.answer = true;
-      	this.room.getHintsGame().foundHint('e');
+      	// this.room.getHintsGame().foundHint('e');
     }
 
 	/**
