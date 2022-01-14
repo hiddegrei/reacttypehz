@@ -237,7 +237,7 @@ export default class Scene {
       //this.room.visitedRooms[this.inRoomNum]!=true||
       //this.inRoomNum===80||this.inRoomNum===100)
     ) {
-      this.room.update();
+      this.room.update(this.mouse.x,this.mouse.y);
       let isMiniGameComplete = this.room.checkDone();
       if (isMiniGameComplete === true) {
         this.totalScore++;
@@ -351,6 +351,7 @@ export default class Scene {
       //updateing player position
       this.particle.update(this.mouse.x, this.mouse.y, this.borders);
       this.particle.hack(this.agents);
+      this.particle.animate();
       this.particle.move();
 
       //hack agents and retrieve keys
@@ -475,7 +476,7 @@ export default class Scene {
 
       //show the player
       this.particle.show();
-      this.particle.animate();
+      
       // show the borders
       for (let i = 0; i < this.borders.length; i++) {
         this.borders[i].show();

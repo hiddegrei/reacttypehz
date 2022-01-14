@@ -127,7 +127,7 @@ export default class Room{
 
     }
 
-    public update(){
+    public update(mousex:number,mousey:number){
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.setTransform(1, 0, 0, 1, 0, 0);
        
@@ -148,7 +148,7 @@ export default class Room{
         }else if(this.roomId===7){
           this.minigame7.update()
         }else if(this.roomId===8){
-          this.minigame8.update()
+          this.minigame8.update(mousex,mousey)
         }else if(this.roomId===9){
           this.minigame9.update()
         }else if(this.roomId===10){

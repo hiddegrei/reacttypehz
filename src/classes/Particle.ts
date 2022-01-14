@@ -232,7 +232,7 @@ export default class Particle {
     }
 
 
-    show() {
+    show(show:boolean,color:string) {
         // this.ctx.lineWidth = 1;
         // this.ctx.fillStyle = "rgb(255,255,255)";
         // this.ctx.beginPath();
@@ -240,9 +240,9 @@ export default class Particle {
         // this.ctx.stroke();
         // this.ctx.closePath()
         // this.ctx.fill()
-        if(this.hacking){
+        if(this.hacking||show){
             this.ctx.lineWidth = 3;
-        this.ctx.strokeStyle = "rgb(0,255,0)";
+        this.ctx.strokeStyle = color;
         this.ctx.beginPath();
         this.ctx.arc(this.pos.x, this.pos.y, Math.ceil(this.hackIndex)%this.hackRange, 0, 2 * Math.PI);
         this.ctx.stroke();
