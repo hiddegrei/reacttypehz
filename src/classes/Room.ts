@@ -94,10 +94,9 @@ export default class Room{
     public checkDone(){
       if((this.keyboard.isKeyDown(32)&&this.roomId!==80)||this.miniGameFinished){
         this.scene.insideRoom=false
+       
         if(this.answer){
-        this.visitsNew(this.roomId)
-        }
-        if(this.answer){
+          this.visitsNew(this.roomId)
           if(this.roomId===80){
             //this.minigameP.started=true
             this.miniGameFinished=false
@@ -105,18 +104,20 @@ export default class Room{
             this.minigameP.started=true
             return 80
 
-          }
-          if(this.roomId===100){
+          }else if(this.roomId===100){
             //this.minigameP.started=true
             this.miniGameFinished=false
             this.answer=false
             this.minigameC.started=true
             return 100
 
+          }else{
+            this.miniGameFinished=false
+            this.answer=false
+            return true;
+
           }
-          this.miniGameFinished=false
-          this.answer=false
-          return true;
+         
         }else if(this.roomId===100){
           return 101
         }else{
