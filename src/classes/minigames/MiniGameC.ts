@@ -43,7 +43,7 @@ export default class MiniGameC extends MGMain{
     /**
     * Functie om de game te updaten
     */
-    public update(){
+    public update() {
         this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
         if (this.attempts<=0){
             this.started = false;
@@ -65,7 +65,7 @@ export default class MiniGameC extends MGMain{
     /**
     * Functie om de minigame te renderen
     */
-    public render(){
+    public render() {
         this.ctx.drawImage( this.imgBank, 0, 0,  this.imgBank.width,  this.imgBank.height, 0, 0, window.innerWidth, window.innerHeight);
         this.writeTextToCanvas(`Dit is de Grote Kluis`,30,50,200);
         this.writeTextToCanvas(`Kraak de kluis met de verzamelde hints`,20,50,250);
