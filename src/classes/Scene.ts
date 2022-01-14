@@ -243,6 +243,8 @@ export default class Scene {
       if (isMiniGameComplete != 80 &&isMiniGameComplete != 100 && isMiniGameComplete != false) {
         this.totalScore++;
         this.keys.total--;
+        //isMiniGameComplete is de variable die het nummer van de minigame bevat als de minigame succesvol is afgerond
+        
       }
       if (isMiniGameComplete === 100) {
         this.howGameEnded = "gekraakt";
