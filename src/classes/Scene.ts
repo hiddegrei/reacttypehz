@@ -39,19 +39,11 @@ export default class Scene {
 
   public widthHall!: number;
 
-  private count: number;
-
-  private endGame!: EndGame;
-
-  private condition!: number;
-
   public currentTrans: Vector;
 
   private room: Room;
 
   private scoreToDatabase: ScoreToDatabase;
-
-  private timeArray: number[];
 
   private keyboard: KeyboardListener;
 
@@ -59,41 +51,37 @@ export default class Scene {
 
   private agents: Array<Agent> = [];
 
-  private timeLimit!: TimeLimit;
   private time: number;
+
   private timeLeft: number;
+
   public progress: Progress;
 
   private roomsIds: Array<any> = [];
+
   public insideRoom: boolean;
+
   private inRoomNum: number;
 
   public keys: Keys;
 
   public timeHacking: number;
 
-  private showKeys: boolean;
-
   public lockedUp: number;
 
   private hints: Hints;
 
-  public howGameEnded:
-    | string
-    /**
-     * @param canvas
-     * @param game
-     */
-    | undefined;
-
+  public howGameEnded!:string;
+   
   private imgBank: HTMLImageElement;
+
+  private keyDown!:number ;
 
   /**
    * @param canvas
    * @param game
    */
   constructor(canvas: HTMLCanvasElement, game: Game, time: number) {
-    this.timeArray = [Date.now()];
     this.canvas = canvas;
     this.canvas.width = 1920;
     this.canvas.height = 969;
@@ -108,7 +96,7 @@ export default class Scene {
     this.inRoomNum = -1;
     this.keys = new Keys(this.ctx);
     this.timeHacking = 0;
-    this.showKeys = false;
+    
     this.scoreToDatabase = new ScoreToDatabase();
 
     this.imgBank = Game.loadNewImage("./img/background/bankheistmap.jpg");
@@ -201,7 +189,7 @@ export default class Scene {
     this.mouse = { x: 0, y: 0 };
 
     // window.addEventListener("mousemove",this.mouseDown.bind(this), false)
-    this.count = 0;
+    
 
     //this.timeLimit = new TimeLimit(this.game.password);
     this.timeLeft = time;
