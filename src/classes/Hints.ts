@@ -5,7 +5,7 @@ import Scene from "./Scene";
 export default class Hints extends InfoDisplay{
     private hintsArray: string[];
     private returnHint: string[];
-    private hintFound: string[] = [];
+    // private hintFound: string[] = [];
     //private progress: Progress;
     private scene:Scene
 
@@ -18,16 +18,23 @@ export default class Hints extends InfoDisplay{
        // this.progress = Scene.getProgress()
     }
 
-    public foundHint(hint: string) {
-        this.hintFound = [];
-        this.hintsArray.forEach((value: string) => {
-            if (value === hint) {
-                this.hintFound.push(value);
-                this.returnHint.push(value);
-                this.scene.progress.increaseProgress(10);
-            }
-        });
-        return this.hintFound;
+    // public foundHint(hint: string) {
+    //     this.hintFound = [];
+    //     this.hintsArray.forEach((value: string) => {
+    //         if (value === hint) {
+    //             this.hintFound.push(value);
+    //             this.returnHint.push(value);
+    //             this.scene.progress.increaseProgress(10);
+    //         }
+    //     });
+    //     return this.hintFound;
+    // }
+
+    public foundHintInScene(roomNumber: number) {
+        if (10-roomNumber >= 0) {
+            this.returnHint.push(this.hintsArray[10 - roomNumber].valueOf());
+        }
+        this.scene.progress.increaseProgress(10);
     }
 
     public getHint(){

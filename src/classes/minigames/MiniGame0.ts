@@ -26,8 +26,8 @@ export default class MiniGame0 extends MGMain {
     	if (this.keyboard.isKeyDown(67)) {
       		this.room.miniGameFinished = true;
       		this.room.answer = true;
-      		this.room.getHintsGame().foundHint('b');
-      		this.room.getHintsGame().foundHint('!');
+      		// this.room.getHintsGame().foundHint('b');
+      		// this.room.getHintsGame().foundHint('!');
     	} else if (this.keyboard.isKeyDown(66) || this.keyboard.isKeyDown(65)) {
       		this.room.miniGameFinished = true;
       		this.room.answer = false;
