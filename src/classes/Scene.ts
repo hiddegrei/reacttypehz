@@ -77,6 +77,8 @@ export default class Scene {
 
   private keyDown!:number ;
 
+  // private agentMid:Agent
+
   /**
    * @param canvas
    * @param game
@@ -98,6 +100,7 @@ export default class Scene {
     this.timeHacking = 0;
     
     this.scoreToDatabase = new ScoreToDatabase();
+    
 
     this.imgBank = Game.loadNewImage("./img/background/bankheistmap.jpg");
     document.onkeydown = this.checkKeyScene.bind(this);
@@ -192,6 +195,18 @@ export default class Scene {
         "red"
       )
     );
+    // this.agentMid=
+    this.agents.push(
+      new Agent(
+        this.canvas.width / 2 - 0.5 * this.level.widthHall,
+        100 + 4.5 * this.level.widthHall,
+        this.ctx,
+        this.level.widthHall,
+        "mid",
+        3,
+        "red"
+      ));
+  
     this.keys.inPossesion[0] = true;
     this.keys.inPossesion[1] = true;
     this.keys.inPossesion[2] = true;
@@ -376,7 +391,15 @@ export default class Scene {
         }
 
         //updateing and moving agents
-        this.agents[i].update(this.particle, this.borders);
+        let mid=new Vector((this.canvas.width/2)-this.level.widthHall,100+6*this.level.widthHall)
+        if(this.agents[i].mode==="mid"){
+          this.agents[i].update(mid, this.borders);
+
+        }else{
+          this.agents[i].update(this.particle, this.borders);
+
+        }
+       
         this.agents[i].move();
         //this.agents[i].look(this.borders,this.ctx)
         //check if agent is still inactive, increment sleeping time if still sleeping
@@ -387,6 +410,9 @@ export default class Scene {
           this.agents[i].sleepingTime += elapsed;
         }
       }
+    //  let mid=new Vector((this.canvas.width/2)-this.level.widthHall,100+6*this.level.widthHall)
+    //   this.agentMid.update(mid,this.borders)
+    //   this.agentMid.move()
 
       //updateing player position
       this.particle.update(this.mouse.x, this.mouse.y, this.borders);
@@ -541,6 +567,7 @@ export default class Scene {
         this.agents[i].show(this.ctx);
         this.agents[i].look(this.borders, this.ctx);
       }
+    
 
       //show the room ids(rondjes)
       for (let i = 0; i < this.roomsIds.length; i++) {

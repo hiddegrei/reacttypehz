@@ -70,7 +70,7 @@ export default class MiniGameP extends MGMain {
     	this.ctx.rect(100,100,600,300);
     	this.ctx.closePath();
     	this.ctx.stroke();
-    	this.writeTextToCanvas(`Je hebt ${this.attempts} pogingen om het wachtwoord te raden, na elke poging kun je zien welke`,16,110,130);
+    	this.writeTextToCanvas(`Je hebt nog ${this.attempts} pogingen om het wachtwoord te raden, na elke poging kun je zien welke`,16,110,130);
     	this.writeTextToCanvas("characters je goed hebt geraden",16,110,150);
 
     	this.writeTextToCanvas("Druk op ENTER  om je poging te testen.",16,110,50);
@@ -78,7 +78,7 @@ export default class MiniGameP extends MGMain {
     	this.writeTextToCanvas("Hack het wachtwoord om vrij te komen",16,110,90);
     	if(this.attemptsArr){
       		for(let i=0;i<this.attemptsArr.length;i++){
-        		this.writeTextToCanvas(`Poging ${i}: ${this.attemptsArr[i]}`,19,110,170+i*20);
+        		this.writeTextToCanvas(`Poging ${i+1}: ${this.attemptsArr[i]}`,19,110,170+i*20);
       		}
     	}
 
@@ -180,7 +180,7 @@ export default class MiniGameP extends MGMain {
     	this.foundStr="";
 
     	let complete=true;
-    	if(this.attempts>0){
+    	if(this.attempts>1){
       		for(let i=0;i<this.secretW.length;i++){
         		if(this.found[i]===this.secretW[i]){
           			this.found[i]=this.secretW[i];

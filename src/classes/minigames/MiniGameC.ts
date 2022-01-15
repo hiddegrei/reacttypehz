@@ -28,8 +28,8 @@ export default class MiniGame14 extends MGMain{
   	*/
   	constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
   		super(14,room, ctx, canvas);
-  		this.secretW=["r","e","g","e","n","b","o","o","g"];
-   		this.found=[null,null,null,null,null,null,null,null,null];
+  		this.secretW=["r","e","g","e","n","b","o","o","g","!"];
+   		this.found=[null,null,null,null,null,null,null,null,null,null];
    		//window.addEventListener('keydown',this.checkKey,false);
    		// document.onkeydown = this.checkKey14.bind(this);
    		//document.removeEventListener("onkeydown",this.checkKey14.bind(this))
@@ -64,7 +64,7 @@ export default class MiniGame14 extends MGMain{
       	this.ctx.closePath();
       	this.ctx.stroke();
       	this.ctx.fill();
-      	this.writeTextToCanvas("Je hebt 5 pogingen om het wachtwoord te raden, na elke poging kun je zien welke", 16, 110, 130);
+      	this.writeTextToCanvas(`Je hebt nog ${this.attempts} pogingen om het wachtwoord te raden, na elke poging kun je zien welke`, 16, 110, 130);
       	this.writeTextToCanvas("characters je goed hebt geraden", 16, 110, 150);
   
       	this.writeTextToCanvas("PRESS ENTER  om je poging te testen.", 16, 110, 50);
@@ -97,6 +97,7 @@ export default class MiniGame14 extends MGMain{
       	this.ctx.rect(700, 500, 50, 50);
       	this.ctx.rect(800, 500, 50, 50);
         this.ctx.rect(900, 500, 50, 50);
+		this.ctx.rect(1000, 500, 50, 50);
       	this.ctx.closePath();
       	this.ctx.stroke();
   
@@ -140,7 +141,16 @@ export default class MiniGame14 extends MGMain{
         	}
         	//console.log(this.found[this.index])
         	if(e.keyCode<=57){
-          		this.found[this.index]=String.fromCharCode(e.keyCode);
+				if(e.shiftKey&&e.keyCode===49){
+					this.found[this.index]="!"
+				}else if(!e.shiftKey){
+					this.found[this.index]=String.fromCharCode(e.keyCode);
+
+				}
+				
+
+				
+          		
         	}else{
           		this.found[this.index]=String.fromCharCode(e.keyCode+32);
         	}
@@ -159,7 +169,7 @@ export default class MiniGame14 extends MGMain{
     	this.foundStr="";
 
 	    let complete=true;
-    	if(this.attempts>0){
+    	if(this.attempts>1){
     		for(let i=0;i<this.secretW.length;i++){
       			if(this.found[i]===this.secretW[i]){
         			this.found[i]=this.secretW[i];

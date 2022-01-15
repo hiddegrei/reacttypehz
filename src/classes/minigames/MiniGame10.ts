@@ -78,7 +78,7 @@ export default class MiniGame10 extends MGMain{
       this.writeTextToCanvas("leeftijd: 69", 20, 800, 220)
       this.writeTextToCanvas("geboorte datum: 08/11/1952", 20, 800, 250)
       this.writeTextToCanvas("woonplaats: Madrid", 20, 800, 280)
-	  this.writeTextToCanvas("hobbies: wielrennen", 20, 800, 280)
+	  this.writeTextToCanvas("hobbies: wielrennen", 20, 800, 310)
   
       	this.ctx.strokeStyle = "rgb(0,0,0)";
       	this.ctx.beginPath();

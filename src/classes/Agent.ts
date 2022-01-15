@@ -81,7 +81,7 @@ export default class Agent{
          this.target=new Vector(x,y)
          this.viewRays=[]
          this.sight=80;
-         this.checkAngle=8;
+         this.checkAngle=9;
          this.status=status
 
          this.hackRange=80
@@ -103,7 +103,7 @@ export default class Agent{
         this.acc.add(force)
       }
 
-    update(particle:Particle, borders: Array<Border>) {
+    update(pos:Vector, borders: Array<Border>) {
 
 
         this.dir = { x: this.target.x - this.pos.x, y: this.target.y - this.pos.y }
@@ -184,7 +184,7 @@ export default class Agent{
        this.target.y=this.pos.y+todo.y
        
        }
-    }else if(opt>0&&this.mode==="search"){
+    }else if(opt>0&&(this.mode==="search"||this.mode==="mid")){
     //    this.target.x=particle.pos.x;
     //    this.target.y=particle.pos.y;
     let record=Infinity;
@@ -196,7 +196,7 @@ export default class Agent{
 
            
           
-           let d=Vector.dist(potential,particle.pos)
+           let d=Vector.dist(potential,pos)
            if(d<record){
                record=d
                nextTarget.x=this.pos.x+options[open[i]].x;
@@ -286,7 +286,7 @@ export default class Agent{
                 
             }
         }
-        if(record>this.widthHall-8&&this.inv(angle)!=this.lastAngle){
+        if(record>this.widthHall-6&&this.inv(angle)!=this.lastAngle){
             
         }else{
 return false
@@ -442,7 +442,7 @@ return false
                 ctx.stroke();
                 ctx.closePath()
                 ctx.fill()
-                }else{
+                }else if(this.mode==="search"){
                     ctx.strokeStyle = "rgb(0,255,0)";
                     // this.ctx.fillRect(closest.x, closest.y, 10, 10);
     
@@ -459,7 +459,26 @@ return false
                     ctx.closePath()
                     ctx.fill()
 
+                }else{
+                    ctx.strokeStyle = "rgb(255,69,0)";
+                    // this.ctx.fillRect(closest.x, closest.y, 10, 10);
+    
+                     
+                     let rv=new Vector(closest.x,closest.y)
+                     rv.sub(this.pos)
+    
+                     rv.limit(this.sight)
+                     //this.raysEnd.push({x:rv.x,y:rv.y})
+                    ctx.beginPath();
+                    ctx.moveTo(this.pos.x, this.pos.y);
+                    ctx.lineTo(this.pos.x+rv.x, this.pos.y+rv.y);
+                    ctx.stroke();
+                    ctx.closePath()
+                    ctx.fill()
+
                 }
+            
+                
 
                
         //this.writeTextToCanvas(ray.angle,20,closest.x,closest.y)
