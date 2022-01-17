@@ -127,9 +127,12 @@ export default class MiniGameC extends MGMain{
   	public checkKey14(e:any) {
       	//console.log(e.keyCode);
       	if(e.keyCode===8){
-			  if(this.found[this.index-1]!="-"){
-				this.found[this.index--]=null;
+			  this.index--
+			  
+			  if(this.found[this.index]!="-"){
+				this.found[this.index]=null;
 			  }else{
+				  this.index--
 				this.found[this.index]=null;
 
 			  }
