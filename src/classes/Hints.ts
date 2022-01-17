@@ -58,8 +58,8 @@ export default class Hints extends InfoDisplay{
         
        while(!gotit){
             ranNum=Room.randomNumber(0,this.hintsArray.length-1)
-            if(!this.hintsGiven[ranNum]){
-                console.log(this.hintsArray[ranNum])
+            if(!this.hintsGiven[ranNum]&&this.hintsArray[ranNum]!='-'){
+                
                 this.returnHint.push(this.hintsArray[ranNum].valueOf());
                 this.hintsGiven[ranNum]=true
                 gotit=true
@@ -94,7 +94,7 @@ export default class Hints extends InfoDisplay{
             
 			return b;
 		}else if (number === 4) {
-            let b = ['t','h','e','-','c','r','o','w','n','-','i','s','y','o','u','r','s'];
+            let b = ['t','h','e','-','c','r','o','w','n','-','i','s','-','y','o','u','r','s'];
             
 			return b;
 		}
