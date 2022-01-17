@@ -505,36 +505,7 @@ export default class Scene {
       this.room.render();
     } else {
       //draw time left
-      this.writeTextToCanvas(`time left: ${this.timeLeft}`, 20, 100, 40);
-      this.writeTextToCanvas(
-        `score: ${this.totalScore}`,
-        20,
-        window.innerWidth - 100,
-        40
-      );
-      //draw voortgang
-      this.writeTextToCanvas(
-        `voortgang: ${this.progress.progressNum}%`,
-        20,
-        window.innerWidth - 300,
-        40
-      );
-
-      //draw hints
-      this.writeTextToCanvas(
-        `Verzamelde hints: `,
-        30,
-        window.innerWidth / 6,
-        window.innerHeight / 15
-      );
-      this.hints.getHint().forEach((value: string, index: number) => {
-        this.writeTextToCanvas(
-          `${value}`,
-          25,
-          window.innerWidth / 4 + index * 40,
-          window.innerHeight / 15
-        );
-      });
+      
       //draw tekst grote kluis midden scherm
       this.writeTextToCanvas(
         "Grote Kluis",
@@ -601,11 +572,46 @@ export default class Scene {
     //show the keys on top screen
     this.keys.show(this.ctx);
 
-    this.ctx.beginPath();
-    this.ctx.arc(this.particle.pos.x, this.particle.pos.y, this.canvas.width*1.5, 0, 2*Math.PI);
-    this.ctx.arc(this.particle.pos.x, this.particle.pos.y, this.playerRadius, 0, 2*Math.PI, true);
-    this.ctx.fillStyle = "#555";
-    this.ctx.fill();
+    
+    // if(!this.insideRoom){
+    // this.ctx.beginPath();
+    // this.ctx.fillStyle = "rgb(0,0,0,0.9)";
+    // this.ctx.arc(this.particle.pos.x, this.particle.pos.y, this.canvas.width*1.5, 0, 2*Math.PI);
+    // this.ctx.arc(this.particle.pos.x, this.particle.pos.y, this.playerRadius, 0, 2*Math.PI, true);
+   
+    // this.ctx.fill();
+    // }
+
+    this.writeTextToCanvas(`time left: ${this.timeLeft}`, 20, 100, 40);
+      this.writeTextToCanvas(
+        `score: ${this.totalScore}`,
+        20,
+        window.innerWidth - 100,
+        40
+      );
+      //draw voortgang
+      this.writeTextToCanvas(
+        `voortgang: ${this.progress.progressNum}%`,
+        20,
+        window.innerWidth - 300,
+        40
+      );
+
+      //draw hints
+      this.writeTextToCanvas(
+        `Verzamelde hints: `,
+        30,
+        window.innerWidth / 6,
+        window.innerHeight / 15
+      );
+      this.hints.getHint().forEach((value: string, index: number) => {
+        this.writeTextToCanvas(
+          `${value}`,
+          25,
+          window.innerWidth / 4 + index * 40,
+          window.innerHeight / 15
+        );
+      });
   }
 
   /**
