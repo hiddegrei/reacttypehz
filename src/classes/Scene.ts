@@ -79,6 +79,8 @@ export default class Scene {
 
   private playerRadius:number
 
+  private timeTurnAroundAgents:number
+
   // private agentMid:Agent
 
   /**
@@ -90,6 +92,7 @@ export default class Scene {
     this.canvas.width = 1920;
     this.canvas.height = 969;
     this.playerRadius=200
+    this.timeTurnAroundAgents=0
     this.ctx = this.canvas.getContext("2d") as CanvasRenderingContext2D;
     this.camera = new Camera();
     this.lockedUp = 0;
@@ -467,7 +470,20 @@ export default class Scene {
         }
       }
     }
+    
 
+    //agents turnaround at once
+    if(this.timeTurnAroundAgents>2000){
+      let whichOne=Math.round(Math.random()*(this.agents.length-1))
+      this.agents[whichOne].canTurnAround=true
+      this.timeTurnAroundAgents=0
+
+    }else{
+      this.timeTurnAroundAgents+=elapsed
+
+    }
+    
+  
 
     //timeout rooms
     for(let i=0;i<17;i++){
