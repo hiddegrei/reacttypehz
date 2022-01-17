@@ -99,8 +99,6 @@ export default class MiniGame14 extends MGMain{
       	for (let i = 1; i < this.secretW.length+1; i++) {
         	if (this.found[i - 1] != null) {
           		this.writeTextToCanvas(this.found[i - 1], 40, i * 100 + 10, 540,"start","rgb(255,69,0)");
-        	} else if (this.found[i - 1] === '-') {
-          		this.writeTextToCanvas("-", 40, i * 100 + 10, 550,"start","rgb(255,69,0)");
         	} else {
 				this.writeTextToCanvas("*", 40, i * 100 + 10, 550,"start","rgb(255,69,0)");
 			}
