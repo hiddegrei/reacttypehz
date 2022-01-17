@@ -107,9 +107,6 @@ export default class MiniGameC extends MGMain{
 			this.ctx.rect(100+((this.secretW.length-1)*100), 540, 50, 10);
 
 		 }
-		
-
-		  
       	this.ctx.closePath();
       	this.ctx.stroke();
 

@@ -81,20 +81,20 @@ export default class Hints extends InfoDisplay{
     private passwordArray(number: number): string[]{
 		if (number === 1) {
             let a = ['r','e','g','e','n','b','o','o','g'];
-            console.log(a);
+            
 			return a;
 		} else if (number === 2) {
             let b = ['b','e','-','s','a','f','e','-','o','n','l','i','n','e'];
-            console.log(b);
+            
 			return b;
 		}else if (number === 3) {
             let b = ['m','a','d','e','-','b','y','-','t','h','e','-','c','o','m','p','i','l','e','r','s'];
-            console.log(b);
+            
 			return b;
 		}
          else {
             let c = ['s','a','f','e','-','p','a','s','s','w','o','r','d','!'];
-            console.log(c);
+           
 			return c;
 		}
 	}

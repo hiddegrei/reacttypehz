@@ -94,6 +94,18 @@ export default class MiniGame12 extends MGMain{
 		  }
       	this.ctx.closePath();
       	this.ctx.stroke();
+
+		   //streep waar de index is
+		   this.ctx.strokeStyle = "rgb(0,255,0)";
+		   this.ctx.beginPath();
+		  if(this.index<=this.secretW.length-1){
+			 this.ctx.rect(100+(this.index*100), 540, 50, 10);
+		  }else{
+			 this.ctx.rect(100+((this.secretW.length-1)*100), 540, 50, 10);
+ 
+		  }
+		   this.ctx.closePath();
+		   this.ctx.stroke();
   
       	for (let i = 1; i < 9; i++) {
         	if (this.found[i - 1] != null) {
@@ -147,7 +159,7 @@ export default class MiniGame12 extends MGMain{
             		break;
           		}
         	}
-        	console.log(this.found[this.index])
+        	
         	if(e.keyCode<=57){
           		this.found[this.index]=String.fromCharCode(e.keyCode);
         	}else{
