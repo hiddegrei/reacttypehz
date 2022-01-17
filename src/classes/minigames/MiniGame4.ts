@@ -155,15 +155,10 @@ export default class MiniGame4 extends MGMain{
     this.writeTextToCanvas("hobbies: voetbal", 20, 850, 310)
 
     this.ctx.beginPath()
-    this.ctx.rect(100, 500, 50, 50)
-    this.ctx.rect(200, 500, 50, 50)
-    this.ctx.rect(300, 500, 50, 50)
-    this.ctx.rect(400, 500, 50, 50)
-    this.ctx.rect(500, 500, 50, 50)
-    this.ctx.rect(600, 500, 50, 50)
-    this.ctx.rect(700, 500, 50, 50)
-    this.ctx.rect(800, 500, 50, 50)
-    this.ctx.rect(900, 500, 50, 50)
+    for(let i=0;i<this.secretW.length;i++){
+			this.ctx.rect(100+(i*100), 500, 50, 50);
+
+		  }
     this.ctx.closePath()
     this.ctx.stroke()
 
