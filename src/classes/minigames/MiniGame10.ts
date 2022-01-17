@@ -63,7 +63,7 @@ export default class MiniGame10 extends MGMain{
       	this.ctx.closePath();
       	this.ctx.stroke();
       	this.ctx.fill();
-      	this.writeTextToCanvas("Je hebt 5 pogingen om het wachtwoord te raden, na elke poging kun je zien welke", 16, 110, 130);
+      	this.writeTextToCanvas(`Je hebt nog ${this.attempts} pogingen om het wachtwoord te raden, na elke poging kun je zien welke`, 16, 110, 130);
       	this.writeTextToCanvas("characters je goed hebt geraden", 16, 110, 150);
   
       	this.writeTextToCanvas("PRESS ENTER  om je poging te testen.", 16, 110, 50);
@@ -168,7 +168,7 @@ export default class MiniGame10 extends MGMain{
     	this.foundStr="";
 
 	    let complete=true;
-    	if(this.attempts>0){
+    	if(this.attempts>1){
     		for(let i=0;i<this.secretW.length;i++){
       			if(this.found[i]===this.secretW[i]){
         			this.found[i]=this.secretW[i];
