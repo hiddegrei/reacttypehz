@@ -304,7 +304,7 @@ export default class Scene {
        this.score.miniGameLossed()
       }
 
-      if ((isMiniGameComplete != 80 &&isMiniGameComplete != 100 && isMiniGameComplete != false)) {
+      if ((isMiniGameComplete != 80 &&isMiniGameComplete != 100&&isMiniGameComplete!=90 && isMiniGameComplete != false)) {
         this.room.answer=false
        this.room.miniGameFinished=false
         // this.totalScore++;
@@ -329,7 +329,15 @@ export default class Scene {
         this.particle.pos.x =(this.canvas.width/2)+this.level.widthHall;
         this.particle.pos.y = 100+5*this.level.widthHall+20;
         
-      } else if (isMiniGameComplete === 80) {
+      }else if (isMiniGameComplete === 90) {
+        this.room.answer=false
+        this.room.miniGameFinished=false
+       
+        this.particle.pos.x =(this.canvas.width/2)-18*this.level.widthHall
+        this.particle.pos.y = 300+12.5*this.level.widthHall
+        
+      } 
+       else if (isMiniGameComplete === 80) {
         this.room.answer=false
         this.room.miniGameFinished=false
         this.particle.pos.x =this.canvas.width / 2 + 18.5 * this.level.widthHall;
@@ -367,18 +375,14 @@ export default class Scene {
 
       //check in what room the player is if any
       let roomNum = this.particle.isInRoom(this.roomsIds);
-      if (roomNum != -1 && (this.keys.total > 0 || roomNum === 80)&&this.room.timeoutRooms[roomNum][1]!=true) {
+      if (roomNum != -1 && (this.keys.total > 0 || roomNum === 80||roomNum===90)&&this.room.timeoutRooms[roomNum][1]!=true) {
         //player is inside a room or central hub
         this.insideRoom = true;
         this.inRoomNum = roomNum;
         this.room.setRoomId(this.inRoomNum);
       }
 
-      if(this.keyboard.isKeyDown(81)){
-        this.insideRoom = true;
-        
-
-      }
+      
 
       //check if player is insight of agents
       for (let i = 0; i < this.agents.length; i++) {
@@ -595,12 +599,22 @@ export default class Scene {
           this.ctx.stroke();
           this.ctx.closePath();
           this.ctx.fill();
-          this.writeTextToCanvas(
-            this.roomsIds[i][2],
-            20,
-            this.roomsIds[i][0],
-            this.roomsIds[i][1] - 20
-          );
+          if(this.roomsIds[i][2]==="90"){
+            this.writeTextToCanvas(
+              "Shop",
+              20,
+              this.roomsIds[i][0],
+              this.roomsIds[i][1] - 20
+            );
+          }else{
+            this.writeTextToCanvas(
+              this.roomsIds[i][2],
+              20,
+              this.roomsIds[i][0],
+              this.roomsIds[i][1] - 20
+            );
+          }
+          
         }
       }
     }

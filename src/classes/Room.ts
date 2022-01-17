@@ -18,6 +18,7 @@ import Scene from "./Scene";
 import MiniGameP from "./minigames/MiniGameP";
 import Hints from "./Hints";
 import MiniGameC from "./minigames/MiniGameC";
+import MiniGameShop from "./minigames/MiniGameShop";
 
 export default class Room{
     public visitedRooms:Array<boolean>=[];
@@ -43,6 +44,7 @@ export default class Room{
     private minigame14:MiniGame14
     private minigameC:MiniGameC;
     private minigameP:MiniGameP
+    private minigameShop:MiniGameShop;
     public hints: Hints;
 
     public miniGameFinished:boolean
@@ -82,6 +84,7 @@ export default class Room{
         this.minigame14=new MiniGame14(this.ctx,this, this.canvas)
         this.minigameC=new MiniGameC(this.ctx,this,this.canvas)
         this.minigameP=new MiniGameP(this.ctx,this, this.canvas)
+        this.minigameShop=new MiniGameShop(this.ctx,this, this.canvas)
 
         this.miniGameFinished=false
         this.answer=false
@@ -89,13 +92,14 @@ export default class Room{
         
         
 
-        for(let i=0;i<17;i++){
+        for(let i=0;i<18;i++){
             this.visitedRooms[i]=false
             this.timeoutRooms[i]=[0,false]
            
             
         }
         this.timeoutRooms[80]=[0,false]
+        this.timeoutRooms[90]=[0,false]
         this.timeoutRooms[100]=[0,false]
         
     }
@@ -139,7 +143,12 @@ export default class Room{
           this.miniGameFinished=false
           //timeout room
           return 101
-        }else{
+        }else if(this.roomId===90){
+          this.miniGameFinished=false
+          //timeout room
+          return 90
+        }
+        else{
           //timeout room
           this.miniGameFinished=false
           this.timeoutRooms[this.roomId]=[0,true]
@@ -190,6 +199,8 @@ export default class Room{
           this.minigameC.update(elapsed)
         }else if(this.roomId===80){
           this.minigameP.update(this.scene.lockedUp,elapsed)
+        }else if(this.roomId===90){
+          this.minigameShop.update(mousex,mousey,elapsed)
         }
        
 
@@ -238,6 +249,8 @@ export default class Room{
           this.minigameP.render()
         }else if (this.roomId===100) {
           this.minigameC.render()
+        }else if(this.roomId===90){
+          this.minigameShop.render()
         }
 
     }
