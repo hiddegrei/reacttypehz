@@ -1,9 +1,9 @@
 import InfoDisplay from "./InformationDisplay";
-import Progress from "./Progress";
+import Room from "./Room";
 import Scene from "./Scene";
 
 export default class Hints extends InfoDisplay{
-    private hintsArray: string[];
+    private static hintsArray: string[];
     private returnHint: string[];
     // private hintFound: string[] = [];
     //private progress: Progress;
@@ -11,10 +11,10 @@ export default class Hints extends InfoDisplay{
 
     public constructor(canvas: HTMLCanvasElement,scene:Scene){
         super(canvas);
-        this.hintsArray = ['R','e','g','e','n','b','o','o','g','!'];
+        Hints.hintsArray = this.passwordArray(Room.randomNumber(0,2));
         this.returnHint = [];
         this.scene=scene
-        console.log(this.hintsArray);
+        console.log(Hints.hintsArray);
        // this.progress = Scene.getProgress()
     }
 
@@ -31,8 +31,8 @@ export default class Hints extends InfoDisplay{
     // }
 
     public foundHintInScene(roomNumber: number) {
-        if (roomNumber >= 0&&roomNumber<=9) {
-            this.returnHint.push(this.hintsArray[ 9-roomNumber].valueOf());
+        if (roomNumber >= 0&&roomNumber<=12) {
+            this.returnHint.push(Hints.hintsArray[ 12-roomNumber].valueOf());
         }
         this.scene.progress.increaseProgress(10);
     }
@@ -41,7 +41,17 @@ export default class Hints extends InfoDisplay{
         return this.returnHint;
     }
 
-    public getAnswer() {
+    public static getAnswer() {
         return this.hintsArray;
     }
+
+    private passwordArray(number: number): string[] {
+		if (number === 1) {
+			return ['r','e','g','e','n','b','o','o','g'];
+		} else if (number === 2) {
+			return ['b','e','-','s','a','f','e','-','o','n','l','i','n','e'];
+		} else {
+			return ['s','a','f','e','-','p','a','s','s','w','o','r','d','!'];
+		}
+	}
 }

@@ -8,6 +8,7 @@
 import Room from "../Room";
 import MGMain from "./MGMain";
 import Game from "../Game";
+import Hints from "../Hints";
 
 export default class MiniGame14 extends MGMain{
   	private secretW:Array<string>=[];
@@ -28,7 +29,7 @@ export default class MiniGame14 extends MGMain{
   	*/
   	constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
   		super(14,room, ctx, canvas);
-  		this.secretW=["r","e","g","e","n","b","o","o","g","!"];
+  		this.secretW= Hints.getAnswer();
    		this.found=[null,null,null,null,null,null,null,null,null,null];
    		//window.addEventListener('keydown',this.checkKey,false);
    		// document.onkeydown = this.checkKey14.bind(this);
@@ -197,8 +198,6 @@ export default class MiniGame14 extends MGMain{
    			//this.answer();
   		}
   	}
-
-	
 
     /**
    	* @param text
