@@ -89,9 +89,10 @@ export default class MiniGame14 extends MGMain{
   
       	this.ctx.strokeStyle = "rgb(0,0,0)";
       	this.ctx.beginPath();
-		Hints.found.forEach((index: number) => {
-			this.ctx.rect(100 + (index*100), 500, 50, 50);
-		});
+		  for(let i=0;i<this.secretW.length;i++){
+			this.ctx.rect(100+(i*100), 500, 50, 50);
+
+		  }
       	this.ctx.closePath();
       	this.ctx.stroke();
   
