@@ -42,8 +42,7 @@ export default class Room{
     private minigame13:MiniGame13
     private minigame14:MiniGame14
     private minigameC:MiniGameC;
-    private minigameP:MiniGameP;
-
+    private minigameP:MiniGameP
     public hints: Hints;
 
     public miniGameFinished:boolean
@@ -65,8 +64,7 @@ export default class Room{
         this.keyboard=new KeyboardListener()
         this.scene=scene
         this.canvas=canvas
-        
-       
+        this.hints = new Hints(this.canvas,this.scene);
         this.minigame0=new MiniGame0(this.ctx,this, this.canvas)
         this.minigame1=new MiniGame1(this.ctx,this, this.canvas)
         this.minigame2=new MiniGame2(this.ctx,this, this.canvas)
@@ -88,7 +86,7 @@ export default class Room{
         this.miniGameFinished=false
         this.answer=false
 
-        this.hints = new Hints(this.canvas,this.scene);
+        
         
 
         for(let i=0;i<17;i++){

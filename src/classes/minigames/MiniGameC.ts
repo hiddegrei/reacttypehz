@@ -20,7 +20,8 @@ export default class MiniGameC extends MGMain{
   	private foundStr:string;
   	public started:boolean;
   	private image!: HTMLImageElement;
-	
+
+    
   	/**
   	* Create an instance of this object
   	* @param ctx canvas rendering context 2D
@@ -28,10 +29,9 @@ export default class MiniGameC extends MGMain{
   	* @param canvas canvas
   	*/
   	constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
-  		super(100,room, ctx, canvas);
-		 
-  		this.secretW= Hints.getAnswer();
-   		this.found=Hints.found;
+  		super(14,room, ctx, canvas);
+		this.secretW = this.room.hints.getAnswer()
+   		this.found=this.room.hints.found;
 		   
 		   console.log(this.secretW)
 		   console.log(this.found)

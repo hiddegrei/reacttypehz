@@ -3,17 +3,18 @@ import Room from "./Room";
 import Scene from "./Scene";
 
 export default class Hints extends InfoDisplay{
-    private  hintsArray: string[];
+    public hintsArray: string[];
     private returnHint: string[];
     // private hintFound: string[] = [];
     //private progress: Progress;
     private scene:Scene;
     public  found:any[];
+    public test:any;
 
     public constructor(canvas: HTMLCanvasElement,scene:Scene){
         super(canvas);
-        this.hintsArray=[] ;
-        this.passwordArray(Room.randomNumber(0,2));
+        this.hintsArray = this.passwordArray(Room.randomNumber(0,2));
+        this.test = this.hintsArray;
         this.returnHint = [];
         this.scene=scene;
         this.found = [];
@@ -54,20 +55,25 @@ export default class Hints extends InfoDisplay{
         return this.returnHint;
     }
 
-    public getAnswer() {
+
+
+    public getAnswer(): string[] {
         return this.hintsArray;
     }
 
-    private passwordArray(number: number): void{
+    private passwordArray(number: number): string[]{
 		if (number === 1) {
             let a = ['r','e','g','e','n','b','o','o','g'];
-			this.hintsArray=a
+            console.log(a);
+			return a;
 		} else if (number === 2) {
             let b = ['b','e','-','s','a','f','e','-','o','n','l','i','n','e'];
-			this.hintsArray=b
+            console.log(b);
+			return b;
 		} else {
             let c = ['s','a','f','e','-','p','a','s','s','w','o','r','d','!'];
-			this.hintsArray=c
+            console.log(c);
+			return c;
 		}
 	}
 }
