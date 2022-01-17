@@ -46,6 +46,8 @@ export default class Particle {
 
     private hackIndex:number
 
+    private colorSight:string
+
     
 
     constructor(x: number, y: number, ctx: CanvasRenderingContext2D) {
@@ -59,7 +61,7 @@ export default class Particle {
         this.mouse = { x: 0, y: 0 }
         this.angleView = 18;
         this.imageSprite=Game.loadNewImage("./img/players/bkspr01.png")
-        
+        this.colorSight="green"
         this.images.push([20,150,95,130,300,300,Particle.WP,Particle.HP])
         this.images.push([132,50,95,130,300,300,Particle.WP,Particle.HP])
         this.images.push([ 132,270,95,130,300,300,Particle.WP,Particle.HP])
@@ -70,7 +72,7 @@ export default class Particle {
         this.acc=new Vector(0,0)
         this.hacking=false
         this.hackRange=80
-        this.hackIndex=0
+        this.hackIndex=10
        
        
         
@@ -210,7 +212,8 @@ export default class Particle {
             
             if(Vector.dist(this.pos,agents[i].pos)<agents[i].hackRange&&agents[i].sleeping!=true){
                  
-
+        this.colorSight=agents[i].status
+        this.hackRange=agents[i].hackRange
         this.hacking=true
         this.hackAgent=i
         return;
@@ -238,6 +241,9 @@ export default class Particle {
         // this.ctx.arc(this.pos.x, this.pos.y, this.radius, 0, 2 * Math.PI);
         // this.ctx.stroke();
         // this.ctx.closePath()
+        if(this.hacking){
+            color=this.colorSight
+        }
         // this.ctx.fill()
         if(this.hacking||show){
             this.ctx.lineWidth = 3;

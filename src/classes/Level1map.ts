@@ -648,6 +648,8 @@ export default class Level1map {
               [(this.canvas.width/2)-8*this.widthHall,100+15*this.widthHall,(this.canvas.width/2)-7*this.widthHall,100+15*this.widthHall],
               [(this.canvas.width/2)+12*this.widthHall,100+3*this.widthHall,(this.canvas.width/2)+12*this.widthHall,100+4*this.widthHall],
 
+              [(this.canvas.width/2)+16*this.widthHall,100,(this.canvas.width/2)+16*this.widthHall,100+this.widthHall],
+
               
 
 

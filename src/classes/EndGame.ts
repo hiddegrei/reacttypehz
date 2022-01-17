@@ -4,7 +4,9 @@ import HighScores from './HighScores';
 import InfoDisplay from './InformationDisplay';
 import KeyboardListener from './KeyboardListener';
 import Scene from './Scene';
-import {db} from "../firebase"
+import {db} from "../firebase";
+import MouseListener from './MouseListener';
+import Vector from './Vector';
 
 export default class EndGame extends InfoDisplay {
   
@@ -18,6 +20,8 @@ export default class EndGame extends InfoDisplay {
   private ctx: CanvasRenderingContext2D;
 
   private keyboard:KeyboardListener;
+
+  private mouseListener:MouseListener
 
   private gameloop!: GameLoop;
 
@@ -40,6 +44,7 @@ export default class EndGame extends InfoDisplay {
     this.keyboard=new KeyboardListener()
     this.game=game;
     this.highscores = new HighScores();
+    this.mouseListener=new MouseListener()
     //this.highscores.highscores;
     // console.log(this.game.username);
     // this.highscores.addHighscore(this.game.username, 999, this.game.password);
@@ -67,6 +72,14 @@ export default class EndGame extends InfoDisplay {
 
     if(this.keyboard.isKeyDown(32)){
       this.game.isEnd=false
+    }
+   
+    let playagainBut={x: window.innerWidth-450,y:500}
+    
+    let mousePos={x:this.mouseListener.positionX,y:this.mouseListener.positionY}
+    if(Vector.dist(playagainBut,mousePos)<=50&&this.mouseListener.isPrimaryButtonPressed()){
+      window.location.reload()
+
     }
     
   }
@@ -126,6 +139,17 @@ export default class EndGame extends InfoDisplay {
     this.ctx.stroke()
     this.ctx.fill()
     this.writeTextToCanvas(`Jouw score: ${this.scene.totalScore}`,window.innerWidth-490,120,14)
+
+
+    this.ctx.strokeStyle = "rgb(255,0,0)"
+    this.ctx.fillStyle="rgb(255,255,255)"
+    this.ctx.beginPath()
+    this.ctx.rect(window.innerWidth-500, 480, 150, 40)
+    this.ctx.closePath()
+    this.ctx.stroke()
+    this.ctx.fill()
+
+    this.writeTextToCanvas("play again",window.innerWidth-490, 500)
   }
 
   private draw(ctx:CanvasRenderingContext2D, image: string, xPos: number, yPos: number): void {
