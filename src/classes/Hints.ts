@@ -3,21 +3,22 @@ import Room from "./Room";
 import Scene from "./Scene";
 
 export default class Hints extends InfoDisplay{
-    private static hintsArray: string[];
+    public hintsArray: string[];
     private returnHint: string[];
     // private hintFound: string[] = [];
     //private progress: Progress;
     private scene:Scene;
     public static found:any[];
+    public test:any;
 
     public constructor(canvas: HTMLCanvasElement,scene:Scene){
         super(canvas);
-        Hints.hintsArray = this.passwordArray(Room.randomNumber(0,2));
+        this.hintsArray = this.passwordArray(Room.randomNumber(0,2));
+        this.test = this.hintsArray;
         this.returnHint = [];
         this.scene=scene;
         Hints.found = [];
         this.fillFoundArray();
-        console.log(Hints.hintsArray);
        // this.progress = Scene.getProgress()
     }
 
@@ -34,7 +35,7 @@ export default class Hints extends InfoDisplay{
     // }
 
     public fillFoundArray() {
-        Hints.hintsArray.forEach((value: string) => {
+        this.hintsArray.forEach((value: string) => {
             if (value === '-') {
                 Hints.found.push('-');
             } else {
@@ -45,7 +46,7 @@ export default class Hints extends InfoDisplay{
 
     public foundHintInScene(roomNumber: number) {
         if (roomNumber >= 0&&roomNumber<=12) {
-            this.returnHint.push(Hints.hintsArray[ 12-roomNumber].valueOf());
+            this.returnHint.push(this.hintsArray[ 12-roomNumber].valueOf());
         }
         this.scene.progress.increaseProgress(10);
     }
@@ -54,17 +55,25 @@ export default class Hints extends InfoDisplay{
         return this.returnHint;
     }
 
-    public static getAnswer() {
+
+
+    public getAnswer(): string[] {
         return this.hintsArray;
     }
 
     private passwordArray(number: number): string[] {
 		if (number === 1) {
-			return ['r','e','g','e','n','b','o','o','g'];
+            let a = ['r','e','g','e','n','b','o','o','g'];
+            console.log(a);
+			return a;
 		} else if (number === 2) {
-			return ['b','e','-','s','a','f','e','-','o','n','l','i','n','e'];
+            let b = ['b','e','-','s','a','f','e','-','o','n','l','i','n','e'];
+            console.log(b);
+			return b;
 		} else {
-			return ['s','a','f','e','-','p','a','s','s','w','o','r','d','!'];
+            let c = ['s','a','f','e','-','p','a','s','s','w','o','r','d','!'];
+            console.log(c);
+			return c;
 		}
 	}
 }
