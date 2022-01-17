@@ -1,7 +1,6 @@
 import Room from "../Room";
 import MGMain from "./MGMain";
 import Game from "../Game"
-import Hints from "../Hints";
 import Particle from "../Particle"
 import Border from "../Border";
 import Vector from "../Vector";

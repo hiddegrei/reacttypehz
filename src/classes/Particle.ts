@@ -135,21 +135,20 @@ export default class Particle {
 
         if (this.rays.length > 0) {
             for (let j = 0; j < this.rays.length; j++) {
-            for (let i = 0; i < borders.length; i++) {
-                if(borders[i].type==="normal"){
-                let pt = this.rays[j].cast(borders[i])
-                if (pt) {
-                    let a = pt.x - this.pos.x
-                    let b = pt.y - this.pos.y
-                    let d = Math.sqrt(a * a + b * b)
-                    if (d < this.radius+10) {
-                        this.walk = false
-
+                for (let i = 0; i < borders.length; i++) {
+                    if(borders[i].type==="normal"){
+                        let pt = this.rays[j].cast(borders[i]);
+                        if (pt) {
+                            let a = pt.x - this.pos.x;
+                            let b = pt.y - this.pos.y;
+                            let d = Math.sqrt(a * a + b * b);
+                            if (d < this.radius+10) {
+                                this.walk = false;
+                            }
+                        }
                     }
                 }
             }
-            }
-        }
         }
 
 

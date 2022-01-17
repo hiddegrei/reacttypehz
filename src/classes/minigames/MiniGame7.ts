@@ -15,7 +15,7 @@ export default class MiniGame7 extends MGMain {
     private randomNumberPositionDX: number[];
     private randomNumberPositionDY: number[];
     private randomSize: number[];
-    private started:boolean
+    private started:boolean;
     
     /**
    	* Create an instance of this object
@@ -109,6 +109,10 @@ export default class MiniGame7 extends MGMain {
 			}
 		});
 
+		if (this.locked === false) {
+			this.writeTextToCanvas("Goed gedaan!", 20, window.innerWidth/2, window.innerHeight-150);
+		}
+
 		this.hints();
 	}
 
@@ -126,7 +130,7 @@ export default class MiniGame7 extends MGMain {
 	 * Genereert een random code;
 	 */
     private codeGenerator(){
-      	for (let i = 0; i < Room.randomNumber(1,5); i++) {
+      	for (let i = 0; i < Room.randomNumber(1,4); i++) {
         	this.combination.push(Room.randomNumber(0,9));
       	} 
       	console.log(this.combination);
