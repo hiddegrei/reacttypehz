@@ -88,23 +88,33 @@ export default class MiniGameC extends MGMain{
         this.writeTextToCanvas(`${value}`, 20,850 + index * 30,190);
     });
   
-	//rect met wachtwoord
+	//rects1 met wachtwoord
       	this.ctx.strokeStyle = "rgb(0,0,0)";
       	this.ctx.beginPath();
 		  for(let i=0;i<this.secretW.length;i++){
-			this.ctx.rect(100+(i*100), 500, 50, 50);
+			this.ctx.rect(80+(i*80), 500, 40, 40);
 
 		  }
       	this.ctx.closePath();
       	this.ctx.stroke();
 
+		//rects2 met wachtwoord
+		// this.ctx.strokeStyle = "rgb(0,0,0)";
+		// this.ctx.beginPath();
+		// for(let i=0;i<5;i++){
+		//   this.ctx.rect(80+(6*80), 340+(i*80), 40, 40);
+
+		// }
+		// this.ctx.closePath();
+		// this.ctx.stroke();  
+
          //streep waar de index is
 		  this.ctx.strokeStyle = "rgb(0,255,0)";
       	this.ctx.beginPath();
 		 if(this.index<=this.secretW.length-1){
-			this.ctx.rect(100+(this.index*100), 540, 50, 10);
+			this.ctx.rect(80+(this.index*80), 540, 40, 10);
 		 }else{
-			this.ctx.rect(100+((this.secretW.length-1)*100), 540, 50, 10);
+			this.ctx.rect(80+((this.secretW.length-1)*80), 540, 40, 10);
 
 		 }
       	this.ctx.closePath();
@@ -114,9 +124,9 @@ export default class MiniGameC extends MGMain{
   
       	for (let i = 1; i < this.secretW.length+1; i++) {
         	if (this.found[i - 1] != null) {
-          		this.writeTextToCanvas(this.found[i - 1], 40, i * 100 + 10, 540,"start","rgb(255,69,0)");
+          		this.writeTextToCanvas(this.found[i - 1], 35, i * 80 + 10, 540,"start","rgb(255,69,0)");
         	} else {
-				this.writeTextToCanvas("*", 40, i * 100 + 10, 550,"start","rgb(255,69,0)");
+				this.writeTextToCanvas("*", 35, i * 80 + 10, 550,"start","rgb(255,69,0)");
 			}
       	}
   

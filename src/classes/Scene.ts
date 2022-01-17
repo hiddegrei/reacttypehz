@@ -393,6 +393,11 @@ export default class Scene {
         this.insideRoom = true;
         this.inRoomNum = roomNum;
         this.room.setRoomId(this.inRoomNum);
+      }else if(this.keyboard.isKeyDown(84)){
+        this.insideRoom = true;
+        this.inRoomNum = 100;
+        this.room.setRoomId(100);
+
       }
 
       
