@@ -85,18 +85,10 @@ export default class MiniGame14 extends MGMain{
 			this.ctx.rect(100+(i*100), 500, 50, 50);
 
 		  }
-      	// this.ctx.rect(100, 500, 50, 50);
-      	// this.ctx.rect(200, 500, 50, 50);
-      	// this.ctx.rect(300, 500, 50, 50);
-      	// this.ctx.rect(400, 500, 50, 50);
-      	// this.ctx.rect(500, 500, 50, 50);
-      	// this.ctx.rect(600, 500, 50, 50);
-      	// this.ctx.rect(700, 500, 50, 50);
-      	// this.ctx.rect(800, 500, 50, 50);
       	this.ctx.closePath();
       	this.ctx.stroke();
   
-      	for (let i = 1; i < 9; i++) {
+      	for (let i = 1; i < this.secretW.length+1; i++) {
         	if (this.found[i - 1] != null) {
           		this.writeTextToCanvas(this.found[i - 1], 40, i * 100 + 10, 540);
         	} else {

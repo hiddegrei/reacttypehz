@@ -51,6 +51,8 @@ export default class Room{
 
     private img!: HTMLImageElement;
 
+   
+
     
 
 

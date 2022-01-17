@@ -598,6 +598,7 @@ export default class Scene {
     // this.ctx.fill();
     // }
 
+    if(!this.insideRoom){
     this.writeTextToCanvas(`time left: ${this.timeLeft}`, 20, 100, 40);
       this.writeTextToCanvas(
         `score: ${this.totalScore}`,
@@ -628,6 +629,7 @@ export default class Scene {
           window.innerHeight / 15
         );
       });
+    }
   }
 
   /**

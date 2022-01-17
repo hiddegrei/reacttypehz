@@ -10,7 +10,7 @@ import MGMain from "./MGMain";
 import Game from "../Game";
 import Hints from "../Hints";
 
-export default class MiniGame14 extends MGMain{
+export default class MiniGameC extends MGMain{
   	private secretW:Array<string>=[];
   	private attempts:number;
   	private found:any[];
@@ -28,7 +28,7 @@ export default class MiniGame14 extends MGMain{
   	* @param canvas canvas
   	*/
   	constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
-  		super(14,room, ctx, canvas);
+  		super(100,room, ctx, canvas);
   		this.secretW= Hints.getAnswer();
    		this.found=Hints.found;
    		//window.addEventListener('keydown',this.checkKey,false);
@@ -122,7 +122,7 @@ export default class MiniGame14 extends MGMain{
 	 */
   	public checkKey14(e:any) {
       	//console.log(e.keyCode);
-      	if(e.keyCode===8){
+      	if(e.keyCode===8&&this.found[this.index--]!="-"){
         	this.found[this.index--]=null;
         	//this.index--;
       	}else if(e.keyCode===13){
