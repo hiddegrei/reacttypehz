@@ -2,7 +2,7 @@ import Room from "../Room";
 import MGMain from "./MGMain";
  import Game from "../Game";
 
-export default class MiniGame4 extends MGMain{
+export default class MiniGame13 extends MGMain{
     private secretW:Array<string>=[]
     private attempts:number
     private found:any[]
@@ -20,7 +20,7 @@ export default class MiniGame4 extends MGMain{
    * @param canvas canvas
    */
     constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
-      super(4,room,ctx, canvas)
+      super(13,room,ctx, canvas)
       this.secretW=["0","9","2","3","d","a","v","i","d"]
       this.found=[null,null,null,null,null,null,null,null,null]
       //window.addEventListener('keydown',this.checkKey,false);

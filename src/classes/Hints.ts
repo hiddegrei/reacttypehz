@@ -14,7 +14,7 @@ export default class Hints extends InfoDisplay{
 
     public constructor(canvas: HTMLCanvasElement,scene:Scene){
         super(canvas);
-        this.hintsArray = this.passwordArray(Room.randomNumber(0,3));
+        this.hintsArray = this.passwordArray(Room.randomNumber(0,4));
         this.test = this.hintsArray;
         this.returnHint = [];
         this.scene=scene;
@@ -50,15 +50,16 @@ export default class Hints extends InfoDisplay{
     }
 
     public foundHintInScene(roomNumber: number) {
-        if (roomNumber >= 0&&roomNumber<=this.hintsArray.length-1) {
-            this.returnHint.push(this.hintsArray[  this.hintsArray.length-1-roomNumber].valueOf());
-        }
+        // if (roomNumber >= 0&&roomNumber<=this.hintsArray.length-1) {
+        //     this.returnHint.push(this.hintsArray[  this.hintsArray.length-1-roomNumber].valueOf());
+        // }
         let ranNum:number
         let gotit=false
         
-       while(gotit){
-            ranNum=Room.randomNumber(0,this.hintsArray.length)
-            if(this.hintsGiven[ranNum]){
+       while(!gotit){
+            ranNum=Room.randomNumber(0,this.hintsArray.length-1)
+            if(!this.hintsGiven[ranNum]){
+                console.log(this.hintsArray[ranNum])
                 this.returnHint.push(this.hintsArray[ranNum].valueOf());
                 this.hintsGiven[ranNum]=true
                 gotit=true
@@ -90,6 +91,10 @@ export default class Hints extends InfoDisplay{
 			return b;
 		}else if (number === 3) {
             let b = ['m','a','d','e','-','b','y','-','t','h','e','-','c','o','m','p','i','l','e','r','s'];
+            
+			return b;
+		}else if (number === 4) {
+            let b = ['t','h','e','-','c','r','o','w','n','-','i','s','y','o','u','r','s'];
             
 			return b;
 		}

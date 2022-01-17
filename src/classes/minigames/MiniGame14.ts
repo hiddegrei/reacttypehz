@@ -64,7 +64,7 @@ export default class MiniGame14 extends MGMain{
       	this.ctx.closePath();
       	this.ctx.stroke();
       	this.ctx.fill();
-      	this.writeTextToCanvas("Je hebt 5 pogingen om het wachtwoord te raden, na elke poging kun je zien welke", 16, 110, 130);
+      	this.writeTextToCanvas(`Je hebt nog ${this.attempts} pogingen om het wachtwoord te raden, na elke poging kun je zien welke`, 16, 110, 130);
       	this.writeTextToCanvas("characters je goed hebt geraden", 16, 110, 150);
   
       	this.writeTextToCanvas("PRESS ENTER  om je poging te testen.", 16, 110, 50);
@@ -94,6 +94,18 @@ export default class MiniGame14 extends MGMain{
 		  }
       	this.ctx.closePath();
       	this.ctx.stroke();
+
+		   //streep waar de index is
+		   this.ctx.strokeStyle = "rgb(0,255,0)";
+		   this.ctx.beginPath();
+		  if(this.index<=this.secretW.length-1){
+			 this.ctx.rect(100+(this.index*100), 540, 50, 10);
+		  }else{
+			 this.ctx.rect(100+((this.secretW.length-1)*100), 540, 50, 10);
+ 
+		  }
+		   this.ctx.closePath();
+		   this.ctx.stroke();
   
       	for (let i = 1; i < this.secretW.length+1; i++) {
         	if (this.found[i - 1] != null) {
