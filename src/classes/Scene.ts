@@ -396,7 +396,7 @@ export default class Scene {
           this.agents[i].update(mid, this.borders);
 
         }else{
-          this.agents[i].update(this.particle, this.borders);
+          this.agents[i].update(this.particle.pos, this.borders);
 
         }
        
