@@ -20,7 +20,7 @@ export default class MiniGameC extends MGMain{
   	private foundStr:string;
   	public started:boolean;
   	private image!: HTMLImageElement;
-    
+	
   	/**
   	* Create an instance of this object
   	* @param ctx canvas rendering context 2D
@@ -29,8 +29,12 @@ export default class MiniGameC extends MGMain{
   	*/
   	constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
   		super(100,room, ctx, canvas);
+		 
   		this.secretW= Hints.getAnswer();
    		this.found=Hints.found;
+		   
+		   console.log(this.secretW)
+		   console.log(this.found)
    		//window.addEventListener('keydown',this.checkKey,false);
    		// document.onkeydown = this.checkKey14.bind(this);
    		//document.removeEventListener("onkeydown",this.checkKey14.bind(this))
@@ -122,9 +126,14 @@ export default class MiniGameC extends MGMain{
 	 */
   	public checkKey14(e:any) {
       	//console.log(e.keyCode);
-      	if(e.keyCode===8&&this.found[this.index--]!="-"){
-        	this.found[this.index--]=null;
-        	//this.index--;
+      	if(e.keyCode===8){
+			  if(this.found[this.index-1]!="-"){
+				this.found[this.index--]=null;
+			  }else{
+				this.found[this.index]=null;
+
+			  }
+        	
       	}else if(e.keyCode===13){
         	this.checkAttempt();
       	}else if(this.index<=this.secretW.length-1){

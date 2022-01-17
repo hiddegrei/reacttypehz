@@ -42,14 +42,16 @@ export default class Room{
     private minigame13:MiniGame13
     private minigame14:MiniGame14
     private minigameC:MiniGameC;
-    private minigameP:MiniGameP
-    private hints: Hints;
+    private minigameP:MiniGameP;
+
+    public hints: Hints;
 
     public miniGameFinished:boolean
     public answer:boolean
     public canvas:HTMLCanvasElement
 
     private img!: HTMLImageElement;
+    
 
    
 
@@ -63,6 +65,7 @@ export default class Room{
         this.keyboard=new KeyboardListener()
         this.scene=scene
         this.canvas=canvas
+        
        
         this.minigame0=new MiniGame0(this.ctx,this, this.canvas)
         this.minigame1=new MiniGame1(this.ctx,this, this.canvas)

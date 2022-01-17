@@ -3,19 +3,20 @@ import Room from "./Room";
 import Scene from "./Scene";
 
 export default class Hints extends InfoDisplay{
-    private static hintsArray: string[];
+    private  hintsArray: string[];
     private returnHint: string[];
     // private hintFound: string[] = [];
     //private progress: Progress;
     private scene:Scene;
-    public static found:any[];
+    public  found:any[];
 
     public constructor(canvas: HTMLCanvasElement,scene:Scene){
         super(canvas);
-        Hints.hintsArray = this.passwordArray(Room.randomNumber(0,2));
+        this.hintsArray=[] ;
+        this.passwordArray(Room.randomNumber(0,2));
         this.returnHint = [];
         this.scene=scene;
-        Hints.found = [];
+        this.found = [];
         this.fillFoundArray();
        // this.progress = Scene.getProgress()
     }
@@ -33,18 +34,18 @@ export default class Hints extends InfoDisplay{
     // }
 
     public fillFoundArray() {
-        Hints.hintsArray.forEach((value: string) => {
+        this.hintsArray.forEach((value: string) => {
             if (value === '-') {
-                Hints.found.push('-');
+                this.found.push('-');
             } else {
-                Hints.found.push(null);
+                this.found.push(null);
             }
         });
     }
 
     public foundHintInScene(roomNumber: number) {
         if (roomNumber >= 0&&roomNumber<=12) {
-            this.returnHint.push(Hints.hintsArray[ 12-roomNumber].valueOf());
+            this.returnHint.push(this.hintsArray[ 12-roomNumber].valueOf());
         }
         this.scene.progress.increaseProgress(10);
     }
@@ -53,20 +54,20 @@ export default class Hints extends InfoDisplay{
         return this.returnHint;
     }
 
-    public static getAnswer() {
+    public getAnswer() {
         return this.hintsArray;
     }
 
-    public passwordArray(number: number): string[] {
+    private passwordArray(number: number): void{
 		if (number === 1) {
             let a = ['r','e','g','e','n','b','o','o','g'];
-			return a;
+			this.hintsArray=a
 		} else if (number === 2) {
             let b = ['b','e','-','s','a','f','e','-','o','n','l','i','n','e'];
-			return b;
+			this.hintsArray=b
 		} else {
             let c = ['s','a','f','e','-','p','a','s','s','w','o','r','d','!'];
-			return c;
+			this.hintsArray=c
 		}
 	}
 }

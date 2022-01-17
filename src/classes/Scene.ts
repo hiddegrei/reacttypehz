@@ -115,7 +115,9 @@ export default class Scene {
     this.game = game;
 
     this.progress = new Progress();
+   
     this.room = new Room(0, this.ctx, this, this.canvas);
+    this.hints = this.room.getHintsGame();
 
     this.score = [];
     this.score.push(new Score(0));
@@ -227,7 +229,9 @@ export default class Scene {
 
     this.time = 0;
 
-    this.hints = this.room.getHintsGame();
+    console.log(document.getElementById("progress"))
+
+    
   }
 
   public checkKeyScene(e: any) {
