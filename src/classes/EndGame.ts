@@ -138,7 +138,7 @@ export default class EndGame extends InfoDisplay {
     this.ctx.closePath()
     this.ctx.stroke()
     this.ctx.fill()
-    this.writeTextToCanvas(`Jouw score: ${this.scene.totalScore}`,window.innerWidth-490,120,14)
+    this.writeTextToCanvas(`Jouw score: ${this.scene.score.scoreProperty}`,window.innerWidth-490,120,14)
 
 
     this.ctx.strokeStyle = "rgb(255,0,0)"

@@ -48,7 +48,7 @@ export default class MiniGame4 extends MGMain{
             break;
           }
         }
-        console.log(this.found[this.index])
+       
         if(e.keyCode<=57){
           this.found[this.index]=String.fromCharCode(e.keyCode)
           

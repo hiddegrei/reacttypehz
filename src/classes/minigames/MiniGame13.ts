@@ -48,7 +48,6 @@ export default class MiniGame4 extends MGMain{
             break;
           }
         }
-        console.log(this.found[this.index])
         if(e.keyCode<=57){
           this.found[this.index]=String.fromCharCode(e.keyCode)
           
@@ -73,7 +72,7 @@ export default class MiniGame4 extends MGMain{
     this.foundStr=""
 
     let complete=true
-    if(this.attempts>0){
+    if(this.attempts>1){
     for(let i=0;i<this.secretW.length;i++){
       if(this.found[i]===this.secretW[i]){
         this.found[i]=this.secretW[i]

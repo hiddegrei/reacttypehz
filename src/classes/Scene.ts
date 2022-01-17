@@ -38,7 +38,7 @@ export default class Scene {
 
   static SPACE = 300;
 
-  private score: Score;
+  public score: Score;
 
   public totalScore: number;
 
@@ -317,11 +317,13 @@ export default class Scene {
       if (isMiniGameComplete === 100) {
         //this.totalScore+=Scene.WIN_BOSSLEVEL
         this.score.winBossLevel()
+        this.scoreToDatabase.update(this.score.scoreProperty);
         this.room.answer=false
         this.room.miniGameFinished=false
         this.howGameEnded = "gekraakt";
         this.game.isEnd = true;
       } else if (isMiniGameComplete === 101) {
+        this.scoreToDatabase.update(this.score.scoreProperty);
         this.room.answer=false
         this.room.miniGameFinished=false
         this.howGameEnded = "outofattempts";
@@ -451,14 +453,7 @@ export default class Scene {
       this.particle.move();
 
       //hack agents and retrieve keys
-      let timeHack = 5000;
-      if (this.agents[this.particle.hackAgent].status === "yellow") {
-        timeHack = 5000;
-      } else if (this.agents[this.particle.hackAgent].status === "orange") {
-        timeHack = 7000;
-      } else if (this.agents[this.particle.hackAgent].status === "red") {
-        timeHack = 9000;
-      }
+      let timeHack = this.agents[this.particle.hackAgent].hackTime;
 
       if (this.timeHacking < timeHack && this.particle.hacking) {
         this.timeHacking += elapsed;
@@ -473,17 +468,8 @@ export default class Scene {
         this.keys.keys[key] = true;
         this.keys.total++;
         this.timeHacking = 0;
-        if (this.agents[this.particle.hackAgent].status === "yellow") {
-          this.agents[this.particle.hackAgent].status = "orange";
-        } else if (this.agents[this.particle.hackAgent].status === "orange") {
-          this.agents[this.particle.hackAgent].status = "red";
-          this.agents[this.particle.hackAgent].maxspeed += 0.25;
-        } else if (this.agents[this.particle.hackAgent].status === "red") {
-          this.agents[this.particle.hackAgent].mode = "search";
-          this.agents[this.particle.hackAgent].maxspeed += 0.25;
-        } else if ((this.agents[this.particle.hackAgent].mode = "search")) {
-          this.agents[this.particle.hackAgent].maxspeed += 0.2;
-        }
+        this.agents[this.particle.hackAgent].updateAttributes()
+       
         // console.log("hacked room num:" ,key)
         for (let i = 0; i < this.keys.keys.length; i++) {
           if (!this.keys.inPossesion[i]) {
