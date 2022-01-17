@@ -229,7 +229,7 @@ export default class Scene {
 
     this.time = 0;
 
-    console.log(document.getElementById("progress"))
+    
 
     
   }

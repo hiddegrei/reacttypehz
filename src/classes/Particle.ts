@@ -252,6 +252,13 @@ export default class Particle {
         this.ctx.arc(this.pos.x, this.pos.y, Math.ceil(this.hackIndex)%this.hackRange, 0, 2 * Math.PI);
         this.ctx.stroke();
         this.ctx.closePath()
+
+        this.ctx.lineWidth = 3;
+        this.ctx.strokeStyle = color;
+        this.ctx.beginPath();
+        this.ctx.arc(this.pos.x, this.pos.y, this.hackRange, 0, 2 * Math.PI);
+        this.ctx.stroke();
+        this.ctx.closePath()
        
         }
 

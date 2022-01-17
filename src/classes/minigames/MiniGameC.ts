@@ -32,9 +32,6 @@ export default class MiniGameC extends MGMain{
   		super(14,room, ctx, canvas);
 		this.secretW = this.room.hints.getAnswer()
    		this.found=this.room.hints.found;
-		   
-		   console.log(this.secretW)
-		   console.log(this.found)
    		//window.addEventListener('keydown',this.checkKey,false);
    		// document.onkeydown = this.checkKey14.bind(this);
    		//document.removeEventListener("onkeydown",this.checkKey14.bind(this))
@@ -91,6 +88,7 @@ export default class MiniGameC extends MGMain{
         this.writeTextToCanvas(`${value}`, 20,825 + index * 30,190);
     });
   
+	//rect met wachtwoord
       	this.ctx.strokeStyle = "rgb(0,0,0)";
       	this.ctx.beginPath();
 		  for(let i=0;i<this.secretW.length;i++){
@@ -99,6 +97,23 @@ export default class MiniGameC extends MGMain{
 		  }
       	this.ctx.closePath();
       	this.ctx.stroke();
+
+         //streep waar de index is
+		  this.ctx.strokeStyle = "rgb(0,255,0)";
+      	this.ctx.beginPath();
+		 if(this.index<=this.secretW.length-1){
+			this.ctx.rect(100+(this.index*100), 540, 50, 10);
+		 }else{
+			this.ctx.rect(100+((this.secretW.length-1)*100), 540, 50, 10);
+
+		 }
+		
+
+		  
+      	this.ctx.closePath();
+      	this.ctx.stroke();
+
+
   
       	for (let i = 1; i < this.secretW.length+1; i++) {
         	if (this.found[i - 1] != null) {
@@ -150,20 +165,32 @@ export default class MiniGameC extends MGMain{
         	if(e.keyCode>90||e.keyCode<65){
 				if(e.shiftKey&&e.keyCode===49){
 					this.found[this.index]="!"
+					this.index++;
 				}else if(e.keyCode===189){
 					this.found[this.index]="-"
 				}else if(!e.shiftKey){
 					this.found[this.index]=String.fromCharCode(e.keyCode);
 
 				}
+				if(!e.shiftKey){
+				this.index++;
+				}
+				
 				
 
 				
           		
         	}else{
-          		this.found[this.index]=String.fromCharCode(e.keyCode+32);
+				
+				if(!e.shiftKey){
+					this.found[this.index]=String.fromCharCode(e.keyCode+32);
+				 
+					this.index++;
+				}
+          		
+				
         	}
-        	this.index++;
+        	
       	}
   	}
 
