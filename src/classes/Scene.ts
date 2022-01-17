@@ -294,7 +294,7 @@ export default class Scene {
        this.room.answer=false
        this.room.miniGameFinished=false
         //this.totalScore+=Scene.POINTS_WIN_MG;
-        this.score.miniGameComplete()
+        this.score.miniGameComplete(this.room.mgTimeLeft)
         this.keys.total--;
         this.hints.foundHintInScene(isMiniGameComplete);
       }
@@ -308,7 +308,7 @@ export default class Scene {
         this.room.answer=false
        this.room.miniGameFinished=false
         // this.totalScore++;
-        this.score.miniGameComplete()
+        this.score.miniGameComplete(this.room.mgTimeLeft)
         this.keys.total--;
         //isMiniGameComplete is de variable die het nummer van de minigame bevat als de minigame succesvol is afgerond
         this.hints.foundHintInScene(isMiniGameComplete);

@@ -35,6 +35,7 @@ export default class MGMain{
              this.bezig=false
         this.room.answer = true;
         this.room.miniGameFinished = true;
+        this.room.mgTimeLeft=this.timeLeft
          }
        
       //   this.room.getHintsGame().foundHint('R');

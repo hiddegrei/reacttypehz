@@ -190,6 +190,9 @@ export default class MiniGame4 extends MGMain{
 
     }
 
+     //timer
+	  this.renderTime()
+
         
     }
 

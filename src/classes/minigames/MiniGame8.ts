@@ -139,6 +139,9 @@ export default class MiniGame8 extends MGMain{
         this.writeTextToCanvas("Helaas, de tijd is op", 30, 100, 900)
   
       }
+
+       //timer
+	  this.renderTime()
         
     }
 

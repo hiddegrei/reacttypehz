@@ -34,12 +34,17 @@ export default class Score {
 
   }
 
-  public miniGameComplete(){
-    this.scoreProperty+=Score.POINTS_WIN_MG
+  public miniGameComplete(timeLeft:number){
+    this.scoreProperty+=Math.round(((Math.round(timeLeft/1000))/120)*Score.POINTS_WIN_MG)
   }
 
   public miniGameLossed(){
-    this.scoreProperty-=Score.POINTS_LOSS_MG
+    if(this.scoreProperty>=Score.POINTS_LOSS_MG){
+      this.scoreProperty-=Score.POINTS_LOSS_MG
+
+    }else{
+      this.scoreProperty=0
+    }
 
   }
 

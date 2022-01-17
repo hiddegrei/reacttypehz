@@ -52,6 +52,7 @@ export default class Room{
     public canvas:HTMLCanvasElement
 
     private img!: HTMLImageElement;
+    public mgTimeLeft:number
     
 
    
@@ -63,6 +64,7 @@ export default class Room{
         // super(roomId,ctx,scene)
         this.roomId=roomId
         this.ctx=ctx
+        this.mgTimeLeft=0
         this.keyboard=new KeyboardListener()
         this.scene=scene
         this.canvas=canvas

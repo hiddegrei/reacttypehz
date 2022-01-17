@@ -191,6 +191,9 @@ export default class MiniGame5 extends MGMain{
 
     }
 
+     //timer
+	  this.renderTime()
+
         
     }
 

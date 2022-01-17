@@ -113,23 +113,11 @@ export default class MiniGame14 extends MGMain{
         this.writeTextToCanvas("Helaas, de tijd is op", 30, 100, 900)
   
       }
-        
-        // this.writeTextToCanvas("*",40,210,550)
-        // this.writeTextToCanvas("*",40,310,550)
-        // this.writeTextToCanvas("*",40,410,550)
-        // this.writeTextToCanvas("*",40,510,550)
-        // this.writeTextToCanvas("*",40,610,550)
-        // this.writeTextToCanvas("*",40,710,550)
-        // this.writeTextToCanvas("*",40,810,550)
 
+	   //timer
+	   this.renderTime()
         
-        // this.writeTextToCanvas("*",40,210,550);
-        // this.writeTextToCanvas("*",40,310,550);
-        // this.writeTextToCanvas("*",40,410,550);
-        // this.writeTextToCanvas("*",40,510,550);
-        // this.writeTextToCanvas("*",40,610,550);
-        // this.writeTextToCanvas("*",40,710,550);
-        // this.writeTextToCanvas("*",40,810,550);
+      
     }
 
 	/**
