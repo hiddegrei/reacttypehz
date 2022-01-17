@@ -77,6 +77,8 @@ export default class Scene {
 
   private keyDown!:number ;
 
+  private playerRadius:number
+
   // private agentMid:Agent
 
   /**
@@ -87,6 +89,7 @@ export default class Scene {
     this.canvas = canvas;
     this.canvas.width = 1920;
     this.canvas.height = 969;
+    this.playerRadius=200
     this.ctx = this.canvas.getContext("2d") as CanvasRenderingContext2D;
     this.camera = new Camera();
     this.lockedUp = 0;
@@ -597,6 +600,12 @@ export default class Scene {
 
     //show the keys on top screen
     this.keys.show(this.ctx);
+
+    this.ctx.beginPath();
+    this.ctx.arc(this.particle.pos.x, this.particle.pos.y, this.canvas.width*1.5, 0, 2*Math.PI);
+    this.ctx.arc(this.particle.pos.x, this.particle.pos.y, this.playerRadius, 0, 2*Math.PI, true);
+    this.ctx.fillStyle = "#555";
+    this.ctx.fill();
   }
 
   /**
