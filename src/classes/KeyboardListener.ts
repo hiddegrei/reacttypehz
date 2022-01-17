@@ -24,6 +24,10 @@ export default class KeyboardListener {
 
   public static readonly KEY_R = 82;
 
+  public static readonly KEY_T = 84;
+
+  public static readonly KEY_Y = 89;
+
   // Array that holds the state of all keys
   private keyCodeStates: boolean[];
 

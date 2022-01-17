@@ -1,18 +1,20 @@
-import Scene from "./Scene"
+import Scene from "./Scene.js"
 export default class Level1map {
 
     public level1: Array<any>=[];
     public ctx: CanvasRenderingContext2D;
     public widthHall: number;
-    // public widthCentralHub: number;
-    // public heightCentralHub: number;
+    public widthCentralHub!: number;
+    public heightCentralHub!: number;
     public canvas: HTMLCanvasElement;
     public agentBorders: Array<any>=[];
+    public rooms!: Array<any>;
 
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         this.widthHall = 50;
         this.ctx = ctx;
-        this.canvas = canvas
+        this.canvas = canvas;
+        this.loadRooms()
 
         this.level1 = [//side borders
             [0, 0, this.canvas.width, 0],
@@ -426,6 +428,18 @@ export default class Level1map {
             this.makeBlock((this.canvas.width / 2)+15*this.widthHall ,300+3*this.widthHall,3*this.widthHall,2*this.widthHall)[3],
 
 
+            [(this.canvas.width / 2)+16*this.widthHall ,300+11*this.widthHall, (this.canvas.width/2)+18*this.widthHall ,300+11*this.widthHall],
+
+            [(this.canvas.width / 2)+5*this.widthHall ,300+9*this.widthHall, (this.canvas.width/2)+8*this.widthHall ,300+9*this.widthHall],
+
+            [(this.canvas.width / 2)+5*this.widthHall ,300+9*this.widthHall, (this.canvas.width/2)+5*this.widthHall ,300+10*this.widthHall],
+            [(this.canvas.width / 2)+8*this.widthHall ,300+9*this.widthHall, (this.canvas.width/2)+8*this.widthHall ,300+10*this.widthHall],
+
+
+            //wall rechts voor prison room
+            [(this.canvas.width/2)+18*this.widthHall,100+3*this.widthHall,this.canvas.width,100+3*this.widthHall],
+
+
 
 
 
@@ -633,6 +647,37 @@ export default class Level1map {
               [(this.canvas.width/2)+11*this.widthHall,100,(this.canvas.width/2)+11*this.widthHall,100+this.widthHall],
               [(this.canvas.width/2)-8*this.widthHall,100+15*this.widthHall,(this.canvas.width/2)-7*this.widthHall,100+15*this.widthHall],
               [(this.canvas.width/2)+12*this.widthHall,100+3*this.widthHall,(this.canvas.width/2)+12*this.widthHall,100+4*this.widthHall],
+
+              [(this.canvas.width/2)+16*this.widthHall,100,(this.canvas.width/2)+16*this.widthHall,100+this.widthHall],
+
+              
+
+
+             
+          ]
+      }
+
+
+      private loadRooms(){
+          this.rooms=[
+            [100+3*this.widthHall-10,100+5*this.widthHall+20,"0"],
+              [100+5*this.widthHall+20,100+4*this.widthHall+20,"1"],
+              [100+8*this.widthHall+20,100+5*this.widthHall+20,"2"],
+              [100+11*this.widthHall+30,100+10*this.widthHall+40,"3"],
+              [100+11*this.widthHall+30,100+13*this.widthHall+20,"4"],
+              [100+3*this.widthHall-10,100+13*this.widthHall+15,"5"],
+              [100+9*this.widthHall,100+14*this.widthHall+20,"6"],
+              [100+21*this.widthHall,100+16*this.widthHall+20,"7"],
+              [(this.canvas.width/2)+12*this.widthHall+25,100+15*this.widthHall+10,"8"],
+              [(this.canvas.width/2)+12*this.widthHall-10,100+13*this.widthHall+20,"9"],
+              [(this.canvas.width/2)+18*this.widthHall-20,100+10*this.widthHall+15,"10"],
+              [(this.canvas.width/2)+12*this.widthHall+20,100+7*this.widthHall+15,"11"],
+              [(this.canvas.width/2)+8*this.widthHall-20,100+4*this.widthHall+15,"12"],
+              [(this.canvas.width/2)+11*this.widthHall-20,100+this.widthHall+15,"13"],
+              [(this.canvas.width/2)+4*this.widthHall-15,100+3*this.widthHall-25,"14"],
+              [(this.canvas.width/2)-this.widthHall+25,100+6*this.widthHall+35,"100"],
+              [(this.canvas.width/2)+18*this.widthHall,100+5*this.widthHall,"80"]
+              
           ]
       }
 

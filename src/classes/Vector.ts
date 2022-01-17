@@ -80,6 +80,11 @@ export default class Vector{
         return {x:a.x-b.x,y:a.y-b.y}
     }
 
+    public dist(){
+        
+        return Math.sqrt(this.x*this.x+this.y*this.y)
+    }
+
     public static dist(a: { x: number; y: number; },b: { x: number; y: number; }){
         const l1=a.x-b.x;
         const l2=a.y-b.y;
