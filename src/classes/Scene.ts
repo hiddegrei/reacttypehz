@@ -219,6 +219,17 @@ export default class Scene {
         3,
         "red"
       ));
+      
+      this.agents.push(
+        new Agent(
+          (this.canvas.width/2)+12*this.level.widthHall,
+          100+6.5*this.level.widthHall,
+          this.ctx,
+          this.level.widthHall,
+          "search11",
+          3,
+          "orange"
+        ));  
   
     this.keys.inPossesion[0] = true;
     this.keys.inPossesion[1] = true;
@@ -424,10 +435,16 @@ export default class Scene {
 
         //updateing and moving agents
         let mid=new Vector((this.canvas.width/2)-this.level.widthHall,100+6*this.level.widthHall)
+        
+        let search11=new Vector((this.canvas.width/2)+12*this.level.widthHall+20,100+7*this.level.widthHall+15)
         if(this.agents[i].mode==="mid"){
           this.agents[i].update(mid, this.borders);
 
-        }else{
+        }else if(this.agents[i].mode==="search11"){
+          this.agents[i].update(search11, this.borders);
+
+        }
+        else{
           this.agents[i].update(this.particle.pos, this.borders);
 
         }

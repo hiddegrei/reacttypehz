@@ -208,7 +208,7 @@ export default class Agent{
        this.target.y=this.pos.y+todo.y
        
        }
-    }else if(opt>0&&(this.mode==="search"||this.mode==="mid")){
+    }else if(opt>0&&(this.mode==="search"||this.mode==="mid"||this.mode==="search11")){
     //    this.target.x=particle.pos.x;
     //    this.target.y=particle.pos.y;
     let record=Infinity;
