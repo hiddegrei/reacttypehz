@@ -7,13 +7,16 @@ export default class Hints extends InfoDisplay{
     private returnHint: string[];
     // private hintFound: string[] = [];
     //private progress: Progress;
-    private scene:Scene
+    private scene:Scene;
+    public static found:any[];
 
     public constructor(canvas: HTMLCanvasElement,scene:Scene){
         super(canvas);
         Hints.hintsArray = this.passwordArray(Room.randomNumber(0,2));
         this.returnHint = [];
-        this.scene=scene
+        this.scene=scene;
+        Hints.found = [];
+        this.fillFoundArray();
         console.log(Hints.hintsArray);
        // this.progress = Scene.getProgress()
     }
@@ -29,6 +32,16 @@ export default class Hints extends InfoDisplay{
     //     });
     //     return this.hintFound;
     // }
+
+    public fillFoundArray() {
+        Hints.hintsArray.forEach((value: string) => {
+            if (value === '-') {
+                Hints.found.push('-');
+            } else {
+                Hints.found.push(null);
+            }
+        });
+    }
 
     public foundHintInScene(roomNumber: number) {
         if (roomNumber >= 0&&roomNumber<=12) {

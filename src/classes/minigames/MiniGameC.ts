@@ -30,7 +30,7 @@ export default class MiniGame14 extends MGMain{
   	constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
   		super(14,room, ctx, canvas);
   		this.secretW= Hints.getAnswer();
-   		this.found=[null,null,null,null,null,null,null,null,null,null];
+   		this.found=Hints.found;
    		//window.addEventListener('keydown',this.checkKey,false);
    		// document.onkeydown = this.checkKey14.bind(this);
    		//document.removeEventListener("onkeydown",this.checkKey14.bind(this))
@@ -89,33 +89,28 @@ export default class MiniGame14 extends MGMain{
   
       	this.ctx.strokeStyle = "rgb(0,0,0)";
       	this.ctx.beginPath();
-      	this.ctx.rect(100, 500, 50, 50);
-      	this.ctx.rect(200, 500, 50, 50);
-      	this.ctx.rect(300, 500, 50, 50);
-      	this.ctx.rect(400, 500, 50, 50);
-      	this.ctx.rect(500, 500, 50, 50);
-      	this.ctx.rect(600, 500, 50, 50);
-      	this.ctx.rect(700, 500, 50, 50);
-      	this.ctx.rect(800, 500, 50, 50);
-        this.ctx.rect(900, 500, 50, 50);
-		this.ctx.rect(1000, 500, 50, 50);
+		Hints.found.forEach((index: number) => {
+			this.ctx.rect(100 + (index*100), 500, 50, 50);
+		});
       	this.ctx.closePath();
       	this.ctx.stroke();
   
       	for (let i = 1; i < this.secretW.length+1; i++) {
         	if (this.found[i - 1] != null) {
           		this.writeTextToCanvas(this.found[i - 1], 40, i * 100 + 10, 540,"start","rgb(255,69,0)");
+        	} else if (this.found[i - 1] === '-') {
+          		this.writeTextToCanvas("-", 40, i * 100 + 10, 550,"start","rgb(255,69,0)");
         	} else {
-          		this.writeTextToCanvas("*", 40, i * 100 + 10, 550,"start","rgb(255,69,0)");
-        	}
+				this.writeTextToCanvas("*", 40, i * 100 + 10, 550,"start","rgb(255,69,0)");
+			}
       	}
   
       
   
       if (this.complete) {
-        this.writeTextToCanvas("Je hebt het wachtwoord geraden! Gebruik dus nooit je eigen gegevens in je wachtwoord, je ziet hoe makkelijk het is om dan je wachtwoord te raden!", 20, 100, window.innerHeight-150)
+        this.writeTextToCanvas("Je hebt het wachtwoord geraden! Gebruik dus nooit je eigen gegevens in je wachtwoord, je ziet hoe makkelijk het is om dan je wachtwoord te raden!", 20, 100, window.innerHeight-150);
       } else if (this.complete === 0) {
-        this.writeTextToCanvas("Helaas, dit antwoord is fout", 30, 100, 900)
+        this.writeTextToCanvas("Helaas, dit antwoord is fout", 30, 100, 900);
   
       }
         
