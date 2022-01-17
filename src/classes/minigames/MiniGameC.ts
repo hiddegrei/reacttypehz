@@ -141,9 +141,11 @@ export default class MiniGame14 extends MGMain{
           		}
         	}
         	//console.log(this.found[this.index])
-        	if(e.keyCode<=57){
+        	if(e.keyCode>90||e.keyCode<65){
 				if(e.shiftKey&&e.keyCode===49){
 					this.found[this.index]="!"
+				}else if(e.keyCode===189){
+					this.found[this.index]="-"
 				}else if(!e.shiftKey){
 					this.found[this.index]=String.fromCharCode(e.keyCode);
 

@@ -55,9 +55,12 @@ export default class Agent{
 
     public raysEnd:any[]
 
+    public canTurnAround:boolean
+
     constructor(x: number, y: number, ctx: CanvasRenderingContext2D, widthHall:number,mode:string,keyNum:number,status:string) {
         this.ctx = ctx;
         this.raysEnd=[]
+        this.canTurnAround=false
         this.keyNum=keyNum
         this.mode=mode
         this.pos = new Vector(x,y)
@@ -286,11 +289,23 @@ export default class Agent{
                 
             }
         }
-        if(record>this.widthHall-6&&this.inv(angle)!=this.lastAngle){
+        if(this.canTurnAround){
+            this.canTurnAround=false
+            if(record>this.widthHall-6){
             
+            }else{
+    return false
+            }
+
         }else{
-return false
+            if(record>this.widthHall-6&&this.inv(angle)!=this.lastAngle){
+            
+            }else{
+    return false
+            }
+
         }
+        
     
         
     }
