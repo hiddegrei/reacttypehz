@@ -29,6 +29,7 @@ export default class Game {
     this.scene = new Scene(this.canvas, this,time);
     this.gameLoop = new GameLoop(this);
     this.endGame=new EndGame(this.canvas,this,this.scene)
+    this.isEnd=false
   }
 
   // public get username() {

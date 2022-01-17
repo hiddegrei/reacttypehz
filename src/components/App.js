@@ -19,12 +19,14 @@ function App() {
     let isSubscribed=true
     if(isSubscribed){
 auth.onAuthStateChanged((authUser)=>{
-  // console.log('the user is:',authUser);
+  //console.log('the user is:',authUser.uid);
   if(authUser){
 setLoaded(true)
          dispatch({
            type:'SET_USER',
            user:authUser})
+
+          
   }else{
     setLoaded(true)
 dispatch({
@@ -35,6 +37,29 @@ dispatch({
     }
     return () => isSubscribed = false
   },[user])
+
+  useEffect(()=>{
+    if(user){
+    
+     db.collection('users').where('userId', '==', user.uid)
+    .get().then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+           // console.log( doc.data());
+            dispatch({
+                      type:'SET_PROFILE',
+                      profile:doc.data(),
+                     }
+                    )
+            localStorage.setItem("username",doc.data().username)
+        });
+    }).catch((error)=>console.log(error));
+
+    
+    }
+                
+    
+                  
+      },[user])
 
   
   if(!user&&!loaded){return (

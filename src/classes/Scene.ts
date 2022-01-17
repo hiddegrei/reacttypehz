@@ -48,7 +48,7 @@ export default class Scene {
 
   private room: Room;
 
-  private scoreToDatabase: ScoreToDatabase;
+ 
 
   private keyboard: KeyboardListener;
 
@@ -110,7 +110,7 @@ export default class Scene {
     this.keys = new Keys(this.ctx);
     this.timeHacking = 0;
     
-    this.scoreToDatabase = new ScoreToDatabase();
+    
     
 
     this.imgBank = Game.loadNewImage("./img/background/bankheistmap.jpg");
@@ -317,13 +317,13 @@ export default class Scene {
       if (isMiniGameComplete === 100) {
         //this.totalScore+=Scene.WIN_BOSSLEVEL
         this.score.winBossLevel()
-        this.scoreToDatabase.update(this.score.scoreProperty);
+        // this.scoreToDatabase.update(this.score.scoreProperty);
         this.room.answer=false
         this.room.miniGameFinished=false
         this.howGameEnded = "gekraakt";
         this.game.isEnd = true;
       } else if (isMiniGameComplete === 101) {
-        this.scoreToDatabase.update(this.score.scoreProperty);
+        // this.scoreToDatabase.update(this.score.scoreProperty);
         this.room.answer=false
         this.room.miniGameFinished=false
         this.howGameEnded = "outofattempts";
@@ -356,7 +356,7 @@ export default class Scene {
       }
       //tijd om ? game over, score naar database
       if (this.timeLeft <= 0) {
-        this.scoreToDatabase.update(this.score.scoreProperty);
+        // this.scoreToDatabase.update(this.score.scoreProperty);
         this.game.isEnd = true;
       }
 
@@ -618,7 +618,7 @@ export default class Scene {
     // this.ctx.fill();
     // }
 
-    if(!this.insideRoom){
+    
     this.writeTextToCanvas(`time left: ${this.timeLeft}`, 20, 100, 40);
       this.writeTextToCanvas(
         `score: ${this.score.scoreProperty}`,
@@ -649,7 +649,7 @@ export default class Scene {
           window.innerHeight / 15
         );
       });
-    }
+    
   }
 
   /**

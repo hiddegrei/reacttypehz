@@ -90,6 +90,7 @@ export default class MiniGame4 extends MGMain{
     this.attempts--
     if(complete){
       this.complete=true
+      console.log("toch goed?")
      
       //setTimeout(this.answer,2000)
       setTimeout(this.answer.bind(this), 4000);
@@ -97,6 +98,7 @@ export default class MiniGame4 extends MGMain{
      
     }
   }else{
+    console.log("niet goed?")
     this.complete=0
     setTimeout(this.answerWrong.bind(this), 2000);
    //this.answer()
