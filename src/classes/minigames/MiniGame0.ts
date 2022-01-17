@@ -43,7 +43,8 @@ export default class MiniGame0 extends MGMain {
   	/**
      * Functie om de minigame te updaten
      */
-  	public update(mousex:number,mousey:number) {
+  	public update(mousex:number,mousey:number,elapsed:number) {
+		  this.timer(elapsed)
     	this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
     	this.particle.update(mousex,mousey,this.borders)
       this.particle.animate();
@@ -75,7 +76,13 @@ export default class MiniGame0 extends MGMain {
           
 
         }
-      }
+      }else{
+		  if(this.timeLeft<0){
+			this.complete=5
+			setTimeout(this.answerWrong.bind(this), 2000);
+
+		  }
+	  }
   	}
 
    
@@ -84,6 +91,10 @@ export default class MiniGame0 extends MGMain {
      * Functie om de minigame te renderen
      */
   	public render() {
+		 
+		
+
+
     	this.ctx.drawImage(this.imageBackground, 0, 0, this.imageBackground.width, this.imageBackground.height, 0, 0, window.innerWidth, window.innerHeight);
     	this.ctx.strokeStyle = "rgb(0,0,0)";
     	this.ctx.fillStyle="rgb(255,255,255)";
@@ -120,7 +131,12 @@ export default class MiniGame0 extends MGMain {
       } else if (this.complete === 0) {
         this.writeTextToCanvas("Helaas, dit is fout", 30, 100, 900)
   
+      }else if (this.complete === 5) {
+        this.writeTextToCanvas("Helaas, de tijd is op", 30, 100, 900)
+  
       }
+ //timer
+	  this.renderTime()
   }
 
   	/**

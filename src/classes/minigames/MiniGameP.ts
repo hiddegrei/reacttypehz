@@ -44,8 +44,9 @@ export default class MiniGameP extends MGMain {
   	/**
    	* Functie om de game te updaten
    	*/
-  	public update(lockedUp:number){
+  	public update(lockedUp:number,elapsed:number){
     	this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
+		this.timer(elapsed)
     	if(this.started){
       		document.onkeydown = this.checkKey.bind(this);
       		this.lockedUp=lockedUp;
@@ -57,6 +58,12 @@ export default class MiniGameP extends MGMain {
         
       		this.started=false;
     	}
+
+		if(this.timeLeft<=0){
+			this.complete=5
+			setTimeout(this.answerWrong.bind(this), 2000);
+	  
+			}
 
   	}
 
@@ -124,11 +131,14 @@ export default class MiniGameP extends MGMain {
     	}
 
     	if(this.complete){
-      		this.writeTextToCanvas("Je hebt het wachtwoord geraden!",30,100,900);
+      		this.writeTextToCanvas("Je hebt het wachtwoord geraden! Laat je niet nog een keer pakken!",30,100,900);
     	}else if(this.complete===0){
-      		this.writeTextToCanvas("not good",30,100,900);
+      		this.writeTextToCanvas("nope, geef maar op",30,100,900);
 
-    	}
+    	}else if (this.complete === 5) {
+			this.writeTextToCanvas("Helaas, de tijd is op, je bent afgevoerd naar de gevangenis, amateur", 30, 100, 900)
+	  
+		  }
       
     	// this.writeTextToCanvas("*",40,210,550);
     	// this.writeTextToCanvas("*",40,310,550);

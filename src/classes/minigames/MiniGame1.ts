@@ -50,9 +50,9 @@
         /**
          * Functie om de game te updaten
          */
-        public update(mousex:number,mousey:number){
+        public update(mousex:number,mousey:number,elapsed:number){
           this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
-          
+          this.timer(elapsed)
     
           this.particle.update(mousex,mousey,this.borders)
           this.particle.animate();
@@ -81,6 +81,12 @@
               setTimeout(this.answerWrong.bind(this), 2000);
               
     
+            }
+          }else{
+            if(this.timeLeft<0){
+            this.complete=5
+            setTimeout(this.answerWrong.bind(this), 2000);
+      
             }
           }
     
@@ -128,6 +134,9 @@
             this.writeTextToCanvas("Goed gedaan!", 20, 100, window.innerHeight-150)
           } else if (this.complete === 0) {
             this.writeTextToCanvas("Helaas, dit is fout", 30, 100, 900)
+      
+          }else if (this.complete === 5) {
+            this.writeTextToCanvas("Helaas, de tijd is op", 30, 100, 900)
       
           }
             

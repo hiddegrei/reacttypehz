@@ -253,12 +253,14 @@ export default class Particle {
         this.ctx.stroke();
         this.ctx.closePath()
 
+        if(this.hacking){
         this.ctx.lineWidth = 3;
         this.ctx.strokeStyle = color;
         this.ctx.beginPath();
         this.ctx.arc(this.pos.x, this.pos.y, this.hackRange, 0, 2 * Math.PI);
         this.ctx.stroke();
         this.ctx.closePath()
+        }
        
         }
 

@@ -37,12 +37,18 @@ export default class MiniGame10 extends MGMain{
 	/**
    	* Functie om de game te updaten
    	*/
-	public update(){
+	public update(elapsed:number){
     	this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
+		this.timer(elapsed)
       	if(this.started){
         	document.onkeydown = this.checkKey14.bind(this);
         	this.started=false;
       	}
+		  if(this.timeLeft<=0){
+			this.complete=5
+			setTimeout(this.answerWrong.bind(this), 2000);
+	  
+			}
     }
 
     /**
@@ -111,6 +117,9 @@ export default class MiniGame10 extends MGMain{
         this.writeTextToCanvas("Je hebt het wachtwoord geraden! Gebruik dus nooit je eigen gegevens in je wachtwoord, je ziet hoe makkelijk het is om dan je wachtwoord te raden!", 20, 100, window.innerHeight-150)
       } else if (this.complete === 0) {
         this.writeTextToCanvas("Helaas, dit antwoord is fout", 30, 100, 900)
+  
+      }else if (this.complete === 5) {
+        this.writeTextToCanvas("Helaas, de tijd is op", 30, 100, 900)
   
       }
         

@@ -143,53 +143,53 @@ export default class Room{
           //timeout room
           this.miniGameFinished=false
           this.timeoutRooms[this.roomId]=[0,true]
-          return false
+          return -1
         }
       }
       return false
 
     }
 
-    public update(mousex:number,mousey:number){
+    public update(mousex:number,mousey:number,elapsed:number){
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.setTransform(1, 0, 0, 1, 0, 0);
       this.scene.camera.createMatrix(0, 0, 0, 0);
       this.ctx.translate(0, 0);
        
         if(this.roomId===0){
-          this.minigame0.update(mousex,mousey)
+          this.minigame0.update(mousex,mousey,elapsed)
         }else if(this.roomId===1){
-          this.minigame1.update(mousex,mousey)
+          this.minigame1.update(mousex,mousey,elapsed)
         }else if(this.roomId===2){
-          this.minigame2.update()
+          this.minigame2.update(elapsed)
         }else if(this.roomId===3){
-          this.minigame3.update(mousex,mousey)
+          this.minigame3.update(mousex,mousey,elapsed)
         }else if(this.roomId===4){
-          this.minigame4.update()
+          this.minigame4.update(elapsed)
         }else if(this.roomId===5){
-          this.minigame5.update()
+          this.minigame5.update(elapsed)
         }else if(this.roomId===6){
-          this.minigame6.update()
+          this.minigame6.update(elapsed)
         }else if(this.roomId===7){
-          this.minigame7.update()
+          this.minigame7.update(elapsed)
         }else if(this.roomId===8){
-          this.minigame8.update(mousex,mousey)
+          this.minigame8.update(mousex,mousey,elapsed)
         }else if(this.roomId===9){
-          this.minigame9.update()
+          this.minigame9.update(elapsed)
         }else if(this.roomId===10){
-          this.minigame10.update()
+          this.minigame10.update(elapsed)
         }else if(this.roomId===11){
-          this.minigame11.update()
+          this.minigame11.update(elapsed)
         }else if(this.roomId===12){
-          this.minigame12.update()
+          this.minigame12.update(elapsed)
         }else if(this.roomId===13){
-          this.minigame13.update()
+          this.minigame13.update(elapsed)
         }else if(this.roomId===14){
-          this.minigame14.update()
+          this.minigame14.update(elapsed)
         }else if (this.roomId===100) {
-          this.minigameC.update()
+          this.minigameC.update(elapsed)
         }else if(this.roomId===80){
-          this.minigameP.update(this.scene.lockedUp)
+          this.minigameP.update(this.scene.lockedUp,elapsed)
         }
        
 

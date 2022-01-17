@@ -7,7 +7,8 @@ export default class MGMain{
     public keyboard:KeyboardListener;
     protected ctx: CanvasRenderingContext2D;
     protected canvas: HTMLCanvasElement;
-    private bezig:boolean
+    private bezig:boolean;
+    public timeLeft:number
 
     /**
      * Create an instance of this object
@@ -23,6 +24,7 @@ export default class MGMain{
         this.ctx = ctx;
         this.canvas = canvas;
         this.bezig=true
+        this.timeLeft=120000
     }
 
     /**
@@ -45,6 +47,16 @@ export default class MGMain{
         this.room.answer = false;
         this.room.miniGameFinished = true;
        
+      }
+
+      public timer(elapsed:number){
+          this.timeLeft-=elapsed
+          
+
+      }
+      public renderTime(){
+        this.writeTextToCanvas(`Time left: ${Math.round(this.timeLeft/1000)}`,20,100,60,"start","green")
+
       }
 
     /**

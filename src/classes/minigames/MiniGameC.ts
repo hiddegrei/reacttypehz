@@ -46,7 +46,7 @@ export default class MiniGameC extends MGMain{
 	/**
    	* Functie om de game te updaten
    	*/
-	public update(){
+	public update(elapsed:number){
     	this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
       	if(this.started){
         	document.onkeydown = this.checkKey14.bind(this);
@@ -126,9 +126,12 @@ export default class MiniGameC extends MGMain{
       
   
       if (this.complete) {
-        this.writeTextToCanvas("Je hebt het wachtwoord geraden! Gebruik dus nooit je eigen gegevens in je wachtwoord, je ziet hoe makkelijk het is om dan je wachtwoord te raden!", 20, 100, window.innerHeight-150);
+        this.writeTextToCanvas("Je hebt het wachtwoord van de grote kluis geraden! ", 20, 100, window.innerHeight-150);
       } else if (this.complete === 0) {
         this.writeTextToCanvas("Helaas, dit antwoord is fout", 30, 100, 900);
+  
+      }else if (this.complete === 5) {
+        this.writeTextToCanvas("Helaas, de tijd is op", 30, 100, 900)
   
       }
         

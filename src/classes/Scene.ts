@@ -19,6 +19,11 @@ import Hints from "./Hints";
 export default class Scene {
   public canvas: HTMLCanvasElement;
 
+  public static readonly POINTS_WIN_MG=100
+  public static readonly POINTS_LOSS_MG=25
+  public static readonly CAUGHT_AGENTS=300
+  public static readonly WIN_BOSSLEVEL=500
+
   public ctx: CanvasRenderingContext2D;
 
   public game: Game;
@@ -33,7 +38,7 @@ export default class Scene {
 
   static SPACE = 300;
 
-  private score: Score[];
+  private score: Score;
 
   public totalScore: number;
 
@@ -119,8 +124,8 @@ export default class Scene {
     this.room = new Room(0, this.ctx, this, this.canvas);
     this.hints = this.room.getHintsGame();
 
-    this.score = [];
-    this.score.push(new Score(0));
+    this.score = new Score(0);
+   
     this.totalScore = 0;
     this.borders = [];
     this.level = new Level1map(this.canvas, this.ctx);
@@ -282,27 +287,36 @@ export default class Scene {
       this.inRoomNum===80||this.inRoomNum===100)
       &&this.room.timeoutRooms[this.inRoomNum][1]!=true
     ) {
-      this.room.update(this.mouse.x,this.mouse.y);
+      this.room.update(this.mouse.x,this.mouse.y,elapsed);
       document.onmousemove = this.mouseDown.bind(this);
       let isMiniGameComplete = this.room.checkDone();
       if(isMiniGameComplete===0){
        this.room.answer=false
        this.room.miniGameFinished=false
-        this.totalScore++;
+        //this.totalScore+=Scene.POINTS_WIN_MG;
+        this.score.miniGameComplete()
         this.keys.total--;
         this.hints.foundHintInScene(isMiniGameComplete);
+      }
+
+      if(isMiniGameComplete===-1){
+       //this.totalScore-=Scene.POINTS_LOSS_MG
+       this.score.miniGameLossed()
       }
 
       if ((isMiniGameComplete != 80 &&isMiniGameComplete != 100 && isMiniGameComplete != false)) {
         this.room.answer=false
        this.room.miniGameFinished=false
-        this.totalScore++;
+        // this.totalScore++;
+        this.score.miniGameComplete()
         this.keys.total--;
         //isMiniGameComplete is de variable die het nummer van de minigame bevat als de minigame succesvol is afgerond
         this.hints.foundHintInScene(isMiniGameComplete);
 
       }
       if (isMiniGameComplete === 100) {
+        //this.totalScore+=Scene.WIN_BOSSLEVEL
+        this.score.winBossLevel()
         this.room.answer=false
         this.room.miniGameFinished=false
         this.howGameEnded = "gekraakt";
@@ -332,7 +346,7 @@ export default class Scene {
       }
       //tijd om ? game over, score naar database
       if (this.timeLeft <= 0) {
-        this.scoreToDatabase.update(this.totalScore);
+        this.scoreToDatabase.update(this.score.scoreProperty);
         this.game.isEnd = true;
       }
 
@@ -375,6 +389,8 @@ export default class Scene {
             this.borders
           );
           if (inSight) {
+            //this.totalScore-=Scene.CAUGHT_AGENTS
+            this.score.caughtAgents()
             if (this.lockedUp === 2) {
               this.game.isEnd = true;
               this.howGameEnded = "caught";
@@ -605,7 +621,7 @@ export default class Scene {
     if(!this.insideRoom){
     this.writeTextToCanvas(`time left: ${this.timeLeft}`, 20, 100, 40);
       this.writeTextToCanvas(
-        `score: ${this.totalScore}`,
+        `score: ${this.score.scoreProperty}`,
         20,
         window.innerWidth - 100,
         40

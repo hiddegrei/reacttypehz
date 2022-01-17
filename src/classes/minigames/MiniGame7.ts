@@ -54,7 +54,8 @@ export default class MiniGame7 extends MGMain {
     /**
    	* Functie om de game te updaten
    	*/
-    public update(){
+    public update(elapsed:number){
+		this.timer(elapsed)
       	if (this.locked === true) {
         	this.check();
       		if (this.started) {
