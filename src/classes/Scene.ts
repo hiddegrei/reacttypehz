@@ -532,7 +532,7 @@ export default class Scene {
         "black"
       );
 
-      //draw background
+      //draw background central hub
       this.ctx.drawImage(
         this.imgBank,
         550,
