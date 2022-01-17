@@ -20,6 +20,7 @@ export default class MiniGame14 extends MGMain{
   	private foundStr:string;
   	public started:boolean;
   	private image!: HTMLImageElement;
+
     
   	/**
   	* Create an instance of this object
@@ -29,7 +30,7 @@ export default class MiniGame14 extends MGMain{
   	*/
   	constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
   		super(14,room, ctx, canvas);
-  		this.secretW= Hints.getAnswer();
+		this.secretW = this.room.hints.getAnswer()
    		this.found=Hints.found;
    		//window.addEventListener('keydown',this.checkKey,false);
    		// document.onkeydown = this.checkKey14.bind(this);
