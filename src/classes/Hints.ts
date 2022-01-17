@@ -17,7 +17,6 @@ export default class Hints extends InfoDisplay{
         this.scene=scene;
         Hints.found = [];
         this.fillFoundArray();
-        console.log(Hints.hintsArray);
        // this.progress = Scene.getProgress()
     }
 
@@ -60,11 +59,14 @@ export default class Hints extends InfoDisplay{
 
     public passwordArray(number: number): string[] {
 		if (number === 1) {
-			return ['r','e','g','e','n','b','o','o','g'];
+            let a = ['r','e','g','e','n','b','o','o','g'];
+			return a;
 		} else if (number === 2) {
-			return ['b','e','-','s','a','f','e','-','o','n','l','i','n','e'];
+            let b = ['b','e','-','s','a','f','e','-','o','n','l','i','n','e'];
+			return b;
 		} else {
-			return ['s','a','f','e','-','p','a','s','s','w','o','r','d','!'];
+            let c = ['s','a','f','e','-','p','a','s','s','w','o','r','d','!'];
+			return c;
 		}
 	}
 }
