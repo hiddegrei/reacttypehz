@@ -44,8 +44,9 @@ export default class MiniGameP extends MGMain {
   	/**
    	* Functie om de game te updaten
    	*/
-  	public update(lockedUp:number){
+  	public update(lockedUp:number,elapsed:number){
     	this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
+		this.timer(elapsed)
     	if(this.started){
       		document.onkeydown = this.checkKey.bind(this);
       		this.lockedUp=lockedUp;
@@ -57,6 +58,12 @@ export default class MiniGameP extends MGMain {
         
       		this.started=false;
     	}
+
+		if(this.timeLeft<=0){
+			this.complete=5
+			setTimeout(this.answerWrong.bind(this), 2000);
+	  
+			}
 
   	}
 
@@ -100,17 +107,27 @@ export default class MiniGameP extends MGMain {
       		this.writeTextToCanvas("woonplaats: De Bank",20,750,250);
     	}
 
-    	this.ctx.beginPath();
-    	this.ctx.rect(100,500,50,50);
-    	this.ctx.rect(200,500,50,50);
-    	this.ctx.rect(300,500,50,50);
-    	this.ctx.rect(400,500,50,50);
-    	this.ctx.rect(500,500,50,50);
-    	this.ctx.rect(600,500,50,50);
-    	this.ctx.rect(700,500,50,50);
-    	this.ctx.rect(800,500,50,50);
-    	this.ctx.closePath();
-    	this.ctx.stroke();
+    	//rect met wachtwoord
+		this.ctx.strokeStyle = "rgb(0,0,0)";
+		this.ctx.beginPath();
+		for(let i=0;i<this.secretW.length;i++){
+		  this.ctx.rect(100+(i*100), 500, 50, 50);
+
+		}
+		this.ctx.closePath();
+		this.ctx.stroke();
+
+		//streep waar de index is
+		this.ctx.strokeStyle = "rgb(0,255,0)";
+		this.ctx.beginPath();
+	   if(this.index<=this.secretW.length-1){
+		  this.ctx.rect(100+(this.index*100), 540, 50, 10);
+	   }else{
+		  this.ctx.rect(100+((this.secretW.length-1)*100), 540, 50, 10);
+
+	   }
+		this.ctx.closePath();
+		this.ctx.stroke();
 
 
     	for(let i=1;i<9;i++){
@@ -124,19 +141,19 @@ export default class MiniGameP extends MGMain {
     	}
 
     	if(this.complete){
-      		this.writeTextToCanvas("Je hebt het wachtwoord geraden!",30,100,900);
+      		this.writeTextToCanvas("Je hebt het wachtwoord geraden! Laat je niet nog een keer pakken!",30,100,900);
     	}else if(this.complete===0){
-      		this.writeTextToCanvas("not good",30,100,900);
+      		this.writeTextToCanvas("nope, geef maar op",30,100,900);
 
-    	}
+    	}else if (this.complete === 5) {
+			this.writeTextToCanvas("Helaas, de tijd is op, je bent afgevoerd naar de gevangenis, amateur", 30, 100, 900)
+	  
+		  }
+
+		   //timer
+	  this.renderTime()
       
-    	// this.writeTextToCanvas("*",40,210,550);
-    	// this.writeTextToCanvas("*",40,310,550);
-    	// this.writeTextToCanvas("*",40,410,550);
-    	// this.writeTextToCanvas("*",40,510,550);
-    	// this.writeTextToCanvas("*",40,610,550);
-    	// this.writeTextToCanvas("*",40,710,550);
-    	// this.writeTextToCanvas("*",40,810,550);
+    	
       
   	}
 

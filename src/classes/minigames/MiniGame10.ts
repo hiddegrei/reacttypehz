@@ -37,12 +37,18 @@ export default class MiniGame10 extends MGMain{
 	/**
    	* Functie om de game te updaten
    	*/
-	public update(){
+	public update(elapsed:number){
     	this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
+		this.timer(elapsed)
       	if(this.started){
         	document.onkeydown = this.checkKey14.bind(this);
         	this.started=false;
       	}
+		  if(this.timeLeft<=0){
+			this.complete=5
+			setTimeout(this.answerWrong.bind(this), 2000);
+	  
+			}
     }
 
     /**
@@ -57,7 +63,7 @@ export default class MiniGame10 extends MGMain{
       	this.ctx.closePath();
       	this.ctx.stroke();
       	this.ctx.fill();
-      	this.writeTextToCanvas("Je hebt 5 pogingen om het wachtwoord te raden, na elke poging kun je zien welke", 16, 110, 130);
+      	this.writeTextToCanvas(`Je hebt nog ${this.attempts} pogingen om het wachtwoord te raden, na elke poging kun je zien welke`, 16, 110, 130);
       	this.writeTextToCanvas("characters je goed hebt geraden", 16, 110, 150);
   
       	this.writeTextToCanvas("PRESS ENTER  om je poging te testen.", 16, 110, 50);
@@ -88,6 +94,18 @@ export default class MiniGame10 extends MGMain{
 		  }
       	this.ctx.closePath();
       	this.ctx.stroke();
+
+		   //streep waar de index is
+		   this.ctx.strokeStyle = "rgb(0,255,0)";
+		   this.ctx.beginPath();
+		  if(this.index<=this.secretW.length-1){
+			 this.ctx.rect(100+(this.index*100), 540, 50, 10);
+		  }else{
+			 this.ctx.rect(100+((this.secretW.length-1)*100), 540, 50, 10);
+ 
+		  }
+		   this.ctx.closePath();
+		   this.ctx.stroke();
   
       	for (let i = 1; i < 9; i++) {
         	if (this.found[i - 1] != null) {
@@ -112,24 +130,15 @@ export default class MiniGame10 extends MGMain{
       } else if (this.complete === 0) {
         this.writeTextToCanvas("Helaas, dit antwoord is fout", 30, 100, 900)
   
+      }else if (this.complete === 5) {
+        this.writeTextToCanvas("Helaas, de tijd is op", 30, 100, 900)
+  
       }
-        
-        // this.writeTextToCanvas("*",40,210,550)
-        // this.writeTextToCanvas("*",40,310,550)
-        // this.writeTextToCanvas("*",40,410,550)
-        // this.writeTextToCanvas("*",40,510,550)
-        // this.writeTextToCanvas("*",40,610,550)
-        // this.writeTextToCanvas("*",40,710,550)
-        // this.writeTextToCanvas("*",40,810,550)
 
+	   //timer
+	   this.renderTime()
         
-        // this.writeTextToCanvas("*",40,210,550);
-        // this.writeTextToCanvas("*",40,310,550);
-        // this.writeTextToCanvas("*",40,410,550);
-        // this.writeTextToCanvas("*",40,510,550);
-        // this.writeTextToCanvas("*",40,610,550);
-        // this.writeTextToCanvas("*",40,710,550);
-        // this.writeTextToCanvas("*",40,810,550);
+      
     }
 
 	/**
@@ -150,7 +159,7 @@ export default class MiniGame10 extends MGMain{
             		break;
           		}
         	}
-        	console.log(this.found[this.index])
+        	
         	if(e.keyCode<=57){
           		this.found[this.index]=String.fromCharCode(e.keyCode);
         	}else{
@@ -171,7 +180,7 @@ export default class MiniGame10 extends MGMain{
     	this.foundStr="";
 
 	    let complete=true;
-    	if(this.attempts>0){
+    	if(this.attempts>1){
     		for(let i=0;i<this.secretW.length;i++){
       			if(this.found[i]===this.secretW[i]){
         			this.found[i]=this.secretW[i];

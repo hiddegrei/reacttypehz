@@ -48,6 +48,8 @@ export default class Agent{
 
     public hackRange:number ;
 
+    public hackTime:number ;
+
     private goldkeyImg:HTMLImageElement
 
     public sleeping:boolean
@@ -88,17 +90,36 @@ export default class Agent{
          this.status=status
 
          this.hackRange=80
+         this.hackTime=5000
          if(status==="yellow"){
              this.hackRange=100
+             this.hackTime=5000
          }else if(status==="orange"){
              this.hackRange=80
+             this.hackTime=7000
          }else if(status==="red"){
              this.hackRange=60
+             this.hackTime=9000
          }
          
 
 
 
+
+    }
+
+    public updateAttributes(){
+        if(this.status==="yellow"){
+            this.status="orange"
+            this.hackRange=80
+        }else if(this.status==="orange"){
+           this.status="red"
+           this.hackRange=60
+        }else if(this.status==="red"){
+           this.mode="search"
+        }else if(this.mode==="search"){
+            this.maxspeed+=0.2
+        }
 
     }
 
@@ -187,7 +208,7 @@ export default class Agent{
        this.target.y=this.pos.y+todo.y
        
        }
-    }else if(opt>0&&(this.mode==="search"||this.mode==="mid")){
+    }else if(opt>0&&(this.mode==="search"||this.mode==="mid"||this.mode==="search11")){
     //    this.target.x=particle.pos.x;
     //    this.target.y=particle.pos.y;
     let record=Infinity;

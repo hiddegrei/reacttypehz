@@ -8,17 +8,22 @@ export default class Hints extends InfoDisplay{
     // private hintFound: string[] = [];
     //private progress: Progress;
     private scene:Scene;
-    public static found:any[];
+    public  found:any[];
     public test:any;
+    private hintsGiven:boolean[]
 
     public constructor(canvas: HTMLCanvasElement,scene:Scene){
         super(canvas);
-        this.hintsArray = this.passwordArray(Room.randomNumber(0,2));
+        this.hintsArray = this.passwordArray(Room.randomNumber(0,4));
         this.test = this.hintsArray;
         this.returnHint = [];
         this.scene=scene;
-        Hints.found = [];
+        this.found = [];
         this.fillFoundArray();
+        this.hintsGiven=[]
+        for(let i=0;i<this.hintsArray.length;i++){
+            this.hintsGiven[i]=false
+        }
        // this.progress = Scene.getProgress()
     }
 
@@ -37,16 +42,29 @@ export default class Hints extends InfoDisplay{
     public fillFoundArray() {
         this.hintsArray.forEach((value: string) => {
             if (value === '-') {
-                Hints.found.push('-');
+                this.found.push('-');
             } else {
-                Hints.found.push(null);
+                this.found.push(null);
             }
         });
     }
 
     public foundHintInScene(roomNumber: number) {
-        if (roomNumber >= 0&&roomNumber<=12) {
-            this.returnHint.push(this.hintsArray[ 12-roomNumber].valueOf());
+        // if (roomNumber >= 0&&roomNumber<=this.hintsArray.length-1) {
+        //     this.returnHint.push(this.hintsArray[  this.hintsArray.length-1-roomNumber].valueOf());
+        // }
+        let ranNum:number
+        let gotit=false
+        
+       while(!gotit){
+            ranNum=Room.randomNumber(0,this.hintsArray.length-1)
+            if(!this.hintsGiven[ranNum]&&this.hintsArray[ranNum]!='-'){
+                
+                this.returnHint.push(this.hintsArray[ranNum].valueOf());
+                this.hintsGiven[ranNum]=true
+                gotit=true
+            }
+
         }
         this.scene.progress.increaseProgress(10);
     }
@@ -61,18 +79,28 @@ export default class Hints extends InfoDisplay{
         return this.hintsArray;
     }
 
-    private passwordArray(number: number): string[] {
+    private passwordArray(number: number): string[]{
 		if (number === 1) {
-            let a = ['r','e','g','e','n','b','o','o','g'];
-            console.log(a);
+            let a = ['r','e','g','e','n','-','e','n','-','z','o','n'];
+            //let a2 = ['r','e','o','e','n','b','o','o','g'];
+            
 			return a;
 		} else if (number === 2) {
             let b = ['b','e','-','s','a','f','e','-','o','n','l','i','n','e'];
-            console.log(b);
+            
 			return b;
-		} else {
+		}else if (number === 3) {
+            let b = ['m','a','d','e','-','b','y','-','t','h','e','-','c','o','m','p','i','l','e','r','s'];
+            
+			return b;
+		}else if (number === 4) {
+            let b = ['t','h','e','-','c','r','o','w','n','-','i','s','-','y','o','u','r','s'];
+            
+			return b;
+		}
+         else {
             let c = ['s','a','f','e','-','p','a','s','s','w','o','r','d','!'];
-            console.log(c);
+           
 			return c;
 		}
 	}

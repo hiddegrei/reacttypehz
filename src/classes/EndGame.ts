@@ -7,6 +7,7 @@ import Scene from './Scene';
 import {db} from "../firebase";
 import MouseListener from './MouseListener';
 import Vector from './Vector';
+import ScoreToDatabase from './ScoreToDatabase';
 
 export default class EndGame extends InfoDisplay {
   
@@ -33,6 +34,8 @@ export default class EndGame extends InfoDisplay {
   private image2:HTMLImageElement;
   private image3:HTMLImageElement;
   private userData:any[]=[]
+  private scoreToDatabase:ScoreToDatabase;
+  private started:boolean
   /**
    * constructor
    *
@@ -52,14 +55,22 @@ export default class EndGame extends InfoDisplay {
     this.image1=Game.loadNewImage("./img/background/product_image_bank-heist-4d_175f1d92e0631561ada7c2b1e91a2bde84ef47c112abba5b443d0f36fab4a134_opti.png")
     this.image2=Game.loadNewImage("./img/objects/4541104.png")
     this.image3=Game.loadNewImage("./img/background/the-button-859351_960_720.png")
+    this.scoreToDatabase=new ScoreToDatabase()
 
+    
+      this.started=true
+      
+
+   
+  }
+
+  private getData(){
+    console.log("i get the data")
     db.collection("users").orderBy("highscore","desc").limit(10).get().then((shot)=>{
       shot.forEach((doc)=>{
         this.userData.push(doc.data())
-      })
-      
+      }) })
 
-    })
   }
 
   /**
@@ -73,6 +84,15 @@ export default class EndGame extends InfoDisplay {
     if(this.keyboard.isKeyDown(32)){
       this.game.isEnd=false
     }
+    if(this.started){
+      this.started=false
+      this.scoreToDatabase.update(this.scene.score.scoreProperty)
+      setTimeout(()=> this.getData(),500)
+      
+        
+     
+    }
+
    
     let playagainBut={x: window.innerWidth-450,y:500}
     
@@ -138,7 +158,7 @@ export default class EndGame extends InfoDisplay {
     this.ctx.closePath()
     this.ctx.stroke()
     this.ctx.fill()
-    this.writeTextToCanvas(`Jouw score: ${this.scene.totalScore}`,window.innerWidth-490,120,14)
+    this.writeTextToCanvas(`Jouw score: ${this.scene.score.scoreProperty}`,window.innerWidth-490,120,14)
 
 
     this.ctx.strokeStyle = "rgb(255,0,0)"

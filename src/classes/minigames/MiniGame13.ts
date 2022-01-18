@@ -2,7 +2,7 @@ import Room from "../Room";
 import MGMain from "./MGMain";
  import Game from "../Game";
 
-export default class MiniGame4 extends MGMain{
+export default class MiniGame13 extends MGMain{
     private secretW:Array<string>=[]
     private attempts:number
     private found:any[]
@@ -20,7 +20,7 @@ export default class MiniGame4 extends MGMain{
    * @param canvas canvas
    */
     constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
-      super(4,room,ctx, canvas)
+      super(13,room,ctx, canvas)
       this.secretW=["0","9","2","3","d","a","v","i","d"]
       this.found=[null,null,null,null,null,null,null,null,null]
       //window.addEventListener('keydown',this.checkKey,false);
@@ -48,7 +48,6 @@ export default class MiniGame4 extends MGMain{
             break;
           }
         }
-        console.log(this.found[this.index])
         if(e.keyCode<=57){
           this.found[this.index]=String.fromCharCode(e.keyCode)
           
@@ -73,7 +72,7 @@ export default class MiniGame4 extends MGMain{
     this.foundStr=""
 
     let complete=true
-    if(this.attempts>0){
+    if(this.attempts>1){
     for(let i=0;i<this.secretW.length;i++){
       if(this.found[i]===this.secretW[i]){
         this.found[i]=this.secretW[i]
@@ -91,6 +90,7 @@ export default class MiniGame4 extends MGMain{
     this.attempts--
     if(complete){
       this.complete=true
+      console.log("toch goed?")
      
       //setTimeout(this.answer,2000)
       setTimeout(this.answer.bind(this), 4000);
@@ -98,6 +98,7 @@ export default class MiniGame4 extends MGMain{
      
     }
   }else{
+    console.log("niet goed?")
     this.complete=0
     setTimeout(this.answerWrong.bind(this), 2000);
    //this.answer()
@@ -109,12 +110,19 @@ export default class MiniGame4 extends MGMain{
   /**
    * Functie om de game te updaten
    */
-    public update(){
+    public update(elapsed:number){
       this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
+      this.timer(elapsed)
       if(this.started){
         document.onkeydown = this.checkKey.bind(this);
         this.started=false
       }
+
+      if(this.timeLeft<=0){
+        this.complete=5
+        setTimeout(this.answerWrong.bind(this), 2000);
+  
+        }
 
     }
 
@@ -161,6 +169,18 @@ export default class MiniGame4 extends MGMain{
     this.ctx.closePath()
     this.ctx.stroke()
 
+     //streep waar de index is
+     this.ctx.strokeStyle = "rgb(0,255,0)";
+     this.ctx.beginPath();
+  if(this.index<=this.secretW.length-1){
+   this.ctx.rect(100+(this.index*100), 540, 50, 10);
+  }else{
+   this.ctx.rect(100+((this.secretW.length-1)*100), 540, 50, 10);
+
+  }
+     this.ctx.closePath();
+     this.ctx.stroke();
+
 
     for (let i = 0; i < this.secretW.length; i++) {
       if (this.found[i ] != null) {
@@ -177,7 +197,13 @@ export default class MiniGame4 extends MGMain{
     } else if (this.complete === 0) {
       this.writeTextToCanvas("Helaas, dit is fout", 30, 100, 900)
 
+    }else if (this.complete === 5) {
+      this.writeTextToCanvas("Helaas, de tijd is op", 30, 100, 900)
+
     }
+
+     //timer
+	  this.renderTime()
 
         
     }

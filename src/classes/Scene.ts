@@ -19,6 +19,11 @@ import Hints from "./Hints";
 export default class Scene {
   public canvas: HTMLCanvasElement;
 
+  public static readonly POINTS_WIN_MG=100
+  public static readonly POINTS_LOSS_MG=25
+  public static readonly CAUGHT_AGENTS=300
+  public static readonly WIN_BOSSLEVEL=500
+
   public ctx: CanvasRenderingContext2D;
 
   public game: Game;
@@ -33,7 +38,7 @@ export default class Scene {
 
   static SPACE = 300;
 
-  private score: Score[];
+  public score: Score;
 
   public totalScore: number;
 
@@ -43,7 +48,7 @@ export default class Scene {
 
   private room: Room;
 
-  private scoreToDatabase: ScoreToDatabase;
+ 
 
   private keyboard: KeyboardListener;
 
@@ -105,7 +110,7 @@ export default class Scene {
     this.keys = new Keys(this.ctx);
     this.timeHacking = 0;
     
-    this.scoreToDatabase = new ScoreToDatabase();
+    
     
 
     this.imgBank = Game.loadNewImage("./img/background/bankheistmap.jpg");
@@ -115,10 +120,12 @@ export default class Scene {
     this.game = game;
 
     this.progress = new Progress();
+   
     this.room = new Room(0, this.ctx, this, this.canvas);
+    this.hints = this.room.getHintsGame();
 
-    this.score = [];
-    this.score.push(new Score(0));
+    this.score = new Score(0);
+   
     this.totalScore = 0;
     this.borders = [];
     this.level = new Level1map(this.canvas, this.ctx);
@@ -212,6 +219,17 @@ export default class Scene {
         3,
         "red"
       ));
+      
+      this.agents.push(
+        new Agent(
+          (this.canvas.width/2)+12*this.level.widthHall,
+          100+6.5*this.level.widthHall,
+          this.ctx,
+          this.level.widthHall,
+          "search11",
+          3,
+          "orange"
+        ));  
   
     this.keys.inPossesion[0] = true;
     this.keys.inPossesion[1] = true;
@@ -227,7 +245,9 @@ export default class Scene {
 
     this.time = 0;
 
-    this.hints = this.room.getHintsGame();
+    
+
+    
   }
 
   public checkKeyScene(e: any) {
@@ -278,32 +298,43 @@ export default class Scene {
       this.inRoomNum===80||this.inRoomNum===100)
       &&this.room.timeoutRooms[this.inRoomNum][1]!=true
     ) {
-      this.room.update(this.mouse.x,this.mouse.y);
+      this.room.update(this.mouse.x,this.mouse.y,elapsed);
       document.onmousemove = this.mouseDown.bind(this);
       let isMiniGameComplete = this.room.checkDone();
       if(isMiniGameComplete===0){
        this.room.answer=false
        this.room.miniGameFinished=false
-        this.totalScore++;
+        //this.totalScore+=Scene.POINTS_WIN_MG;
+        this.score.miniGameComplete(this.room.mgTimeLeft)
         this.keys.total--;
         this.hints.foundHintInScene(isMiniGameComplete);
       }
 
-      if ((isMiniGameComplete != 80 &&isMiniGameComplete != 100 && isMiniGameComplete != false)) {
+      if(isMiniGameComplete===-1){
+       //this.totalScore-=Scene.POINTS_LOSS_MG
+       this.score.miniGameLossed()
+      }
+
+      if ((isMiniGameComplete != 80 &&isMiniGameComplete != 100&&isMiniGameComplete!=90 && isMiniGameComplete != false)) {
         this.room.answer=false
        this.room.miniGameFinished=false
-        this.totalScore++;
+        // this.totalScore++;
+        this.score.miniGameComplete(this.room.mgTimeLeft)
         this.keys.total--;
         //isMiniGameComplete is de variable die het nummer van de minigame bevat als de minigame succesvol is afgerond
         this.hints.foundHintInScene(isMiniGameComplete);
 
       }
       if (isMiniGameComplete === 100) {
+        //this.totalScore+=Scene.WIN_BOSSLEVEL
+        this.score.winBossLevel()
+        // this.scoreToDatabase.update(this.score.scoreProperty);
         this.room.answer=false
         this.room.miniGameFinished=false
         this.howGameEnded = "gekraakt";
         this.game.isEnd = true;
       } else if (isMiniGameComplete === 101) {
+        // this.scoreToDatabase.update(this.score.scoreProperty);
         this.room.answer=false
         this.room.miniGameFinished=false
         this.howGameEnded = "outofattempts";
@@ -311,7 +342,15 @@ export default class Scene {
         this.particle.pos.x =(this.canvas.width/2)+this.level.widthHall;
         this.particle.pos.y = 100+5*this.level.widthHall+20;
         
-      } else if (isMiniGameComplete === 80) {
+      }else if (isMiniGameComplete === 90) {
+        this.room.answer=false
+        this.room.miniGameFinished=false
+       
+        this.particle.pos.x =(this.canvas.width/2)-18*this.level.widthHall
+        this.particle.pos.y = 300+12.5*this.level.widthHall
+        
+      } 
+       else if (isMiniGameComplete === 80) {
         this.room.answer=false
         this.room.miniGameFinished=false
         this.particle.pos.x =this.canvas.width / 2 + 18.5 * this.level.widthHall;
@@ -328,7 +367,7 @@ export default class Scene {
       }
       //tijd om ? game over, score naar database
       if (this.timeLeft <= 0) {
-        this.scoreToDatabase.update(this.totalScore);
+        // this.scoreToDatabase.update(this.score.scoreProperty);
         this.game.isEnd = true;
       }
 
@@ -349,18 +388,19 @@ export default class Scene {
 
       //check in what room the player is if any
       let roomNum = this.particle.isInRoom(this.roomsIds);
-      if (roomNum != -1 && (this.keys.total > 0 || roomNum === 80)&&this.room.timeoutRooms[roomNum][1]!=true) {
+      if (roomNum != -1 && (this.keys.total > 0 || roomNum === 80||roomNum===90)&&this.room.timeoutRooms[roomNum][1]!=true) {
         //player is inside a room or central hub
         this.insideRoom = true;
         this.inRoomNum = roomNum;
         this.room.setRoomId(this.inRoomNum);
-      }
-
-      if(this.keyboard.isKeyDown(81)){
+      }else if(this.keyboard.isKeyDown(84)){
         this.insideRoom = true;
-        
+        this.inRoomNum = 100;
+        this.room.setRoomId(100);
 
       }
+
+      
 
       //check if player is insight of agents
       for (let i = 0; i < this.agents.length; i++) {
@@ -371,6 +411,8 @@ export default class Scene {
             this.borders
           );
           if (inSight) {
+            //this.totalScore-=Scene.CAUGHT_AGENTS
+            this.score.caughtAgents()
             if (this.lockedUp === 2) {
               this.game.isEnd = true;
               this.howGameEnded = "caught";
@@ -398,10 +440,16 @@ export default class Scene {
 
         //updateing and moving agents
         let mid=new Vector((this.canvas.width/2)-this.level.widthHall,100+6*this.level.widthHall)
+        
+        let search11=new Vector((this.canvas.width/2)+12*this.level.widthHall+20,100+7*this.level.widthHall+15)
         if(this.agents[i].mode==="mid"){
           this.agents[i].update(mid, this.borders);
 
-        }else{
+        }else if(this.agents[i].mode==="search11"){
+          this.agents[i].update(search11, this.borders);
+
+        }
+        else{
           this.agents[i].update(this.particle.pos, this.borders);
 
         }
@@ -427,14 +475,7 @@ export default class Scene {
       this.particle.move();
 
       //hack agents and retrieve keys
-      let timeHack = 5000;
-      if (this.agents[this.particle.hackAgent].status === "yellow") {
-        timeHack = 5000;
-      } else if (this.agents[this.particle.hackAgent].status === "orange") {
-        timeHack = 7000;
-      } else if (this.agents[this.particle.hackAgent].status === "red") {
-        timeHack = 9000;
-      }
+      let timeHack = this.agents[this.particle.hackAgent].hackTime;
 
       if (this.timeHacking < timeHack && this.particle.hacking) {
         this.timeHacking += elapsed;
@@ -449,17 +490,8 @@ export default class Scene {
         this.keys.keys[key] = true;
         this.keys.total++;
         this.timeHacking = 0;
-        if (this.agents[this.particle.hackAgent].status === "yellow") {
-          this.agents[this.particle.hackAgent].status = "orange";
-        } else if (this.agents[this.particle.hackAgent].status === "orange") {
-          this.agents[this.particle.hackAgent].status = "red";
-          this.agents[this.particle.hackAgent].maxspeed += 0.25;
-        } else if (this.agents[this.particle.hackAgent].status === "red") {
-          this.agents[this.particle.hackAgent].mode = "search";
-          this.agents[this.particle.hackAgent].maxspeed += 0.25;
-        } else if ((this.agents[this.particle.hackAgent].mode = "search")) {
-          this.agents[this.particle.hackAgent].maxspeed += 0.2;
-        }
+        this.agents[this.particle.hackAgent].updateAttributes()
+       
         // console.log("hacked room num:" ,key)
         for (let i = 0; i < this.keys.keys.length; i++) {
           if (!this.keys.inPossesion[i]) {
@@ -575,12 +607,22 @@ export default class Scene {
           this.ctx.stroke();
           this.ctx.closePath();
           this.ctx.fill();
-          this.writeTextToCanvas(
-            this.roomsIds[i][2],
-            20,
-            this.roomsIds[i][0],
-            this.roomsIds[i][1] - 20
-          );
+          if(this.roomsIds[i][2]==="90"){
+            this.writeTextToCanvas(
+              "Shop",
+              20,
+              this.roomsIds[i][0],
+              this.roomsIds[i][1] - 20
+            );
+          }else{
+            this.writeTextToCanvas(
+              this.roomsIds[i][2],
+              20,
+              this.roomsIds[i][0],
+              this.roomsIds[i][1] - 20
+            );
+          }
+          
         }
       }
     }
@@ -598,9 +640,10 @@ export default class Scene {
     // this.ctx.fill();
     // }
 
+    
     this.writeTextToCanvas(`time left: ${this.timeLeft}`, 20, 100, 40);
       this.writeTextToCanvas(
-        `score: ${this.totalScore}`,
+        `score: ${this.score.scoreProperty}`,
         20,
         window.innerWidth - 100,
         40
@@ -628,6 +671,7 @@ export default class Scene {
           window.innerHeight / 15
         );
       });
+    
   }
 
   /**

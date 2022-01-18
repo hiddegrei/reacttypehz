@@ -10,7 +10,7 @@ import MGMain from "./MGMain";
 import Game from "../Game";
 import Hints from "../Hints";
 
-export default class MiniGame14 extends MGMain{
+export default class MiniGameC extends MGMain{
   	private secretW:Array<string>=[];
   	private attempts:number;
   	private found:any[];
@@ -31,7 +31,7 @@ export default class MiniGame14 extends MGMain{
   	constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
   		super(14,room, ctx, canvas);
 		this.secretW = this.room.hints.getAnswer()
-   		this.found=Hints.found;
+   		this.found=this.room.hints.found;
    		//window.addEventListener('keydown',this.checkKey,false);
    		// document.onkeydown = this.checkKey14.bind(this);
    		//document.removeEventListener("onkeydown",this.checkKey14.bind(this))
@@ -46,7 +46,7 @@ export default class MiniGame14 extends MGMain{
 	/**
    	* Functie om de game te updaten
    	*/
-	public update(){
+	public update(elapsed:number){
     	this.ctx.clearRect(0, 0, this.room.canvas.width, this.room.canvas.height);
       	if(this.started){
         	document.onkeydown = this.checkKey14.bind(this);
@@ -85,32 +85,60 @@ export default class MiniGame14 extends MGMain{
       this.writeTextToCanvas("Kraak de kluis met de verzamelde hints", 20, 800, 160)
       this.writeTextToCanvas("Hints: ", 20, 800, 190)
       this.room.getHintsGame().getHint().forEach((value: string, index: number) => {
-        this.writeTextToCanvas(`${value}`, 20,825 + index * 30,190);
+        this.writeTextToCanvas(`${value}`, 20,850 + index * 30,190);
     });
   
+	//rects1 met wachtwoord
       	this.ctx.strokeStyle = "rgb(0,0,0)";
       	this.ctx.beginPath();
 		  for(let i=0;i<this.secretW.length;i++){
-			this.ctx.rect(100+(i*100), 500, 50, 50);
+			this.ctx.rect(80+(i*80), 500, 40, 40);
 
 		  }
       	this.ctx.closePath();
       	this.ctx.stroke();
+
+		//rects2 met wachtwoord
+		// this.ctx.strokeStyle = "rgb(0,0,0)";
+		// this.ctx.beginPath();
+		// for(let i=0;i<5;i++){
+		//   this.ctx.rect(80+(6*80), 340+(i*80), 40, 40);
+
+		// }
+		// this.ctx.closePath();
+		// this.ctx.stroke();  
+
+         //streep waar de index is
+		  this.ctx.strokeStyle = "rgb(0,255,0)";
+      	this.ctx.beginPath();
+		 if(this.index<=this.secretW.length-1){
+			this.ctx.rect(80+(this.index*80), 540, 40, 10);
+		 }else{
+			this.ctx.rect(80+((this.secretW.length-1)*80), 540, 40, 10);
+
+		 }
+      	this.ctx.closePath();
+      	this.ctx.stroke();
+
+
   
       	for (let i = 1; i < this.secretW.length+1; i++) {
         	if (this.found[i - 1] != null) {
-          		this.writeTextToCanvas(this.found[i - 1], 40, i * 100 + 10, 540,"start","rgb(255,69,0)");
+          		this.writeTextToCanvas(this.found[i - 1], 35, i * 80 + 10, 540,"start","rgb(255,69,0)");
         	} else {
-				this.writeTextToCanvas("*", 40, i * 100 + 10, 550,"start","rgb(255,69,0)");
+				this.writeTextToCanvas("*", 35, i * 80 + 10, 550,"start","rgb(255,69,0)");
 			}
       	}
   
       
   
       if (this.complete) {
-        this.writeTextToCanvas("Je hebt het wachtwoord geraden! Gebruik dus nooit je eigen gegevens in je wachtwoord, je ziet hoe makkelijk het is om dan je wachtwoord te raden!", 20, 100, window.innerHeight-150);
+        this.writeTextToCanvas("Je hebt het wachtwoord van de grote kluis geraden! ", 20, 100, window.innerHeight-150);
       } else if (this.complete === 0) {
         this.writeTextToCanvas("Helaas, dit antwoord is fout", 30, 100, 900);
+  
+      }else if (this.complete === 5) {
+        this.writeTextToCanvas("Helaas, de tijd is op", 30, 100, 900)
   
       }
         
@@ -124,8 +152,16 @@ export default class MiniGame14 extends MGMain{
   	public checkKey14(e:any) {
       	//console.log(e.keyCode);
       	if(e.keyCode===8){
-        	this.found[this.index--]=null;
-        	//this.index--;
+			  this.index--
+			  
+			  if(this.found[this.index]!="-"){
+				this.found[this.index]=null;
+			  }else{
+				  this.index--
+				this.found[this.index]=null;
+
+			  }
+        	
       	}else if(e.keyCode===13){
         	this.checkAttempt();
       	}else if(this.index<=this.secretW.length-1){
@@ -139,20 +175,32 @@ export default class MiniGame14 extends MGMain{
         	if(e.keyCode>90||e.keyCode<65){
 				if(e.shiftKey&&e.keyCode===49){
 					this.found[this.index]="!"
+					this.index++;
 				}else if(e.keyCode===189){
 					this.found[this.index]="-"
 				}else if(!e.shiftKey){
 					this.found[this.index]=String.fromCharCode(e.keyCode);
 
 				}
+				if(!e.shiftKey){
+				this.index++;
+				}
+				
 				
 
 				
           		
         	}else{
-          		this.found[this.index]=String.fromCharCode(e.keyCode+32);
+				
+				if(!e.shiftKey){
+					this.found[this.index]=String.fromCharCode(e.keyCode+32);
+				 
+					this.index++;
+				}
+          		
+				
         	}
-        	this.index++;
+        	
       	}
   	}
 

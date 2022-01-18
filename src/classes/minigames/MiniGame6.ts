@@ -31,12 +31,15 @@ export default class MiniGame6 extends MGMain{
     /**
    	* Functie om de game te updaten
    	*/
-    public update(){
+    public update(elapsed:number){
       	this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+		  this.timer(elapsed)
       	if(this.started){
         	document.onkeydown = this.checkLocks.bind(this);
         	this.started=false;
       	}
+
+		 
     }
 
     /**
