@@ -42,28 +42,13 @@ export default class MiniGameC extends MGMain{
    	*/
     public render(){
       	this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight);
-      	this.ctx.strokeStyle = "rgb(0,0,0)";
-      	this.ctx.fillStyle = "rgb(255,255,255)";
-      	this.ctx.beginPath();
-      	this.ctx.rect(100, 100, 680, 300);
-      	this.ctx.closePath();
-      	this.ctx.stroke();
-      	this.ctx.fill();
-      	this.writeTextToCanvas(`Je hebt nog ${this.attempts} pogingen om het wachtwoord te raden, na elke poging kun je zien welke`, 16, 110, 130);
-      	this.writeTextToCanvas("characters je goed hebt geraden", 16, 110, 150);
-  
-      	this.writeTextToCanvas("PRESS ENTER  om je poging te testen.", 16, 110, 50);
-      	if (this.attemptsArr) {
-        	for (let i = 0; i < this.attemptsArr.length; i++) {
-          		this.writeTextToCanvas(`Poging ${i}: ${this.attemptsArr[i]}`, 19, 110, 170 + i * 20);
-        	}
-      	}
-  
-      this.ctx.fillStyle = "rgb(255,255,255)"
-      this.ctx.beginPath()
-      this.ctx.rect(790, 100, 530, 300)
-      this.ctx.closePath()
-      this.ctx.fill()
+      
+		  this.renderAttemptsBlock()
+		  this.renderInfoBlock()
+		//   this.renderPassBlocks()
+		  //this.renderStreepIndex()
+		 // this.renderComplete()
+
       this.writeTextToCanvas("Dit is de grote kluis", 20, 800, 130)
       this.writeTextToCanvas("Kraak de kluis met de verzamelde hints", 20, 800, 160)
       this.writeTextToCanvas("Hints: ", 20, 800, 190)
