@@ -16,6 +16,7 @@ import Keys from "./Keys";
 import ScoreToDatabase from "./ScoreToDatabase";
 import Hints from "./Hints";
 import SceneInfo from "./SceneInfo";
+import CameraAgent from "./CameraAgent";
 
 export default class Scene {
   public canvas: HTMLCanvasElement;
@@ -38,6 +39,8 @@ export default class Scene {
   public mouse = <any>{};
 
   public level: Level1map;
+
+  public cameraAgents:CameraAgent[]=[];
 
   static SPACE = 300;
 
@@ -154,10 +157,33 @@ export default class Scene {
     // this.border= new Border(300,50,300,200,this.ctx)
     // this.ray=new Ray(50,150, this.ctx)
     this.particle = new Particle(
-      100 + this.level.widthHall,
+      100 + 2*this.level.widthHall,
       100 + 0.5 * this.level.widthHall,
       this.ctx
     );
+
+    this.loadAgents()
+
+  //agent linksboven
+   this.cameraAgents.push(new CameraAgent(100-this.level.widthHall,100,this.ctx,this.level.widthHall,0,100+this.level.widthHall,100+this.level.widthHall))
+
+   
+
+    this.keys.inPossesion[0] = true;
+    this.keys.inPossesion[1] = true;
+    this.keys.inPossesion[2] = true;
+    this.keys.inPossesion[3] = true;
+    this.mouse = { x: 0, y: 0 };
+
+    // window.addEventListener("mousemove",this.mouseDown.bind(this), false)
+
+    //this.timeLimit = new TimeLimit(this.game.password);
+    this.timeLeft = time;
+
+    this.time = 0;
+  }
+
+  public loadAgents(){
     this.agents.push(
       new Agent(
         1.5 * this.level.widthHall,
@@ -238,18 +264,6 @@ export default class Scene {
       )
     );
 
-    this.keys.inPossesion[0] = true;
-    this.keys.inPossesion[1] = true;
-    this.keys.inPossesion[2] = true;
-    this.keys.inPossesion[3] = true;
-    this.mouse = { x: 0, y: 0 };
-
-    // window.addEventListener("mousemove",this.mouseDown.bind(this), false)
-
-    //this.timeLimit = new TimeLimit(this.game.password);
-    this.timeLeft = time;
-
-    this.time = 0;
   }
 
   public directorAlert(number: number) {
@@ -361,7 +375,7 @@ export default class Scene {
       //check in what room the player is if any
       this.isPlayerInRoom()
       //check if player is insight of agents
-      this.isPlayerInSight(elapsed)
+      this.isPlayerInSightAndUpdate(elapsed)
       //updateing player position
       this.particle.update(this.mouse.x, this.mouse.y, this.borders);
       this.particle.hack(this.agents);
@@ -371,6 +385,14 @@ export default class Scene {
       this.playerHackAgents(elapsed)
       //timeout rooms
       this.room.timeOutRooms(elapsed)
+
+      //update camerasAgent
+      for(let i=0;i<this.cameraAgents.length;i++){
+        this.cameraAgents[i].update()
+        this.cameraAgents[i].look(this.borders,this.ctx)
+
+      }
+      this.isPlayerInSightCameras()
     }
     
     
@@ -419,6 +441,11 @@ export default class Scene {
         this.hints
       );
 
+      //render agentcamera
+      for(let i=0;i<this.cameraAgents.length;i++){
+        this.cameraAgents[i].show(this.ctx)
+      }
+
       this.allAgentAlert(1897, 1898);
       this.allAgentAlert(1890, 1891);
     }
@@ -439,6 +466,47 @@ export default class Scene {
     }
   }
 
+  public isPlayerInSightCameras(){
+
+    for (let i = 0; i < this.cameraAgents.length; i++) {
+      if (Vector.dist(this.particle.pos, this.cameraAgents[i].pos) < 80) {
+        let inSight = this.cameraAgents[i].inSight(
+          this.particle,
+          this.ctx,
+          this.borders
+        );
+        if (inSight) {
+          //this.totalScore-=Scene.CAUGHT_AGENTS
+          this.score.caughtAgents();
+          if (this.lockedUp === 2) {
+            this.game.isEnd = true;
+            this.howGameEnded = "caught";
+          }
+          if (this.cameraAgents.length <= 5) {
+            this.agents.push(
+              new Agent(
+                100 + 5 * this.level.widthHall,
+                100 + 0.5 * this.level.widthHall,
+                this.ctx,
+                this.level.widthHall,
+                "random",
+                this.cameraAgents.length,
+                "yellow"
+              )
+            );
+          }
+          //player in room
+          this.lockedUp++;
+          this.particle.pos.x =
+            this.canvas.width / 2 + 18 * this.level.widthHall;
+          this.particle.pos.y = 100 + 5 * this.level.widthHall;
+        }
+      }
+
+     
+    }
+
+  }
   public gethintGame() {
     return this.hints;
   }
@@ -511,7 +579,7 @@ export default class Scene {
    * check if player is in sight of agents
    * @param elapsed number
    */
-  public isPlayerInSight(elapsed:number){
+  public isPlayerInSightAndUpdate(elapsed:number){
     for (let i = 0; i < this.agents.length; i++) {
       if (Vector.dist(this.particle.pos, this.agents[i].pos) < 80) {
         let inSight = this.agents[i].inSight(
@@ -563,6 +631,8 @@ export default class Scene {
     }
 
   }
+
+  
 
 
 
