@@ -1,3 +1,4 @@
+import Room from "./Room.js";
 import Scene from "./Scene.js"
 export default class Level1map {
 
@@ -680,6 +681,43 @@ export default class Level1map {
               [(this.canvas.width/2)-15.5*this.widthHall,300+12.5*this.widthHall,"90"]
               
           ]
+      }
+
+      public showRoomIds(room:Room){
+        for (let i = 0; i < this.rooms.length; i++) {
+            if (this.rooms[i][2] != "100"&&room.visitedRooms[+this.rooms[i][2]]!=true&&room.timeoutRooms[i][1]!=true) {
+              this.ctx.lineWidth = 1;
+              this.ctx.fillStyle = "rgb(255,0,0)";
+              this.ctx.beginPath();
+              this.ctx.arc(
+                this.rooms[i][0],
+                this.rooms[i][1],
+                10,
+                0,
+                2 * Math.PI
+              );
+              this.ctx.stroke();
+              this.ctx.closePath();
+              this.ctx.fill();
+              if(this.rooms[i][2]==="90"){
+                this.writeTextToCanvas(
+                  "Shop",
+                  20,
+                  this.rooms[i][0],
+                  this.rooms[i][1] - 20
+                );
+              }else{
+                this.writeTextToCanvas(
+                  this.rooms[i][2],
+                  20,
+                  this.rooms[i][0],
+                  this.rooms[i][1] - 20
+                );
+              }
+              
+            }
+          }
+          
       }
 
 }
