@@ -6,7 +6,6 @@ export default class MiniGame6 extends MGMain{
     private fullFingerprint: HTMLImageElement[];
     private partFingerprint: HTMLImageElement[];
     private randomNumber: number;
-    private started: boolean;
     private titelText: string;
     private color: string;
     private size: number;
@@ -18,7 +17,7 @@ export default class MiniGame6 extends MGMain{
    	* @param canvas canvas
    	*/
     constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
-      	super(6,room, ctx, canvas);
+      	super(6,room, ctx, canvas,[],[]);
       	this.fullFingerprint = [Game.loadNewImage('./img/fingerPrints/resized-fingerprint-1382652_1920.jpg'),Game.loadNewImage('./img/fingerPrints/resized-detective-fingerprints-print.png'),Game.loadNewImage('./img/fingerPrints/resized-istockphoto-534450004-612x612.jpg')];
       	this.partFingerprint = [Game.loadNewImage('./img/fingerPrints/detective-fingerprints-arch.png'),Game.loadNewImage('./img/fingerPrints/detective-fingerprints-loop.png'),Game.loadNewImage('./img/fingerPrints/detective-fingerprints-whorl.png')];
       	this.randomNumber = Room.randomNumber(0,2);
@@ -106,25 +105,5 @@ export default class MiniGame6 extends MGMain{
 
 	
 
-    /**
-   	 * @param text
-   	 * @param xCoordinate
-   	 * @param yCoordinate
-   	 * @param fontSize
-   	 * @param color
-   	 * @param alignment
-   	 */
-  	public writeTextToCanvas(
-    	text: string,
-    	fontSize: number = 20,
-    	xCoordinate: number,
-    	yCoordinate: number,
-    	alignment: CanvasTextAlign = 'center',
-    	color: string = 'white',
-  	): void {
-    	this.ctx.font = `700 ${fontSize}px sans-serif`;
-    	this.ctx.fillStyle = color;
-    	this.ctx.textAlign = alignment;
-    	this.ctx.fillText(text, xCoordinate, yCoordinate);
-  	}
+    
 }

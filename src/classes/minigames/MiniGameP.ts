@@ -3,16 +3,9 @@ import MGMain from "./MGMain";
 import Game from "../Game";
 
 export default class MiniGameP extends MGMain {
-  	private secretW:Array<string>=[];
-  	private attempts:number;
-  	private found:any[];
-  	private index:number;
-  	private complete:any;
-  	private attemptsArr:Array<string>=[];
-  	private foundStr:string;
-  	public started:boolean;
+  
   	private lockedUp!: number;
-  	private image:HTMLImageElement;
+  	
   
 	/**
 	* Create an instance of this object
@@ -23,23 +16,38 @@ export default class MiniGameP extends MGMain {
   	constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
     	super(80,room, ctx, canvas);
   
-	    //   if(this.lockedUp===1){
-    	//   this.secretW=["k","a","r","e","l","9","3","2"];
-    	//   }else{
-    	//     this.secretW=["9","4","p","e","r","e","n","8"];
+	      if(this.lockedUp===1){
+    	  this.secretW=["k","a","r","e","l","9","3","2"];
+    	  }else{
+    	    this.secretW=["9","4","p","e","r","e","n","8"];
 
-    	//   }
+    	  }
       	this.found=[null,null,null,null,null,null,null,null];
-      	//window.addEventListener('keydown',this.checkKey,false);
-      	// document.onkeydown = this.checkKey.bind(this);
-      	this.index=0;
-      	this.attempts=5;
-      	this.foundStr="";
-     	// this.complete=false;
-     	this.started=true;
-     	this.image=Game.loadNewImage("./img/background/cell2.jpg");
+
+		  this.loadInfo()
+      
+     	//this.image=Game.loadNewImage("./img/background/cell2.jpg");
 
   	}
+
+	  public loadInfo(){
+		if(this.lockedUp===1){
+			this.fname="Karel"
+			this.lname="De 2e"
+			this.age=32
+			this.birth="02/01/1990"
+			this.habitat="De Bank"
+			
+	  }else{
+		this.fname="Peter"
+		this.lname="Peren"
+		this.age=28
+		this.birth="28/02/1994"
+		this.habitat="De Bank"
+			
+	  }
+
+	  }
 
   	/**
    	* Functie om de game te updaten
@@ -72,73 +80,22 @@ export default class MiniGameP extends MGMain {
   	*/
   	public render(){
     	this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight);
-    	this.ctx.strokeStyle="rgb(0,255,0)";
-    	this.ctx.beginPath();
-    	this.ctx.rect(100,100,600,300);
-    	this.ctx.closePath();
-    	this.ctx.stroke();
-    	this.writeTextToCanvas(`Je hebt nog ${this.attempts} pogingen om het wachtwoord te raden, na elke poging kun je zien welke`,16,110,130);
-    	this.writeTextToCanvas("characters je goed hebt geraden",16,110,150);
-
-    	this.writeTextToCanvas("Druk op ENTER  om je poging te testen.",16,110,50);
+    	
+    
     	this.writeTextToCanvas("Je bent opgesloten door de bewakers! En de bewakers hebben een wachtwoord op de deur gezet! ",16,110,70);
     	this.writeTextToCanvas("Hack het wachtwoord om vrij te komen",16,110,90);
-    	if(this.attemptsArr){
-      		for(let i=0;i<this.attemptsArr.length;i++){
-        		this.writeTextToCanvas(`Poging ${i+1}: ${this.attemptsArr[i]}`,19,110,170+i*20);
-      		}
-    	}
+    	
+		this.renderAttemptsBlock()
+		this.renderInfoBlock()
+		this.renderPassBlocks()
+		this.renderStreepIndex()
+		
 
-    	this.ctx.beginPath();
-    	this.ctx.rect(700,100,300,500);
-    	this.ctx.closePath();
-    	this.writeTextToCanvas("Informatie van de bewaker die het wachtwoord heeft verzonnen:",20,750,100);
-    	if(this.lockedUp===1){
-      		this.writeTextToCanvas("voornaam: Karel",20,750,130);
-      		this.writeTextToCanvas("achternaam: De 2e",20,750,160);
-      		this.writeTextToCanvas("leeftijd: 32",20,750,190);
-      		this.writeTextToCanvas("geboorte datum: 02/01/1990",20,750,220);
-      		this.writeTextToCanvas("woonplaats: De Bank",20,750,250);
-    	}else{
-      		this.writeTextToCanvas("voornaam: Peter",20,750,130);
-      		this.writeTextToCanvas("achternaam: Peren",20,750,160);
-      		this.writeTextToCanvas("leeftijd: 28",20,750,190);
-      		this.writeTextToCanvas("geboorte datum: 28/02/1994",20,750,220);
-      		this.writeTextToCanvas("woonplaats: De Bank",20,750,250);
-    	}
+    	
+    	//this.writeTextToCanvas("Informatie van de bewaker die het wachtwoord heeft verzonnen:",20,850,130);
+    	
 
-    	//rect met wachtwoord
-		this.ctx.strokeStyle = "rgb(0,0,0)";
-		this.ctx.beginPath();
-		for(let i=0;i<this.secretW.length;i++){
-		  this.ctx.rect(100+(i*100), 500, 50, 50);
-
-		}
-		this.ctx.closePath();
-		this.ctx.stroke();
-
-		//streep waar de index is
-		this.ctx.strokeStyle = "rgb(0,255,0)";
-		this.ctx.beginPath();
-	   if(this.index<=this.secretW.length-1){
-		  this.ctx.rect(100+(this.index*100), 540, 50, 10);
-	   }else{
-		  this.ctx.rect(100+((this.secretW.length-1)*100), 540, 50, 10);
-
-	   }
-		this.ctx.closePath();
-		this.ctx.stroke();
-
-
-    	for(let i=1;i<9;i++){
-      		if(this.found[i-1]!=null){
-        		this.writeTextToCanvas(this.found[i-1],40,i*100+10,540);
-      		}else{
-        		this.writeTextToCanvas("*",40,i*100+10,550);
-
-      		}
-
-    	}
+    	
 
     	if(this.complete){
       		this.writeTextToCanvas("Je hebt het wachtwoord geraden! Laat je niet nog een keer pakken!",30,100,900);
@@ -167,7 +124,7 @@ export default class MiniGameP extends MGMain {
         	this.found[this.index--]=null;
         	//this.index--;
       	}else if(e.keyCode===13){
-        	this.checkAttempt();
+        	this.checkAttemptP();
       	}else if(this.index<=7){
         	for(let i=0;i<this.found.length;i++){
           		if(this.found[i]===null){
@@ -189,7 +146,7 @@ export default class MiniGameP extends MGMain {
    	* Check the attempts left for the player
    	* if the player has guessed correctly they will be released
    	*/
-  	public checkAttempt(){
+  	public checkAttemptP(){
     	for(let i=0;i<this.found.length;i++){
       		this.foundStr+=this.found[i];
     	}
@@ -249,25 +206,5 @@ export default class MiniGameP extends MGMain {
       }
   	}
 
-  	/**
-   	* @param text
-   	* @param xCoordinate
-   	* @param yCoordinate
-   	* @param fontSize
-   	* @param color
-   	* @param alignment
-   	*/
-  	public writeTextToCanvas(
-    	text: string,
-    	fontSize: number = 20,
-    	xCoordinate: number,
-    	yCoordinate: number,
-    	alignment: CanvasTextAlign = 'start',
-    	color: string = 'red',
-  	): void {
-    	this.ctx.font = `${fontSize}px sans-serif`;
-    	this.ctx.fillStyle = color;
-		this.ctx.textAlign = alignment;
-		this.ctx.fillText(text, xCoordinate, yCoordinate);
-  	}
+  
 }

@@ -16,7 +16,7 @@ export default class MiniGame0 extends MGMain {
     
     private answer1:boolean
 
-    private complete:any;
+   
 
     
 

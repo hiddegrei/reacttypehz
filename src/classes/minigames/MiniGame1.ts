@@ -8,10 +8,10 @@
     import Border from "../Border";
     import Vector from "../Vector";
     
-    export default class MiniGame2 extends MGMain{
-        public ctx:CanvasRenderingContext2D;
+    export default class MiniGame1 extends MGMain{
+       
     
-        private image!: HTMLImageElement;
+       
     
         private particle:Particle
     
@@ -21,7 +21,7 @@
         
         private answer1:boolean
     
-        private complete:any;
+       
 
        
     /**
@@ -31,7 +31,7 @@
        * @param canvas canvas
        */
         constructor(ctx:CanvasRenderingContext2D,room:Room,canvas:HTMLCanvasElement){
-          super(2,room,ctx,canvas)
+          super(1,room,ctx,canvas,[],[])
           this.ctx=ctx
           this.image = Game.loadNewImage("./img/background/password2.jpg")
           this.particle=new Particle(window.innerWidth/2,window.innerHeight/2,ctx)
