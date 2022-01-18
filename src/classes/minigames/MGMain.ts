@@ -93,12 +93,12 @@ export default class MGMain{
 	 */
   	public checkKey(e:any) {
       //console.log(e.keyCode);
-      if(e.keyCode===8){
+      if(e.keyCode===8&&this.index>=0){
         this.found[this.index--]=null;
         //this.index--;
       }else if(e.keyCode===13){
         this.checkAttempt();
-      }else if(this.index<this.found.length){
+      }else if(this.index<this.found.length&&e.keyCode!=8){
         for(let i=0;i<this.found.length;i++){
             if(this.found[i]===null){
               this.index=i;
@@ -239,8 +239,11 @@ export default class MGMain{
     //streep waar de index is
     this.ctx.strokeStyle = "rgb(0,255,0)";
     this.ctx.beginPath();
- if(this.index<=this.secretW.length-1){
+ if(this.index<=this.secretW.length-1&&this.index>0){
   this.ctx.rect(100+(this.index*100), 540, 50, 10);
+ }else if(this.index<=0){
+  this.ctx.rect(100, 540, 50, 10);
+
  }else{
   this.ctx.rect(100+((this.secretW.length-1)*100), 540, 50, 10);
 

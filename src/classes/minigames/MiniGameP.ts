@@ -120,12 +120,12 @@ export default class MiniGameP extends MGMain {
    	*/
   	public checkKey(e:any) {
       	//console.log(e.keyCode);
-      	if(e.keyCode===8){
+      	if(e.keyCode===8&&this.index>=0){
         	this.found[this.index--]=null;
         	//this.index--;
       	}else if(e.keyCode===13){
         	this.checkAttemptP();
-      	}else if(this.index<=7){
+      	}else if(this.index<=7&&e.keyCode!=8){
         	for(let i=0;i<this.found.length;i++){
           		if(this.found[i]===null){
             		this.index=i;
