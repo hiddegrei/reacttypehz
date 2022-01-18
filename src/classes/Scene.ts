@@ -477,12 +477,14 @@ export default class Scene {
       //hack agents and retrieve keys
       let timeHack = this.agents[this.particle.hackAgent].hackTime;
 
-      if (this.timeHacking < timeHack && this.particle.hacking) {
+      if (this.particle.hackIndex < this.particle.hackRange && this.particle.hacking) {
         this.timeHacking += elapsed;
       } else if (!this.particle.hacking) {
-        this.timeHacking = 0;
+        //this.timeHacking = 0;
+        this.particle.hackIndex=0
       } else if (
-        this.timeHacking >= timeHack &&
+        //this.timeHacking >= timeHack &&
+        this.particle.hackIndex >= this.particle.hackRange&&
         this.agents[this.particle.hackAgent].sleeping === false
       ) {
         let key = this.agents[this.particle.hackAgent].keyNum;
@@ -490,6 +492,7 @@ export default class Scene {
         this.keys.keys[key] = true;
         this.keys.total++;
         this.timeHacking = 0;
+        this.particle.setHackIndex(0)
         this.agents[this.particle.hackAgent].updateAttributes()
        
         // console.log("hacked room num:" ,key)
