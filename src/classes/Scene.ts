@@ -164,7 +164,7 @@ export default class Scene {
       this.ctx
     );
 
-    this.loadAgents()
+    this.agents=this.sceneInfo.loadAgents(this.level.widthHall)
 
   //agent linksboven
    this.cameraAgents.push(new CameraAgent(100-this.level.widthHall,100,this.ctx,this.level.widthHall,80,100+this.level.widthHall,100+this.level.widthHall))
@@ -185,88 +185,7 @@ export default class Scene {
     this.time = 0;
   }
 
-  public loadAgents(){
-    this.agents.push(
-      new Agent(
-        1.5 * this.level.widthHall,
-        100 + 1.5 * this.level.widthHall,
-        this.ctx,
-        this.level.widthHall,
-        "random",
-        0,
-        "yellow"
-      )
-    );
-    this.agents.push(
-      new Agent(
-        1.5 * this.level.widthHall,
-        100 + 8 * this.level.widthHall,
-        this.ctx,
-        this.level.widthHall,
-        "random",
-        0,
-        "yellow"
-      )
-    );
-    this.agents.push(
-      new Agent(
-        this.canvas.width / 2 + 3.5 * this.level.widthHall,
-        300 + 2 * this.level.widthHall,
-        this.ctx,
-        this.level.widthHall,
-        "random",
-        1,
-        "orange"
-      )
-    );
-    this.agents.push(
-      new Agent(
-        this.canvas.width / 2 + 12.5 * this.level.widthHall,
-        300 + 8 * this.level.widthHall,
-        this.ctx,
-        this.level.widthHall,
-        "random",
-        2,
-        "yellow"
-      )
-    );
-    this.agents.push(
-      new Agent(
-        this.canvas.width / 2 - 0.5 * this.level.widthHall,
-        100 + 3 * this.level.widthHall,
-        this.ctx,
-        this.level.widthHall,
-        "random",
-        3,
-        "red"
-      )
-    );
-    // this.agentMid=
-    this.agents.push(
-      new Agent(
-        this.canvas.width / 2 - 0.5 * this.level.widthHall,
-        100 + 4.5 * this.level.widthHall,
-        this.ctx,
-        this.level.widthHall,
-        "mid",
-        3,
-        "red"
-      )
-    );
-
-    this.agents.push(
-      new Agent(
-        this.canvas.width / 2 + 12 * this.level.widthHall,
-        100 + 6.5 * this.level.widthHall,
-        this.ctx,
-        this.level.widthHall,
-        "search11",
-        3,
-        "orange"
-      )
-    );
-
-  }
+  
 
   public directorAlert(number: number) {
     if (number === 1) {
@@ -498,7 +417,7 @@ export default class Scene {
             );
           }
           //player in room
-          this.lockedUp++;
+          // this.lockedUp++;
           this.particle.pos.x =
             this.canvas.width / 2 + 18 * this.level.widthHall;
           this.particle.pos.y = 100 + 5 * this.level.widthHall;
@@ -610,7 +529,7 @@ export default class Scene {
             );
           }
           //player in room
-          this.lockedUp++;
+          // this.lockedUp++;
           this.particle.pos.x =
             this.canvas.width / 2 + 18 * this.level.widthHall;
           this.particle.pos.y = 100 + 5 * this.level.widthHall;
@@ -719,6 +638,14 @@ export default class Scene {
         this.particle.pos.x =
           this.canvas.width / 2 + 18.5 * this.level.widthHall;
         this.particle.pos.y = 100 + 2 * this.level.widthHall;
+        this.lockedUp++;
+      }else if (isMiniGameComplete === 81) {
+        this.room.answer = false;
+        this.room.miniGameFinished = false;
+        this.particle.pos.x =
+          this.canvas.width / 2 + 18.5 * this.level.widthHall;
+        this.particle.pos.y = 100 + 2 * this.level.widthHall;
+        this.lockedUp++;
       }
 
   } 

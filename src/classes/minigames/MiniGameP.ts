@@ -65,6 +65,7 @@ export default class MiniGameP extends MGMain {
       		}else{
           		this.secretW=["9","4","p","e","r","e","n","8"];
       		}
+			  this.loadInfo()
         
       		this.started=false;
     	}

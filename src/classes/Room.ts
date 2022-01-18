@@ -150,6 +150,10 @@ export default class Room{
           this.miniGameFinished=false
           //timeout room
           return 90
+        }else if(this.roomId===80){
+          this.miniGameFinished=false
+          //timeout room
+          return 81
         }
         else{
           //timeout room

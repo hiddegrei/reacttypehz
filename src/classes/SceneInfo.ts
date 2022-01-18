@@ -1,3 +1,4 @@
+import Agent from "./Agent";
 import Hints from "./Hints";
 
 export default class SceneInfo{
@@ -9,6 +10,91 @@ export default class SceneInfo{
         this.ctx=ctx
 
     }
+
+    public loadAgents(widthHall:number){
+        let agents=[]
+        agents.push(
+          new Agent(
+            1.5 * widthHall,
+            100 + 1.5 * widthHall,
+            this.ctx,
+            widthHall,
+            "random",
+            0,
+            "yellow"
+          )
+        );
+        agents.push(
+          new Agent(
+            1.5 * widthHall,
+            100 + 8 *widthHall,
+            this.ctx,
+            widthHall,
+            "random",
+            0,
+            "yellow"
+          )
+        );
+        agents.push(
+          new Agent(
+            this.canvas.width / 2 + 3.5 * widthHall,
+            300 + 2 * widthHall,
+            this.ctx,
+            widthHall,
+            "random",
+            1,
+            "orange"
+          )
+        );
+        agents.push(
+          new Agent(
+            this.canvas.width / 2 + 12.5 * widthHall,
+            300 + 8 * widthHall,
+            this.ctx,
+            widthHall,
+            "random",
+            2,
+            "yellow"
+          )
+        );
+        agents.push(
+          new Agent(
+            this.canvas.width / 2 - 0.5 * widthHall,
+            100 + 3 * widthHall,
+            this.ctx,
+            widthHall,
+            "random",
+            3,
+            "red"
+          )
+        );
+        // this.agentMid=
+        agents.push(
+          new Agent(
+            this.canvas.width / 2 - 0.5 *widthHall,
+            100 + 4.5 * widthHall,
+            this.ctx,
+            widthHall,
+            "mid",
+            3,
+            "red"
+          )
+        );
+    
+        agents.push(
+          new Agent(
+            this.canvas.width / 2 + 12 * widthHall,
+            100 + 6.5 * widthHall,
+            this.ctx,
+            widthHall,
+            "search11",
+            3,
+            "orange"
+          )
+        );
+        return agents
+    
+      }
 
     public renderBackgroundImages(widthHall:number,imgBank:HTMLImageElement){
         //draw tekst grote kluis midden scherm

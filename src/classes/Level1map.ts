@@ -79,7 +79,7 @@ export default class Level1map {
 
             [(this.canvas.width / 2)-5*this.widthHall ,100+15*this.widthHall, (this.canvas.width / 2)-5*this.widthHall ,100+16*this.widthHall],
 
-            [(this.canvas.width / 2)-10*this.widthHall ,100+17*this.widthHall, (this.canvas.width / 2)-5*this.widthHall ,100+17*this.widthHall],
+             [(this.canvas.width / 2)-10*this.widthHall ,100+17*this.widthHall, (this.canvas.width / 2)-5*this.widthHall ,100+17*this.widthHall],
 
             
             this.turnDR((this.canvas.width / 2)-13*this.widthHall ,100+15*this.widthHall)[0],
@@ -347,15 +347,14 @@ export default class Level1map {
             this.makeHallH((this.canvas.width / 2)+3*this.widthHall ,300+10 * this.widthHall,1*this.widthHall)[1],
             [(this.canvas.width / 2)+4*this.widthHall ,300+11 * this.widthHall, (this.canvas.width / 2)+4*this.widthHall ,300+12 * this.widthHall],
             [(this.canvas.width / 2)+2*this.widthHall ,300+13 * this.widthHall, (this.canvas.width / 2)+4*this.widthHall ,300+13 * this.widthHall],
-            [(this.canvas.width / 2)+4*this.widthHall ,300+13 * this.widthHall, (this.canvas.width / 2)+5*this.widthHall ,300+13 * this.widthHall],
+             [(this.canvas.width / 2)+4*this.widthHall ,300+13 * this.widthHall, (this.canvas.width / 2)+5*this.widthHall ,300+13 * this.widthHall],
             this.makeHallH((this.canvas.width / 2)+5*this.widthHall ,300+10 * this.widthHall,3*this.widthHall)[0],
             this.makeHallH((this.canvas.width / 2)+5*this.widthHall ,300+10 * this.widthHall,3*this.widthHall)[1],
             [(this.canvas.width / 2)+5*this.widthHall ,300+11 * this.widthHall, (this.canvas.width / 2)+5*this.widthHall ,300+12 * this.widthHall],
             [(this.canvas.width / 2)+4*this.widthHall ,300+9 * this.widthHall, (this.canvas.width / 2)+4*this.widthHall ,300+10 * this.widthHall],
 
 
-            this.makeHallH((this.canvas.width / 2)+5*this.widthHall ,300+12 * this.widthHall,3*this.widthHall)[0],
-            this.makeHallH((this.canvas.width / 2)+5*this.widthHall ,300+12 * this.widthHall,3*this.widthHall)[1],
+           
 
             this.makeHallH((this.canvas.width / 2)+8*this.widthHall ,300+11 * this.widthHall,this.widthHall)[0],
             this.makeHallH((this.canvas.width / 2)+8*this.widthHall ,300+11 * this.widthHall,this.widthHall)[1],
@@ -439,10 +438,17 @@ export default class Level1map {
             //wall rechts voor prison room
             [(this.canvas.width/2)+18*this.widthHall,100+3*this.widthHall,this.canvas.width,100+3*this.widthHall],
 
-            //gangdown
+            //gangdown left
             [(this.canvas.width / 2)-11*this.widthHall ,100+16*this.widthHall,(this.canvas.width / 2)-10*this.widthHall ,100+16*this.widthHall],
             this.makeHallV((this.canvas.width / 2)-11*this.widthHall ,100+17*this.widthHall,3*this.widthHall)[0],
             this.makeHallV((this.canvas.width / 2)-11*this.widthHall ,100+17*this.widthHall,3*this.widthHall)[1],
+
+            //gangdown right
+             this.makeHallH((this.canvas.width / 2)+5*this.widthHall ,300+12 * this.widthHall,2*this.widthHall)[0],
+            this.makeHallH((this.canvas.width / 2)+5*this.widthHall ,300+12 * this.widthHall,2*this.widthHall)[1],
+            [(this.canvas.width / 2)+7*this.widthHall ,300+12 * this.widthHall,(this.canvas.width / 2)+8*this.widthHall ,300+12 * this.widthHall],
+            this.makeHallV((this.canvas.width / 2)+7*this.widthHall ,300+13 * this.widthHall,2*this.widthHall)[0],
+            this.makeHallV((this.canvas.width / 2)+7*this.widthHall ,300+13 * this.widthHall,2*this.widthHall)[1],
 
 
 
