@@ -4,7 +4,7 @@ import Game from "../Game";
 
 export default class MiniGameP extends MGMain {
   
-  	private lockedUp!: number;
+  	private lockedUp: number;
   	
   
 	/**
@@ -15,6 +15,7 @@ export default class MiniGameP extends MGMain {
    	*/
   	constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
     	super(80,room, ctx, canvas);
+		this.lockedUp=1
   
 	      if(this.lockedUp===1){
     	  this.secretW=["k","a","r","e","l","9","3","2"];
@@ -23,8 +24,9 @@ export default class MiniGameP extends MGMain {
 
     	  }
       	this.found=[null,null,null,null,null,null,null,null];
+		 
 
-		  this.loadInfo()
+		this.loadInfo()
       
      	//this.image=Game.loadNewImage("./img/background/cell2.jpg");
 

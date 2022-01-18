@@ -33,6 +33,8 @@ export default class Agent{
 
     public target:Vector;
 
+    public endTarget:Vector;
+
     public lastAngle:number;
 
     public viewRays:Array<Ray>;
@@ -88,6 +90,7 @@ export default class Agent{
              this.rays.push( new Ray(this.pos,i,this.ctx))
          }
          this.target=new Vector(x,y)
+         this.endTarget=new Vector(0,0)
          this.viewRays=[]
          this.sight=80;
          this.checkAngle=9;
@@ -131,7 +134,28 @@ export default class Agent{
         this.acc.add(force)
       }
 
-    update(pos:Vector, borders: Array<Border>) {
+    public updateTarget(canvas:HTMLCanvasElement,widthHall:number,particlePos:Vector)  {
+        let mid = new Vector(
+            canvas.width / 2 - widthHall,
+            100 + 6 * widthHall
+          );
+  
+          let search11 = new Vector(
+            canvas.width / 2 + 12 * widthHall + 20,
+            100 + 7 * widthHall + 15
+          );
+
+          if(this.mode==="mid"){
+              this.endTarget=mid
+          }else if(this.mode==="search11"){
+              this.endTarget=search11
+          }else{
+              this.endTarget=particlePos
+          }
+
+    }
+
+    update( borders: Array<Border>) {
 
 
         this.dir = { x: this.target.x - this.pos.x, y: this.target.y - this.pos.y }
@@ -224,7 +248,7 @@ export default class Agent{
 
            
           
-           let d=Vector.dist(potential,pos)
+           let d=Vector.dist(potential,this.endTarget)
            if(d<record){
                record=d
                nextTarget.x=this.pos.x+options[open[i]].x;

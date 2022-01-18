@@ -330,6 +330,8 @@ export default class Scene {
     }
   }
 
+  
+
   /**
    * update the scene
    *@param elapsed time passed
@@ -338,7 +340,257 @@ export default class Scene {
     if (this.legalInsideRoom()) {
       this.room.update(this.mouse.x, this.mouse.y, elapsed);
       document.onmousemove = this.mouseDown.bind(this);
-      let isMiniGameComplete = this.room.checkDone();
+      this.specialCasesMinigame()
+      
+    } else {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      //tijd aftellen
+      this.updateTime(elapsed)
+      // transform canvas en camera
+      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+      let trans = this.camera.checkScaling(this.canvas, this.particle);
+      this.camera.createMatrix(trans.x, trans.y, 0, 0);
+      this.ctx.translate(trans.x, trans.y);
+      //register mouse position to move the player
+      document.onmousemove = this.mouseDown.bind(this);
+      //Developers
+      if (this.keyboard.isKeyDown(82)) {
+        this.game.isEnd = true;
+      }
+      //
+      //check in what room the player is if any
+      this.isPlayerInRoom()
+      //check if player is insight of agents
+      this.isPlayerInSight(elapsed)
+      //updateing player position
+      this.particle.update(this.mouse.x, this.mouse.y, this.borders);
+      this.particle.hack(this.agents);
+      this.particle.animate();
+      this.particle.move();
+      //hack agents and retrieve keys
+      this.playerHackAgents(elapsed)
+      //timeout rooms
+      this.room.timeOutRooms(elapsed)
+    }
+    
+    
+  }
+
+  
+
+  /**
+   *render the scene
+   */
+  public render(): void {
+    if (this.legalInsideRoom()) {
+      this.room.render();
+    } else {
+      // for(let i=0;i<this.canvas.width;i+=50){
+      //   for(let j=0;j<this.canvas.height;j+=50){
+      //     this.ctx.drawImage(this.imgBank,850,870,50,50,i,j,50,50)
+      //   }
+
+      // }
+      //kamer1 background
+      // this.ctx.drawImage(this.imgBank,1000,200,2*this.level.widthHall,3*this.level.widthHall,100+5*this.level.widthHall+10,100+2*this.level.widthHall,2*this.level.widthHall,3*this.level.widthHall)
+
+      this.sceneInfo.renderBackgroundImages(this.level.widthHall, this.imgBank);
+      //show the player
+      this.particle.show(false, "green");
+      // show the borders
+      for (let i = 0; i < this.borders.length; i++) {
+        this.borders[i].show();
+      }
+      //show the agents
+      for (let i = 0; i < this.agents.length; i++) {
+        this.agents[i].show(this.ctx);
+        this.agents[i].look(this.borders, this.ctx);
+      }
+      //show the room ids(rondjes)
+      this.level.showRoomIds(this.room);
+      //show the keys on top screen
+      this.keys.show(this.ctx);
+
+      //render info on top
+      this.sceneInfo.renderInfo(
+        this.timeLeft,
+        this.score.scoreProperty,
+        this.progress.progressNum,
+        this.hints
+      );
+
+      this.allAgentAlert(1897, 1898);
+      this.allAgentAlert(1890, 1891);
+    }
+  }
+
+  private allAgentAlert(timeleftA: number, timeleftB: number) {
+    if (this.timeLeft >= timeleftA && this.timeLeft <= timeleftB) {
+      if (this.flash === 1) {
+        this.directorAlert(1);
+        this.flash++;
+      } else if (this.flash >= 5) {
+        this.directorAlert(0);
+        this.flash = 1;
+      } else {
+        this.directorAlert(0);
+        this.flash++;
+      }
+    }
+  }
+
+  public gethintGame() {
+    return this.hints;
+  }
+
+  public getGame() {
+    return this.game;
+  }
+
+/**
+ * check if player is in a room
+ */
+  public isPlayerInRoom(){
+    let roomNum = this.particle.isInRoom(this.roomsIds);
+      if (
+        roomNum != -1 &&
+        (this.keys.total > 0 || roomNum === 80 || roomNum === 90) &&
+        this.room.timeoutRooms[roomNum][1] != true
+      ) {
+        //player is inside a room or central hub
+        this.insideRoom = true;
+        this.inRoomNum = roomNum;
+        this.room.setRoomId(this.inRoomNum);
+      } else if (this.keyboard.isKeyDown(84)) {
+        this.insideRoom = true;
+        this.inRoomNum = 2;
+        this.room.setRoomId(2);
+      }
+
+  }
+
+  /**
+   * if close enough, player hacks the agents
+   * @param elapsed number
+   */
+  public playerHackAgents(elapsed:number){
+    
+    if (
+      this.particle.hackIndex < this.particle.hackRange &&
+      this.particle.hacking
+    ) {
+      this.timeHacking += elapsed;
+    } else if (!this.particle.hacking) {
+      //this.timeHacking = 0;
+      this.particle.hackIndex = 0;
+    } else if (
+      //this.timeHacking >= timeHack &&
+      this.particle.hackIndex >= this.particle.hackRange &&
+      this.agents[this.particle.hackAgent].sleeping === false
+    ) {
+      let key = this.agents[this.particle.hackAgent].keyNum;
+      this.agents[this.particle.hackAgent].sleeping = true;
+      this.keys.keys[key] = true;
+      this.keys.total++;
+      this.timeHacking = 0;
+      this.particle.setHackIndex(0);
+      this.agents[this.particle.hackAgent].updateAttributes();
+
+      // console.log("hacked room num:" ,key)
+      for (let i = 0; i < this.keys.keys.length; i++) {
+        if (!this.keys.inPossesion[i]) {
+          this.agents[this.particle.hackAgent].keyNum = i;
+          this.keys.inPossesion[i] = true;
+          break;
+        }
+      }
+    }
+  }
+
+  /**
+   * check if player is in sight of agents
+   * @param elapsed number
+   */
+  public isPlayerInSight(elapsed:number){
+    for (let i = 0; i < this.agents.length; i++) {
+      if (Vector.dist(this.particle.pos, this.agents[i].pos) < 80) {
+        let inSight = this.agents[i].inSight(
+          this.particle,
+          this.ctx,
+          this.borders
+        );
+        if (inSight) {
+          //this.totalScore-=Scene.CAUGHT_AGENTS
+          this.score.caughtAgents();
+          if (this.lockedUp === 2) {
+            this.game.isEnd = true;
+            this.howGameEnded = "caught";
+          }
+          if (this.agents.length <= 5) {
+            this.agents.push(
+              new Agent(
+                100 + 5 * this.level.widthHall,
+                100 + 0.5 * this.level.widthHall,
+                this.ctx,
+                this.level.widthHall,
+                "random",
+                this.agents.length,
+                "yellow"
+              )
+            );
+          }
+          //player in room
+          this.lockedUp++;
+          this.particle.pos.x =
+            this.canvas.width / 2 + 18 * this.level.widthHall;
+          this.particle.pos.y = 100 + 5 * this.level.widthHall;
+        }
+      }
+
+      //updateing and moving agents
+     this.agents[i].updateTarget(this.canvas,this.level.widthHall,this.particle.pos)
+     this.agents[i].update(this.borders)
+
+      this.agents[i].move();
+      //this.agents[i].look(this.borders,this.ctx)
+      //check if agent is still inactive, increment sleeping time if still sleeping
+      if (this.agents[i].sleepingTime >= 20000) {
+        this.agents[i].sleepingTime = 0;
+        this.agents[i].sleeping = false;
+      } else {
+        this.agents[i].sleepingTime += elapsed;
+      }
+    }
+
+  }
+
+
+
+  /**
+   * update time
+   * @param elapsed time passed since last frame
+   */
+  public updateTime(elapsed:number){
+    if (this.time >= 1000) {
+      this.timeLeft -= 1;
+      this.time = 0;
+    } else {
+      this.time += elapsed;
+    }
+    //tijd om ? game over, score naar database
+    if (this.timeLeft <= 0) {
+      // this.scoreToDatabase.update(this.score.scoreProperty);
+      this.game.isEnd = true;
+    }
+
+  }
+
+
+  /**
+   * Check what room player came from and what happend in room
+   */
+  public specialCasesMinigame(){
+    let isMiniGameComplete = this.room.checkDone();
       if (isMiniGameComplete === 0) {
         this.room.answer = false;
         this.room.miniGameFinished = false;
@@ -396,258 +648,8 @@ export default class Scene {
           this.canvas.width / 2 + 18.5 * this.level.widthHall;
         this.particle.pos.y = 100 + 2 * this.level.widthHall;
       }
-    } else {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      //tijd aftellen
-      if (this.time >= 1000) {
-        this.timeLeft -= 1;
-        this.time = 0;
-      } else {
-        this.time += elapsed;
-      }
-      //tijd om ? game over, score naar database
-      if (this.timeLeft <= 0) {
-        // this.scoreToDatabase.update(this.score.scoreProperty);
-        this.game.isEnd = true;
-      }
 
-      // transform canvas en camera
-      this.ctx.setTransform(1, 0, 0, 1, 0, 0);
-      let trans = this.camera.checkScaling(this.canvas, this.particle);
-      this.camera.createMatrix(trans.x, trans.y, 0, 0);
-      this.ctx.translate(trans.x, trans.y);
-
-      //register mouse position to move the player
-      document.onmousemove = this.mouseDown.bind(this);
-
-      //Developers
-      if (this.keyboard.isKeyDown(82)) {
-        this.game.isEnd = true;
-      }
-      //
-
-      //check in what room the player is if any
-      let roomNum = this.particle.isInRoom(this.roomsIds);
-      if (
-        roomNum != -1 &&
-        (this.keys.total > 0 || roomNum === 80 || roomNum === 90) &&
-        this.room.timeoutRooms[roomNum][1] != true
-      ) {
-        //player is inside a room or central hub
-        this.insideRoom = true;
-        this.inRoomNum = roomNum;
-        this.room.setRoomId(this.inRoomNum);
-      } else if (this.keyboard.isKeyDown(84)) {
-        this.insideRoom = true;
-        this.inRoomNum = 2;
-        this.room.setRoomId(2);
-      }
-
-      //check if player is insight of agents
-      for (let i = 0; i < this.agents.length; i++) {
-        if (Vector.dist(this.particle.pos, this.agents[i].pos) < 80) {
-          let inSight = this.agents[i].inSight(
-            this.particle,
-            this.ctx,
-            this.borders
-          );
-          if (inSight) {
-            //this.totalScore-=Scene.CAUGHT_AGENTS
-            this.score.caughtAgents();
-            if (this.lockedUp === 2) {
-              this.game.isEnd = true;
-              this.howGameEnded = "caught";
-            }
-            if (this.agents.length <= 5) {
-              this.agents.push(
-                new Agent(
-                  100 + 5 * this.level.widthHall,
-                  100 + 0.5 * this.level.widthHall,
-                  this.ctx,
-                  this.level.widthHall,
-                  "random",
-                  this.agents.length,
-                  "yellow"
-                )
-              );
-            }
-            //player in room
-            this.lockedUp++;
-            this.particle.pos.x =
-              this.canvas.width / 2 + 18 * this.level.widthHall;
-            this.particle.pos.y = 100 + 5 * this.level.widthHall;
-          }
-        }
-
-        //updateing and moving agents
-        let mid = new Vector(
-          this.canvas.width / 2 - this.level.widthHall,
-          100 + 6 * this.level.widthHall
-        );
-
-        let search11 = new Vector(
-          this.canvas.width / 2 + 12 * this.level.widthHall + 20,
-          100 + 7 * this.level.widthHall + 15
-        );
-        if (this.agents[i].mode === "mid") {
-          this.agents[i].update(mid, this.borders);
-        } else if (this.agents[i].mode === "search11") {
-          this.agents[i].update(search11, this.borders);
-        } else {
-          this.agents[i].update(this.particle.pos, this.borders);
-        }
-
-        this.agents[i].move();
-        //this.agents[i].look(this.borders,this.ctx)
-        //check if agent is still inactive, increment sleeping time if still sleeping
-        if (this.agents[i].sleepingTime >= 20000) {
-          this.agents[i].sleepingTime = 0;
-          this.agents[i].sleeping = false;
-        } else {
-          this.agents[i].sleepingTime += elapsed;
-        }
-      }
-      //  let mid=new Vector((this.canvas.width/2)-this.level.widthHall,100+6*this.level.widthHall)
-      //   this.agentMid.update(mid,this.borders)
-      //   this.agentMid.move()
-
-      //updateing player position
-      this.particle.update(this.mouse.x, this.mouse.y, this.borders);
-      this.particle.hack(this.agents);
-      this.particle.animate();
-      this.particle.move();
-
-      //hack agents and retrieve keys
-      let timeHack = this.agents[this.particle.hackAgent].hackTime;
-
-      if (
-        this.particle.hackIndex < this.particle.hackRange &&
-        this.particle.hacking
-      ) {
-        this.timeHacking += elapsed;
-      } else if (!this.particle.hacking) {
-        //this.timeHacking = 0;
-        this.particle.hackIndex = 0;
-      } else if (
-        //this.timeHacking >= timeHack &&
-        this.particle.hackIndex >= this.particle.hackRange &&
-        this.agents[this.particle.hackAgent].sleeping === false
-      ) {
-        let key = this.agents[this.particle.hackAgent].keyNum;
-        this.agents[this.particle.hackAgent].sleeping = true;
-        this.keys.keys[key] = true;
-        this.keys.total++;
-        this.timeHacking = 0;
-        this.particle.setHackIndex(0);
-        this.agents[this.particle.hackAgent].updateAttributes();
-
-        // console.log("hacked room num:" ,key)
-        for (let i = 0; i < this.keys.keys.length; i++) {
-          if (!this.keys.inPossesion[i]) {
-            this.agents[this.particle.hackAgent].keyNum = i;
-            this.keys.inPossesion[i] = true;
-            break;
-          }
-        }
-      }
-    }
-
-    //agents turnaround at once
-    if (this.timeTurnAroundAgents > 2000) {
-      let whichOne = Math.round(Math.random() * (this.agents.length - 1));
-      this.agents[whichOne].canTurnAround = true;
-      this.timeTurnAroundAgents = 0;
-    } else {
-      this.timeTurnAroundAgents += elapsed;
-    }
-
-    //timeout rooms
-    for (let i = 0; i < 17; i++) {
-      if (
-        this.room.timeoutRooms[i][1] === true &&
-        this.room.timeoutRooms[i][0] >= 40000
-      ) {
-        this.room.timeoutRooms[i] = [0, false];
-      } else {
-        this.room.timeoutRooms[i][0] += elapsed;
-      }
-    }
-  }
-
-  public gethintGame() {
-    return this.hints;
-  }
-
-  public getGame() {
-    return this.game;
-  }
-
-  /**
-   *render the scene
-   */
-  public render(): void {
-    if (this.legalInsideRoom()) {
-      this.room.render();
-    } else {
-      //draw time left
-
-      // for(let i=0;i<this.canvas.width;i+=50){
-      //   for(let j=0;j<this.canvas.height;j+=50){
-      //     this.ctx.drawImage(this.imgBank,850,870,50,50,i,j,50,50)
-      //   }
-
-      // }
-      //kamer1 background
-
-      // this.ctx.drawImage(this.imgBank,1000,200,2*this.level.widthHall,3*this.level.widthHall,100+5*this.level.widthHall+10,100+2*this.level.widthHall,2*this.level.widthHall,3*this.level.widthHall)
-
-      this.sceneInfo.renderBackgroundImages(this.level.widthHall, this.imgBank);
-
-      //show the player
-      this.particle.show(false, "green");
-
-      // show the borders
-      for (let i = 0; i < this.borders.length; i++) {
-        this.borders[i].show();
-      }
-      //show the agents
-      for (let i = 0; i < this.agents.length; i++) {
-        this.agents[i].show(this.ctx);
-        this.agents[i].look(this.borders, this.ctx);
-      }
-
-      //show the room ids(rondjes)
-      this.level.showRoomIds(this.room);
-
-      //show the keys on top screen
-      this.keys.show(this.ctx);
-
-      this.sceneInfo.renderInfo(
-        this.timeLeft,
-        this.score.scoreProperty,
-        this.progress.progressNum,
-        this.hints
-      );
-
-      this.allAgentAlert(1897, 1898);
-      this.allAgentAlert(1890, 1891);
-    }
-  }
-
-  private allAgentAlert(timeleftA: number, timeleftB: number) {
-    if (this.timeLeft >= timeleftA && this.timeLeft <= timeleftB) {
-      if (this.flash === 1) {
-        this.directorAlert(1);
-        this.flash++;
-      } else if (this.flash >= 5) {
-        this.directorAlert(0);
-        this.flash = 1;
-      } else {
-        this.directorAlert(0);
-        this.flash++;
-      }
-    }
-  }
+  } 
 
   /**
    * @param text

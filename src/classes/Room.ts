@@ -274,6 +274,20 @@ export default class Room{
        // console.log(roomId,this.visitedRooms[roomId])
     }
 
+    public timeOutRooms(elapsed:number){
+      for (let i = 0; i < 17; i++) {
+        if (
+          this.timeoutRooms[i][1] === true &&
+          this.timeoutRooms[i][0] >= 40000
+        ) {
+          this.timeoutRooms[i] = [0, false];
+        } else {
+          this.timeoutRooms[i][0] += elapsed;
+        }
+      }
+
+    }
+
     /**
    * @param text
    * @param xCoordinate
