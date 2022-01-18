@@ -88,6 +88,8 @@ export default class Scene {
 
   private timeTurnAroundAgents: number
 
+  private imgGang: HTMLImageElement
+
   // private agentMid:Agent
 
   /**
@@ -97,6 +99,7 @@ export default class Scene {
   constructor(canvas: HTMLCanvasElement, game: Game, time: number) {
     this.canvas = canvas;
     this.canvas.width = 1920;
+
     this.canvas.height = 969;
     this.playerRadius = 200
     this.timeTurnAroundAgents = 0
@@ -116,6 +119,7 @@ export default class Scene {
 
     this.imgBankFloor = Game.loadNewImage("./img/background/bankheistmap-tile1.jpg")
     this.imgBank = Game.loadNewImage("./img/background/bankheistmap.jpg");
+    this.imgGang = Game.loadNewImage("./img/background/bankheistmap.jpg")
     document.onkeydown = this.checkKeyScene.bind(this);
 
 
@@ -483,10 +487,10 @@ export default class Scene {
         this.timeHacking += elapsed;
       } else if (!this.particle.hacking) {
         //this.timeHacking = 0;
-        this.particle.hackIndex=0
+        this.particle.hackIndex = 0
       } else if (
         //this.timeHacking >= timeHack &&
-        this.particle.hackIndex >= this.particle.hackRange&&
+        this.particle.hackIndex >= this.particle.hackRange &&
         this.agents[this.particle.hackAgent].sleeping === false
       ) {
         let key = this.agents[this.particle.hackAgent].keyNum;
@@ -558,12 +562,19 @@ export default class Scene {
       this.room.render();
     } else {
       //draw time left
-      this.ctx.drawImage(
-        this.imgBankFloor,
-        0,
-        0,
-        this.imgBankFloor.width, this.imgBankFloor.height, 0, 0, window.innerWidth, window.innerHeight
-      );
+
+      for (let i = 0; i < this.canvas.width; i += 50) {
+        for (let j = 0; j < this.canvas.height; j += 50) {
+          this.ctx.drawImage(this.imgGang, 1090, 440, 50, 50, i, j, 50, 50)
+        }
+
+      }
+      //kamer1 background
+
+      //this.ctx.drawImage(this.imgGang,850,870,50,50,100+5*this.widthHall,100+4*this.widthHall,50,50)
+
+
+
       //draw tekst grote kluis midden scherm
       this.writeTextToCanvas(
         "Grote Kluis",
