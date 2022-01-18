@@ -121,6 +121,7 @@ function playguest(){
        
         
     })
+    localStorage.setItem("username","guest")
     history.push("/start")
 
 }

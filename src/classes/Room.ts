@@ -167,6 +167,7 @@ export default class Room{
       this.scene.camera.createMatrix(0, 0, 0, 0);
       this.ctx.translate(0, 0);
        
+      // eval(` this.minigame${this.roomId}(update`)
         if(this.roomId===0){
           this.minigame0.update(mousex,mousey,elapsed)
         }else if(this.roomId===1){
