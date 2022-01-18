@@ -81,27 +81,16 @@ export default class Hints extends InfoDisplay{
 
     private passwordArray(number: number): string[]{
 		if (number === 1) {
-            let a = ['r','e','g','e','n','-','e','n','-','z','o','n'];
-            //let a2 = ['r','e','o','e','n','b','o','o','g'];
-            
-			return a;
+			return ['r','e','g','e','n','-','e','n','-','z','o','n'];
 		} else if (number === 2) {
-            let b = ['b','e','-','s','a','f','e','-','o','n','l','i','n','e'];
-            
-			return b;
+			return ['b','e','-','s','a','f','e','-','o','n','l','i','n','e'];
 		}else if (number === 3) {
-            let b = ['m','a','d','e','-','b','y','-','t','h','e','-','c','o','m','p','i','l','e','r','s'];
-            
-			return b;
+			return ['m','a','d','e','-','b','y','-','t','h','e','-','c','o','m','p','i','l','e','r','s'];
 		}else if (number === 4) {
-            let b = ['t','h','e','-','c','r','o','w','n','-','i','s','-','y','o','u','r','s'];
-            
-			return b;
+			return ['t','h','e','-','c','r','o','w','n','-','i','s','-','y','o','u','r','s'];
 		}
          else {
-            let c = ['s','a','f','e','-','p','a','s','s','w','o','r','d','!'];
-           
-			return c;
+			return ['s','a','f','e','-','p','a','s','s','w','o','r','d','!'];
 		}
 	}
 }

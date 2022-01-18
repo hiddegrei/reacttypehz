@@ -112,6 +112,7 @@ export default class Scene {
     this.inRoomNum = -1;
     this.keys = new Keys(this.ctx);
     this.timeHacking = 0;
+
     
     
     
@@ -119,6 +120,7 @@ export default class Scene {
     this.imgBank = Game.loadNewImage("./img/background/bankheistmap.jpg");
     
     document.onkeydown = this.checkKeyScene.bind(this);
+    
    
 
     this.game = game;
@@ -252,6 +254,19 @@ export default class Scene {
     
 
     
+  }
+
+  public directorAlert() {
+    this.ctx.drawImage(Game.loadNewImage("public/img/objects/gold_trophytest.png"), window.innerWidth/5, window.innerHeight/5);
+    this.ctx.strokeStyle = "rgb(0,0,0)";
+    this.ctx.fillStyle = "rgb(255,255,255)";
+    this.ctx.beginPath();
+    this.ctx.rect(window.innerWidth / 1.3, window.innerHeight / 3.5, 680, 50);
+    this.ctx.closePath();
+    this.ctx.stroke();
+    this.ctx.fill();
+    
+    this.writeTextToCanvas("Directeur: M. Oney", 30,window.innerWidth / 1.15, window.innerHeight / 3);
   }
 
   public checkKeyScene(e: any) {
@@ -644,8 +659,9 @@ export default class Scene {
           
         }
       }
+      
     }
-
+    
     //show the keys on top screen
     this.keys.show(this.ctx);
 
@@ -690,7 +706,7 @@ export default class Scene {
           window.innerHeight / 15
         );
       });
-    
+      this.directorAlert();
   }
 
   /**
