@@ -193,52 +193,22 @@ export default class Agent{
                     opt+=1
                 }
             }
-        //     for (let j = 0; j < this.rays.length; j++) {
-        //         let closest = { x: -1, y: -1 }
-        //         let record = Infinity
-        //         let type=""
-        //     for (let i = 0; i < borders.length; i++) {
-        //         let pt = this.rays[j].cast(borders[i])
-        //         if (pt) {
-        //             let a = pt.x - this.pos.x
-        //             let b = pt.y - this.pos.y
-        //             let d = Math.sqrt(a * a + b * b)
-        //             if (d <record) {
-        //                 record=d
-        //                 closest=pt
-        //                 type=borders[i].type
-                    
-                      
-        //             }
-                    
-        //         }
-        //     }
-        //     if(record>this.widthHall+4&&this.inv(options[j].angle)!=this.lastAngle){
-        //         open.push(j)
-        //         opt+=1
-        //     }
-            
-        // }
+       
         }
          if(opt>0&&this.mode==="random"){
         let pick = Math.random()*(opt-1)
-       // console.log(pick)
-       // console.log(open)
+       
        let picked=open[Math.round(pick )]
-       //let picked=open[Math.floor(pick)]
-       //console.log(picked)
+      
        let todo=options[picked]
-       //this.lastAngle=todo.angle
-       //console.log(todo)
-      // console.log(Vector.dist(this.pos,this.target))
+      
      if(Vector.dist(this.pos,this.target)<=this.radius*2){
        this.target.x=this.pos.x+todo.x
        this.target.y=this.pos.y+todo.y
        
        }
     }else if(opt>0&&(this.mode==="search"||this.mode==="mid"||this.mode==="search11")){
-    //    this.target.x=particle.pos.x;
-    //    this.target.y=particle.pos.y;
+    
     let record=Infinity;
     let nextTarget=new Vector(0,0)
        for(let i=0;i<open.length;i++){
@@ -265,14 +235,6 @@ export default class Agent{
 
 
     }
-
-
-
-       
-       //this.angleView = degrees
-
-
-
         this.viewRays = []
 
         for (let i =  degrees- this.angleView; i < degrees; i+=1) {
@@ -304,8 +266,6 @@ export default class Agent{
 
 
     check90(angle:number, borders: Array<Border>){
-        let clear=true;
-
         this.checkRays=[];
 
         for (let i =  angle- this.checkAngle; i < angle; i++) {
@@ -365,7 +325,7 @@ export default class Agent{
 
     }
 
-    inv(angle:number):number{
+    private inv(angle:number):number{
         if(angle===0){
             return 180
         }
@@ -383,7 +343,7 @@ export default class Agent{
 
     }
 
-    move(){
+    public move(){
 
         this.pos.add(this.vel)
         this.vel.add(this.acc)
@@ -393,7 +353,7 @@ export default class Agent{
 
 
     }
-    show(ctx:CanvasRenderingContext2D) {
+    public show(ctx:CanvasRenderingContext2D) {
         if(!this.sleeping){
         this.ctx.drawImage(this.goldkeyImg,0,0,this.goldkeyImg.width,this.goldkeyImg.height,this.pos.x-20,this.pos.y-35,30,30)
         }
@@ -424,39 +384,20 @@ export default class Agent{
         ctx.fill()
 
     }
-    // for(let i=0;i<this.raysEnd.length;i++){
-    //     ctx.beginPath();
-    //     ctx.moveTo(this.pos.x, this.pos.y);
-    //     ctx.lineTo(this.pos.x+this.raysEnd[i].x, this.pos.y+this.raysEnd[i].y);
-    //     ctx.stroke();
-    //     ctx.closePath()
-    //     ctx.fill()
-    // }
 
-        //this.writeTextToCanvas(`${this.angle}`,this.pos.x,this.pos.y+20)
-
-        // this.ctx.fillStyle = "#FF0000";
-        //  this.ctx.beginPath();
-        //     this.ctx.moveTo(this.pos.x, this.pos.y);
-        //     this.ctx.lineTo(this.pos.x+(this.dir.x)*this.speed, this.pos.y+(this.dir.y)*this.speed);
-        //     this.ctx.stroke();
-
-        // for (let i = 0; i < this.rays.length; i++) {
-        //     this.viewRays[i].show()
-        // }
-        // const a=this.pos.x-this.pos.x+this.dir.x
-        // const b=this.pos.y-this.pos.y+this.dir.y
-        // const radians=Math.atan2(a,b)
-        //  let degrees = (radians * 180) / Math.PI - 90; // rotate
-
-        //    while (degrees >= 360) degrees -= 360;
-        //    while (degrees < 0) degrees += 360;
-
-        //this.writeTextToCanvas(`${degrees} `,this.pos.x,this.pos.y+50)
+    for (let i=0;i<this.raysEnd.length;i++){
+        ctx.beginPath();
+        ctx.moveTo(this.pos.x, this.pos.y);
+        ctx.lineTo(this.pos.x+this.raysEnd[i].x, this.pos.y+this.raysEnd[i].y);
+        ctx.stroke();
+        ctx.closePath()
+        ctx.fill()
+    }
+    
 
     }
-    look(borders: Array<Border>,ctx:CanvasRenderingContext2D) {
-
+    public look(borders: Array<Border>,ctx:CanvasRenderingContext2D) {
+this.raysEnd=[]
         for (let ray of this.viewRays) {
             let closest = { x: -1, y: -1 }
             let record = Infinity
@@ -500,52 +441,37 @@ export default class Agent{
 
                  rv.limit(this.sight)
                 this.raysEnd.push({x:rv.x,y:rv.y})
-                ctx.beginPath();
-                ctx.moveTo(this.pos.x, this.pos.y);
-                ctx.lineTo(this.pos.x+rv.x, this.pos.y+rv.y);
-                ctx.stroke();
-                ctx.closePath()
-                ctx.fill()
+               
                 }else if(this.mode==="search"){
                     ctx.strokeStyle = "rgb(0,255,0)";
-                    // this.ctx.fillRect(closest.x, closest.y, 10, 10);
+                   
     
                      
                      let rv=new Vector(closest.x,closest.y)
                      rv.sub(this.pos)
     
                      rv.limit(this.sight)
-                     //this.raysEnd.push({x:rv.x,y:rv.y})
-                    ctx.beginPath();
-                    ctx.moveTo(this.pos.x, this.pos.y);
-                    ctx.lineTo(this.pos.x+rv.x, this.pos.y+rv.y);
-                    ctx.stroke();
-                    ctx.closePath()
-                    ctx.fill()
+                     this.raysEnd.push({x:rv.x,y:rv.y})
+                   
 
                 }else{
                     ctx.strokeStyle = "rgb(255,69,0)";
-                    // this.ctx.fillRect(closest.x, closest.y, 10, 10);
+                   
     
                      
                      let rv=new Vector(closest.x,closest.y)
                      rv.sub(this.pos)
     
                      rv.limit(this.sight)
-                     //this.raysEnd.push({x:rv.x,y:rv.y})
-                    ctx.beginPath();
-                    ctx.moveTo(this.pos.x, this.pos.y);
-                    ctx.lineTo(this.pos.x+rv.x, this.pos.y+rv.y);
-                    ctx.stroke();
-                    ctx.closePath()
-                    ctx.fill()
+                     this.raysEnd.push({x:rv.x,y:rv.y})
+                    
 
                 }
             
                 
 
                
-        //this.writeTextToCanvas(ray.angle,20,closest.x,closest.y)
+       
 
 
 
@@ -556,15 +482,11 @@ export default class Agent{
 
     }
 
-    inSight(particle:Particle,ctx:CanvasRenderingContext2D,borders2: Array<Border>){
+    public inSight(particle:Particle,ctx:CanvasRenderingContext2D,borders2: Array<Border>){
         let borders=[...borders2]
           borders.push(new Border(particle.pos.x,particle.pos.y-particle.radius,particle.pos.x,particle.pos.y+particle.radius,ctx,"particle"))
           borders.push(new Border(particle.pos.x-particle.radius,particle.pos.y,particle.pos.x+particle.radius,particle.pos.y,ctx,"particle"))
 
-    //     let lines=[
-    //        new Border(particle.pos.x,particle.pos.y-particle.radius,particle.pos.x,particle.pos.y+particle.radius,ctx,"particle"),
-    //         new Border(particle.pos.x-particle.radius,particle.pos.y,particle.pos.x+particle.radius,particle.pos.y,ctx,"particle")
-    //    ]
         let gotya=false
 
         for (let ray of this.viewRays) {
@@ -602,34 +524,15 @@ export default class Agent{
 
             }
             if (closest.x != -1&&type==="particle" ) {
-                //ctx.fillStyle = "#FF0000";
-                // this.ctx.fillRect(closest.x, closest.y, 10, 10);
+                
               gotya=true
-                 
-               // let rv=new Vector(closest.x,closest.y)
-                // rv.sub(this.pos)
-
-                // rv.setMag(this.sight+20)
-                // ctx.beginPath();
-                // ctx.moveTo(this.pos.x, this.pos.y);
-                // ctx.lineTo(this.pos.x+rv.x, this.pos.y+rv.y);
-                // ctx.stroke();
-                // ctx.closePath()
-                // ctx.fill()
-                //this.writeTextToCanvas("!",20,this.pos.x+rv.x,this.pos.y+rv.y,'center',"red")
-
-               
-        //this.writeTextToCanvas(ray.angle,20,closest.x,closest.y)
-
-
-
             }
 
 
         }
         if(gotya){
             
-                // this.ctx.fillRect(closest.x, closest.y, 10, 10);
+               
              
                  
                  let rv=new Vector(this.target.x,this.target.y)
@@ -639,13 +542,7 @@ export default class Agent{
                  this.mode="search"
                  console.log("gotya")
                  return true;
-                // ctx.beginPath();
-                // ctx.moveTo(this.pos.x, this.pos.y);
-                // ctx.lineTo(this.pos.x+rv.x, this.pos.y+rv.y);
-                // ctx.stroke();
-                // ctx.closePath()
-                // ctx.fill()
-                this.writeTextToCanvas("!",20,this.pos.x+rv.x,this.pos.y+rv.y,'center',"red")
+                
 
         }
         return false
