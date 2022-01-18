@@ -86,6 +86,8 @@ export default class Scene {
 
   private timeTurnAroundAgents:number
 
+  private imgGang:HTMLImageElement
+
   // private agentMid:Agent
 
   /**
@@ -95,6 +97,7 @@ export default class Scene {
   constructor(canvas: HTMLCanvasElement, game: Game, time: number) {
     this.canvas = canvas;
     this.canvas.width = 1920;
+    
     this.canvas.height = 969;
     this.playerRadius=200
     this.timeTurnAroundAgents=0
@@ -114,6 +117,7 @@ export default class Scene {
     
 
     this.imgBank = Game.loadNewImage("./img/background/bankheistmap.jpg");
+    this.imgGang=Game.loadNewImage("./img/background/bankheistmap.jpg")
     document.onkeydown = this.checkKeyScene.bind(this);
    
 
@@ -556,6 +560,18 @@ export default class Scene {
       this.room.render();
     } else {
       //draw time left
+      
+      for(let i=0;i<this.canvas.width;i+=50){
+        for(let j=0;j<this.canvas.height;j+=50){
+          this.ctx.drawImage(this.imgGang,850,870,50,50,i,j,50,50)
+        }
+       
+      }
+      //kamer1 background
+      
+      //this.ctx.drawImage(this.imgGang,850,870,50,50,100+5*this.widthHall,100+4*this.widthHall,50,50)
+
+      
       
       //draw tekst grote kluis midden scherm
       this.writeTextToCanvas(
