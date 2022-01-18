@@ -599,6 +599,8 @@ export default class Scene {
       if (
         isMiniGameComplete != 80 &&
         isMiniGameComplete != 100 &&
+        isMiniGameComplete != 101 &&
+        isMiniGameComplete != 81 &&
         isMiniGameComplete != 90 &&
         isMiniGameComplete != false
       ) {
