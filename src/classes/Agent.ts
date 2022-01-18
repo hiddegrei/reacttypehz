@@ -7,6 +7,10 @@ export default class Agent{
 
     public ctx: CanvasRenderingContext2D;
 
+    public static readonly HACK_RANGE_E=100
+    public static readonly HACK_RANGE_M=80
+    public static readonly HACK_RANGE_H=60
+
     public pos :Vector;
 
     public rays: Array<any> = []
