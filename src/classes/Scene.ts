@@ -125,7 +125,7 @@ export default class Scene {
 
 
 
-    this.imgBankFloor = Game.loadNewImage("./img/background/bankheistmap-tile1.jpg")
+    this.imgBankFloor = Game.loadNewImage("./img/objects/walls1.png")
     this.imgBank = Game.loadNewImage("./img/background/bankheistmap.jpg");
     this.imgGang = Game.loadNewImage("./img/background/bankheistmap.jpg");
 
@@ -587,12 +587,13 @@ export default class Scene {
     } else {
       //draw time left
 
-      // for(let i=0;i<this.canvas.width;i+=50){
-      //   for(let j=0;j<this.canvas.height;j+=50){
-      //     this.ctx.drawImage(this.imgBank,850,870,50,50,i,j,50,50)
-      //   }
+      for (let i = 0; i < this.canvas.width; i += 50) {
+        for (let j = 0; j < this.canvas.height; j += 50) {
+          // this.ctx.drawImage(this.imgBank, 990, 360, 50, 50, i, j, 50, 50)
+          this.ctx.drawImage(this.imgBankFloor, 288, 64, 63, 63, i, j, 50, 50)
+        }
 
-      // }
+      }
       //kamer1 background
 
       // this.ctx.drawImage(this.imgBank,1000,200,2*this.level.widthHall,3*this.level.widthHall,100+5*this.level.widthHall+10,100+2*this.level.widthHall,2*this.level.widthHall,3*this.level.widthHall)
