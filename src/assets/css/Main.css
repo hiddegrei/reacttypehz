@@ -1,13 +1,15 @@
-.main{
-   
+.main {
+
     overflow: hidden;
-    
+
 }
+
 canvas {
     background-color: black;
     margin: 0 auto;
     display: block;
 }
+
 div.hud {
     color: black;
     background-color: rgb(255, 255, 255);
