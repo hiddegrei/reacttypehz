@@ -85,7 +85,7 @@ export default class MiniGameC extends MGMain{
       this.writeTextToCanvas("Kraak de kluis met de verzamelde hints", 20, 800, 160)
       this.writeTextToCanvas("Hints: ", 20, 800, 190)
       this.room.getHintsGame().getHint().forEach((value: string, index: number) => {
-        this.writeTextToCanvas(`${value}`, 20,850 + index * 30,190);
+        this.writeTextToCanvas(`${value}`, 20,880 + index * 30,190);
     });
   
 	//rects1 met wachtwoord
