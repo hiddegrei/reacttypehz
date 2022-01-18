@@ -745,7 +745,6 @@ export default class Scene {
         }else {
           this.directorAlert(0);
           this.flash++;
-          console.log('hello');
         }
       
     }
