@@ -21,7 +21,7 @@ export default class Level1map {
             [0, 0, this.canvas.width, 0],
             [0, 0, 0, this.canvas.height],
             [this.canvas.width, 0, this.canvas.width, this.canvas.height],
-           // [0, this.canvas.height, this.canvas.width, this.canvas.height],
+            [0, this.canvas.height, this.canvas.width, this.canvas.height],
             //
 
 
