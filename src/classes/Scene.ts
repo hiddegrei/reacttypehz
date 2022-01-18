@@ -82,14 +82,13 @@ export default class Scene {
 
   private imgBankFloor: HTMLImageElement;
 
-  private keyDown!: number;
+  private playerRadius: number;
 
-  private playerRadius: number
+  private timeTurnAroundAgents: number;
 
-  private timeTurnAroundAgents: number
+  private testImg: HTMLImageElement;
 
-  private imgGang: HTMLImageElement
-  private testImg: HTMLImageElement
+  private flash: number;
 
 
 
@@ -118,6 +117,7 @@ export default class Scene {
     this.inRoomNum = -1;
     this.keys = new Keys(this.ctx);
     this.timeHacking = 0;
+    this.flash = 1;
 
 
 
@@ -125,9 +125,8 @@ export default class Scene {
 
 
 
-    this.imgBankFloor = Game.loadNewImage("./img/objects/walls1.png")
+    this.imgBankFloor = Game.loadNewImage("./img/objects/walls1.png");
     this.imgBank = Game.loadNewImage("./img/background/bankheistmap.jpg");
-    this.imgGang = Game.loadNewImage("./img/background/bankheistmap.jpg");
 
     document.onkeydown = this.checkKeyScene.bind(this);
 
@@ -266,18 +265,27 @@ export default class Scene {
 
   }
 
-  public directorAlert() {
-    //this.ctx.drawImage(Game.loadNewImage("public/img/objects/gold_trophytest.png"), window.innerWidth/5, window.innerHeight/5);
-    this.ctx.drawImage(this.testImg, 200, 200)
+  public directorAlert(number: number) {
+    if (number === 1) {
+      this.ctx.strokeStyle = "rgb(0,0,0)";
+      this.ctx.fillStyle = "rgb(255,0,0,0.8)";
+      this.ctx.beginPath();
+      this.ctx.rect(0, 0, window.innerWidth, window.innerHeight);
+      this.ctx.closePath();
+      this.ctx.stroke();
+      this.ctx.fill();
+    }
+
+    this.ctx.drawImage(this.testImg, 100, 100)
     this.ctx.strokeStyle = "rgb(0,0,0)";
     this.ctx.fillStyle = "rgb(255,255,255)";
     this.ctx.beginPath();
-    this.ctx.rect(window.innerWidth / 1.3, window.innerHeight / 3.5, 680, 50);
+    this.ctx.rect(0, window.innerHeight / 2.5, 400, 50);
     this.ctx.closePath();
     this.ctx.stroke();
     this.ctx.fill();
 
-    this.writeTextToCanvas("Directeur: M. Oney", 30, window.innerWidth / 1.15, window.innerHeight / 3);
+    this.writeTextToCanvas("Directeur: M. Oney", 30, 200, window.innerHeight / 2.2);
   }
 
   public checkKeyScene(e: any) {
@@ -425,8 +433,8 @@ export default class Scene {
         this.room.setRoomId(this.inRoomNum);
       } else if (this.keyboard.isKeyDown(84)) {
         this.insideRoom = true;
-        this.inRoomNum = 100;
-        this.room.setRoomId(100);
+        this.inRoomNum = 2;
+        this.room.setRoomId(2);
 
       }
 
@@ -687,7 +695,6 @@ export default class Scene {
     // this.ctx.fill();
     // }
 
-
     this.writeTextToCanvas(`time left: ${this.timeLeft}`, 20, 100, 40);
     this.writeTextToCanvas(
       `score: ${this.score.scoreProperty}`,
@@ -718,26 +725,35 @@ export default class Scene {
         window.innerHeight / 15
       );
     });
+    this.allAgentAlert(1897, 1898);
+    this.allAgentAlert(1890, 1891)
 
-    this.hints.getHint().forEach((value: string, index: number) => {
-      this.writeTextToCanvas(
-        `${value}`,
-        25,
-        window.innerWidth / 4 + index * 40,
-        window.innerHeight / 15
-      );
-    });
-    this.directorAlert();
+
+  }
+
+  private allAgentAlert(timeleftA: number, timeleftB: number) {
+    if (this.timeLeft >= timeleftA && this.timeLeft <= timeleftB) {
+      if (this.flash === 1) {
+        this.directorAlert(1);
+        this.flash++;
+      } else if (this.flash >= 5) {
+        this.directorAlert(0);
+        this.flash = 1;
+      } else {
+        this.directorAlert(0);
+        this.flash++;
+      }
+    }
   }
 
   /**
-   * @param text
-   * @param xCoordinate
-   * @param yCoordinate
-   * @param fontSize
-   * @param color
-   * @param alignment
-   */
+     * @param text
+     * @param xCoordinate
+     * @param yCoordinate
+     * @param fontSize
+     * @param color
+     * @param alignment
+     */
   public writeTextToCanvas(
     text: string,
     fontSize: number = 20,

@@ -39,7 +39,8 @@ dispatch({
   },[user])
 
   useEffect(()=>{
-    if(user){
+    let localUsername=localStorage.getItem("username")
+    if(user&&localUsername!="guest"){
     
      db.collection('users').where('userId', '==', user.uid)
     .get().then((querySnapshot) => {
