@@ -721,35 +721,25 @@ export default class Scene {
           window.innerHeight / 15
         );
       });
-      if (this.timeLeft >= 1895 && this.timeLeft <= 1896) {
-          if(this.flash === 1){
-            this.directorAlert(1);
-            this.flash++;
-          } else if (this.flash >= 3) {
-            this.directorAlert(0);
-            this.flash = 1;
-          }else {
-            this.directorAlert(0);
-            this.flash++;
-            console.log('hello');
-          }
-        
+      this.allAgentAlert(1897,1898);
+      this.allAgentAlert(1890,1891)
+      
+      
+  }
+
+  private allAgentAlert(timeleftA:number,timeleftB:number) {
+    if (this.timeLeft >= timeleftA && this.timeLeft <= timeleftB) {
+      if (this.flash === 1) {
+        this.directorAlert(1);
+        this.flash++;
+      } else if (this.flash >= 5) {
+        this.directorAlert(0);
+        this.flash = 1;
+      } else {
+        this.directorAlert(0);
+        this.flash++;
       }
-      if (this.timeLeft >= 1889 && this.timeLeft <= 1890) {
-        if(this.flash === 1){
-          this.directorAlert(1);
-          this.flash++;
-        } else if (this.flash >= 3) {
-          this.directorAlert(0);
-          this.flash = 1;
-        }else {
-          this.directorAlert(0);
-          this.flash++;
-        }
-      
     }
-      
-      
   }
 
   /**
