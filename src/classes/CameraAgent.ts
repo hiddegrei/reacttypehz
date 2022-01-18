@@ -30,21 +30,10 @@ export default class CameraAgent {
   public viewRays: Array<Ray>;
   public sight: number;
 
- 
- 
 
   public checkAngle: number;
 
   public checkRays: Array<Ray> = [];
-
- 
-
-  //moeilijkheidsgraad defense geel,oranje,rood
-  public status: number;
-
- 
-
-  
 
   private goldkeyImg: HTMLImageElement;
 
@@ -59,7 +48,7 @@ export default class CameraAgent {
     y: number,
     ctx: CanvasRenderingContext2D,
     widthHall: number,
-    status: number,
+    sight: number,
     targetx:number,
     targety:number
   ) {
@@ -84,16 +73,7 @@ export default class CameraAgent {
     this.viewRays = [];
     this.sight = 80;
     this.checkAngle = 9;
-    this.status = status;
-
-    
-    if (status === 0) {
-        this.sight = 80;
-    } else if (status === 1) {
-        this.sight = 100;
-    } else if (status === 2) {
-        this.sight = 120;
-    }
+   this.sight=sight
   }
 
   

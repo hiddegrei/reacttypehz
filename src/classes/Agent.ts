@@ -394,7 +394,7 @@ export default class Agent {
           const b = p.y - this.pos.y;
           const d = Math.sqrt(a * a + b * b);
 
-          if (d <= record) {
+          if (d <= record&&border.type!="nodoor") {
             //this.writeTextToCanvas(Math.round(d),p.x,p.y+30)
 
             //console.log("record: "+ record, "newD: " + Math.round(d))

@@ -21,7 +21,7 @@ export default class Level1map {
             [0, 0, this.canvas.width, 0],
             [0, 0, 0, this.canvas.height],
             [this.canvas.width, 0, this.canvas.width, this.canvas.height],
-            [0, this.canvas.height, this.canvas.width, this.canvas.height],
+           // [0, this.canvas.height, this.canvas.width, this.canvas.height],
             //
 
 
@@ -81,8 +81,7 @@ export default class Level1map {
 
             [(this.canvas.width / 2)-10*this.widthHall ,100+17*this.widthHall, (this.canvas.width / 2)-5*this.widthHall ,100+17*this.widthHall],
 
-            this.makeHallH((this.canvas.width / 2)-11*this.widthHall ,100+16*this.widthHall,3*this.widthHall)[0],
-            this.makeHallH((this.canvas.width / 2)-11*this.widthHall ,100+16*this.widthHall,3*this.widthHall)[1],
+            
             this.turnDR((this.canvas.width / 2)-13*this.widthHall ,100+15*this.widthHall)[0],
             this.turnDR((this.canvas.width / 2)-13*this.widthHall ,100+15*this.widthHall)[1],
             this.turnDR((this.canvas.width / 2)-13*this.widthHall ,100+15*this.widthHall)[2],
@@ -440,6 +439,12 @@ export default class Level1map {
             //wall rechts voor prison room
             [(this.canvas.width/2)+18*this.widthHall,100+3*this.widthHall,this.canvas.width,100+3*this.widthHall],
 
+            //gangdown
+            [(this.canvas.width / 2)-11*this.widthHall ,100+16*this.widthHall,(this.canvas.width / 2)-10*this.widthHall ,100+16*this.widthHall],
+            this.makeHallV((this.canvas.width / 2)-11*this.widthHall ,100+17*this.widthHall,3*this.widthHall)[0],
+            this.makeHallV((this.canvas.width / 2)-11*this.widthHall ,100+17*this.widthHall,3*this.widthHall)[1],
+
+
 
 
 
@@ -625,31 +630,31 @@ export default class Level1map {
 
       public loadAgentBoard(){
           this.agentBorders=[
-              [(this.canvas.width/2)-9*this.widthHall,100+5*this.widthHall,(this.canvas.width/2)-9*this.widthHall,100+6*this.widthHall],
-              [(this.canvas.width/2)-12*this.widthHall,100+4*this.widthHall,(this.canvas.width/2)-12*this.widthHall,100+5*this.widthHall],
-              [(this.canvas.width/2)-14*this.widthHall-10,100+5*this.widthHall,(this.canvas.width/2)-14*this.widthHall-10,100+6*this.widthHall],
-              [(this.canvas.width/2)-15*this.widthHall,100+13*this.widthHall,(this.canvas.width/2)-14*this.widthHall,100+13*this.widthHall],
-              [(this.canvas.width/2)-6*this.widthHall,100+13*this.widthHall,(this.canvas.width/2)-5*this.widthHall,100+13*this.widthHall],
-              [(this.canvas.width/2)-8*this.widthHall,100+14*this.widthHall,(this.canvas.width/2)-8*this.widthHall,100+15*this.widthHall],
-              [(this.canvas.width/2)-6*this.widthHall,100+11*this.widthHall,(this.canvas.width/2)-5*this.widthHall,100+11*this.widthHall],
-              [(this.canvas.width/2)+4*this.widthHall,100+16*this.widthHall,(this.canvas.width/2)+4*this.widthHall,100+17*this.widthHall],
-              [(this.canvas.width/2)+12*this.widthHall,100+15*this.widthHall,(this.canvas.width/2)+13*this.widthHall,100+15*this.widthHall],
-              [(this.canvas.width/2)+12*this.widthHall,100+13*this.widthHall,(this.canvas.width/2)+12*this.widthHall,100+14*this.widthHall],
-              [(this.canvas.width/2)+17*this.widthHall,100+10*this.widthHall,(this.canvas.width/2)+18*this.widthHall,100+10*this.widthHall],
-              [(this.canvas.width/2)+12*this.widthHall,100+7*this.widthHall,(this.canvas.width/2)+13*this.widthHall,100+7*this.widthHall],
-              [(this.canvas.width/2)+10*this.widthHall,100+this.widthHall,(this.canvas.width/2)+11*this.widthHall,100+this.widthHall],
-              [(this.canvas.width/2)+7*this.widthHall,100+4*this.widthHall,(this.canvas.width/2)+8*this.widthHall,100+4*this.widthHall],
-              [(this.canvas.width/2)+4*this.widthHall,100+2*this.widthHall,(this.canvas.width/2)+4*this.widthHall,100+3*this.widthHall],
-              [(this.canvas.width/2),100+5*this.widthHall,(this.canvas.width/2)+this.widthHall,100+5*this.widthHall],
-              [(this.canvas.width/2)-19*this.widthHall,100+13*this.widthHall,(this.canvas.width/2)-18*this.widthHall,100+13*this.widthHall],
-              [(this.canvas.width/2)-10*this.widthHall,100+7*this.widthHall,(this.canvas.width/2)-10*this.widthHall,100+8*this.widthHall],
+             [(this.canvas.width/2)-9*this.widthHall,100+5*this.widthHall,(this.canvas.width/2)-9*this.widthHall,100+6*this.widthHall,"door"],
+             [(this.canvas.width/2)-12*this.widthHall,100+4*this.widthHall,(this.canvas.width/2)-12*this.widthHall,100+5*this.widthHall,"door"],
+              [(this.canvas.width/2)-14*this.widthHall-10,100+5*this.widthHall,(this.canvas.width/2)-14*this.widthHall-10,100+6*this.widthHall,"door"],
+              [(this.canvas.width/2)-15*this.widthHall,100+13*this.widthHall,(this.canvas.width/2)-14*this.widthHall,100+13*this.widthHall,"door"],
+              [(this.canvas.width/2)-6*this.widthHall,100+13*this.widthHall,(this.canvas.width/2)-5*this.widthHall,100+13*this.widthHall,"door"],
+              [(this.canvas.width/2)-8*this.widthHall,100+14*this.widthHall,(this.canvas.width/2)-8*this.widthHall,100+15*this.widthHall,"door"],
+              [(this.canvas.width/2)-6*this.widthHall,100+11*this.widthHall,(this.canvas.width/2)-5*this.widthHall,100+11*this.widthHall,"door"],
+              [(this.canvas.width/2)+4*this.widthHall,100+16*this.widthHall,(this.canvas.width/2)+4*this.widthHall,100+17*this.widthHall,"door"],
+              [(this.canvas.width/2)+12*this.widthHall,100+15*this.widthHall,(this.canvas.width/2)+13*this.widthHall,100+15*this.widthHall,"door"],
+              [(this.canvas.width/2)+12*this.widthHall,100+13*this.widthHall,(this.canvas.width/2)+12*this.widthHall,100+14*this.widthHall,"door"],
+              [(this.canvas.width/2)+17*this.widthHall,100+10*this.widthHall,(this.canvas.width/2)+18*this.widthHall,100+10*this.widthHall,"door"],
+              [(this.canvas.width/2)+12*this.widthHall,100+7*this.widthHall,(this.canvas.width/2)+13*this.widthHall,100+7*this.widthHall,"door"],
+              [(this.canvas.width/2)+10*this.widthHall,100+this.widthHall,(this.canvas.width/2)+11*this.widthHall,100+this.widthHall,"door"],
+              [(this.canvas.width/2)+7*this.widthHall,100+4*this.widthHall,(this.canvas.width/2)+8*this.widthHall,100+4*this.widthHall,"door"],
+              [(this.canvas.width/2)+4*this.widthHall,100+2*this.widthHall,(this.canvas.width/2)+4*this.widthHall,100+3*this.widthHall,"door"],
+              [(this.canvas.width/2),100+5*this.widthHall,(this.canvas.width/2)+this.widthHall,100+5*this.widthHall,"door"],
+              [(this.canvas.width/2)-19*this.widthHall,100+13*this.widthHall,(this.canvas.width/2)-18*this.widthHall,100+13*this.widthHall,"nodoor"],
+              [(this.canvas.width/2)-10*this.widthHall,100+7*this.widthHall,(this.canvas.width/2)-10*this.widthHall,100+8*this.widthHall,"nodoor"],
 
-              [(this.canvas.width/2)-14*this.widthHall,100+9*this.widthHall,(this.canvas.width/2)-14*this.widthHall,100+10*this.widthHall],
-              [(this.canvas.width/2)+11*this.widthHall,100,(this.canvas.width/2)+11*this.widthHall,100+this.widthHall],
-              [(this.canvas.width/2)-8*this.widthHall,100+15*this.widthHall,(this.canvas.width/2)-7*this.widthHall,100+15*this.widthHall],
-              [(this.canvas.width/2)+12*this.widthHall,100+3*this.widthHall,(this.canvas.width/2)+12*this.widthHall,100+4*this.widthHall],
+              [(this.canvas.width/2)-14*this.widthHall,100+9*this.widthHall,(this.canvas.width/2)-14*this.widthHall,100+10*this.widthHall,"nodoor"],
+              [(this.canvas.width/2)+11*this.widthHall,100,(this.canvas.width/2)+11*this.widthHall,100+this.widthHall,"nodoor"],
+              [(this.canvas.width/2)-8*this.widthHall,100+15*this.widthHall,(this.canvas.width/2)-7*this.widthHall,100+15*this.widthHall,"nodoor"],
+              [(this.canvas.width/2)+12*this.widthHall,100+3*this.widthHall,(this.canvas.width/2)+12*this.widthHall,100+4*this.widthHall,"nodoor"],
 
-              [(this.canvas.width/2)+16*this.widthHall,100,(this.canvas.width/2)+16*this.widthHall,100+this.widthHall],
+              [(this.canvas.width/2)+16*this.widthHall,100,(this.canvas.width/2)+16*this.widthHall,100+this.widthHall,"nodoor"],
 
               
 

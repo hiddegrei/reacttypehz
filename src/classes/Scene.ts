@@ -104,7 +104,7 @@ export default class Scene {
     this.canvas = canvas;
     this.canvas.width = 1920;
     this.testImg = Game.loadNewImage("./img/objects/gold_trophytest.png");
-    this.canvas.height = 969;
+    this.canvas.height = 1500;
     this.playerRadius = 200;
     this.timeTurnAroundAgents = 0;
     this.ctx = this.canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -152,20 +152,22 @@ export default class Scene {
       const y = this.level.agentBorders[i][1];
       const x2 = this.level.agentBorders[i][2];
       const y2 = this.level.agentBorders[i][3];
-      this.borders.push(new Border(x, y, x2, y2, this.ctx, "agent"));
+      const type = this.level.agentBorders[i][4];
+      this.borders.push(new Border(x, y, x2, y2, this.ctx, type));
     }
     // this.border= new Border(300,50,300,200,this.ctx)
     // this.ray=new Ray(50,150, this.ctx)
+   
     this.particle = new Particle(
-      100 + 2*this.level.widthHall,
-      100 + 0.5 * this.level.widthHall,
+      (this.canvas.width / 2)-11*this.level.widthHall,
+      100+16.5*this.level.widthHall,
       this.ctx
     );
 
     this.loadAgents()
 
   //agent linksboven
-   this.cameraAgents.push(new CameraAgent(100-this.level.widthHall,100,this.ctx,this.level.widthHall,0,100+this.level.widthHall,100+this.level.widthHall))
+   this.cameraAgents.push(new CameraAgent(100-this.level.widthHall,100,this.ctx,this.level.widthHall,80,100+this.level.widthHall,100+this.level.widthHall))
 
    
 
