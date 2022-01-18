@@ -86,6 +86,8 @@ export default class Scene {
 
   private timeTurnAroundAgents:number
 
+  private testImg:HTMLImageElement
+
 
 
   // private agentMid:Agent
@@ -97,7 +99,7 @@ export default class Scene {
   constructor(canvas: HTMLCanvasElement, game: Game, time: number) {
     this.canvas = canvas;
     this.canvas.width = 1920;
-    
+    this.testImg=Game.loadNewImage("./img/objects/gold_trophytest.png")
     this.canvas.height = 969;
     this.playerRadius=200
     this.timeTurnAroundAgents=0
@@ -257,7 +259,8 @@ export default class Scene {
   }
 
   public directorAlert() {
-    this.ctx.drawImage(Game.loadNewImage("public/img/objects/gold_trophytest.png"), window.innerWidth/5, window.innerHeight/5);
+    //this.ctx.drawImage(Game.loadNewImage("public/img/objects/gold_trophytest.png"), window.innerWidth/5, window.innerHeight/5);
+    this.ctx.drawImage(this.testImg,200,200)
     this.ctx.strokeStyle = "rgb(0,0,0)";
     this.ctx.fillStyle = "rgb(255,255,255)";
     this.ctx.beginPath();

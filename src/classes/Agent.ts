@@ -70,7 +70,7 @@ export default class Agent{
         this.keyNum=keyNum
         this.mode=mode
         this.pos = new Vector(x,y)
-        this.goldkeyImg=Game.loadNewImage("./img/objects/goldkey.png")
+        this.goldkeyImg=Game.loadNewImage("./img/objects/gold_trophytest.png")
         this.rays = []
         this.radius = 10
         this.speed = 1
