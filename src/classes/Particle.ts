@@ -135,33 +135,90 @@ export default class Particle {
 
         this.walk=true
 
+        let a = 0;
+        let b = 0;
+        let d = 0;
+        let pt;
         if (this.rays.length > 0) {
             for (let j = 0; j < this.rays.length; j++) {
                 for (let i = 0; i < borders.length; i++) {
                     if(borders[i].type==="normal"){
-                        let pt = this.rays[j].cast(borders[i]);
+                        pt = this.rays[j].cast(borders[i]);
                         if (pt) {
-                            let a = pt.x - this.pos.x;
-                            let b = pt.y - this.pos.y;
-                            let d = Math.sqrt(a * a + b * b);
-                            if (d < this.radius+10) {
-                                this.walk = false;
+                            a = pt.x - this.pos.x;
+                            b = pt.y - this.pos.y;
+                            d = Math.sqrt(a * a + b * b);
+                            if ((Math.abs(a) < this.radius + 5) === true && (Math.abs(b) < this.radius + 5) === true) {
+                                // this.vel.x = 0;
+                                this.vel.y = 0;
+                            } else if ((Math.abs(a) < this.radius + 5) === true && (Math.abs(b) < this.radius + 5) === false) {
+                                // this.vel.x = 0;
+                                this.vel.x = 0;
+                            } else if ((Math.abs(a) < this.radius + 5) === false && (Math.abs(b) < this.radius + 5) === true) {
+                                // this.vel.x = 0;
+                                this.vel.y = 0;
+                            // } else if ((Math.abs(a) < this.radius + 5) === false && (Math.abs(b) < this.radius + 5) === false) {
                             }
+                            // if (d < this.radius+10) {
+                            //     this.walk = false;
+                            // }
                         }
                     }
                 }
             }
         }
+        // if (this.rays.length > 0) {
+        //     for (let j = 0; j < this.rays.length; j++) {
+        //         for (let i = 0; i < borders.length; i++) {
+        //             if(borders[i].type==="normal"){
+        //                 let pt = this.rays[j].cast(borders[i]);
+        //                 if (pt) {
+        //                     let a = pt.x - this.pos.x;
+        //                     let b = pt.y - this.pos.y;
+        //                     let d = Math.sqrt(a * a + b * b);
+        //                     if (d < this.radius+10) {
+        //                         this.walk = false;
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
 
 
         this.dir = { x: mx - this.pos.x, y: my - this.pos.y }
 
-        const a = this.pos.x - this.pos.x + this.dir.x
-        const b = this.pos.y - this.pos.y + this.dir.y
-        const d = Math.sqrt((a * a) + (b * b))
+        const K = this.pos.x - this.pos.x + this.dir.x
+        const L = this.pos.y - this.pos.y + this.dir.y
+        const M = Math.sqrt((K * K) + (L * L))
+        // document.querySelectorAll('div#progress.hud')[0].innerHTML = `
+        // Position: <br>
+        // ${JSON.stringify(Math.round(this.pos.x * 10) / 10)}<br>
+        // ${JSON.stringify(Math.round(this.pos.y * 10) / 10)}<br>
+        // <br>
+        // Velocity: <br>
+        // ${JSON.stringify(Math.round(this.vel.x * 10) / 10)}<br>
+        // ${JSON.stringify(Math.round(this.vel.y * 10) / 10)}<br>
+        // <br>
+        // Direction: <br>
+        // ${JSON.stringify(Math.round(this.dir.x * 10) / 10)}<br>
+        // ${JSON.stringify(Math.round(this.dir.y * 10) / 10)}<br>
+        // <br>
+        // A: ${JSON.stringify(Math.round(a * 10) / 10)}<br>
+        // B: ${JSON.stringify(Math.round(b * 10) / 10)}<br>
+        // D: ${JSON.stringify(Math.round(d * 10) / 10)}<br>
+        // dA: ${JSON.stringify(Math.round((d - a) * 10) / 10)}<br>
+        // dB: ${JSON.stringify(Math.round((d - b) * 10) / 10)}<br>
+        // K: ${JSON.stringify(Math.round(K * 10) / 10)}<br>
+        // L: ${JSON.stringify(Math.round(L * 10) / 10)}<br>
+        // M: ${JSON.stringify(Math.round(M * 10) / 10)}<br>
+        // dK: ${JSON.stringify(Math.round((M - K) * 10) / 10)}<br>
+        // dL: ${JSON.stringify(Math.round((M - L) * 10) / 10)}<br>
+        // PT: ${JSON.stringify(this.walk)}<br>
+        // `;
 
-        const radians = Math.atan2(a, b)
+        const radians = Math.atan2(K, L)
         let degrees = (radians * 180) / Math.PI - 90; // rotate
 
 
@@ -185,26 +242,59 @@ export default class Particle {
 
 
 
-        this.dir.x = (this.dir.x / d) * this.speed
-        this.dir.y = (this.dir.y / d) * this.speed
-
-        // if (d > 20 && this.walk) {
+        this.dir.x = (this.dir.x / M) * this.speed
+        this.dir.y = (this.dir.y / M) * this.speed
 
 
-        //     this.pos.x += this.dir.x
-        //     this.pos.y += this.dir.y
-        // }
 
-        if (d > 20 && this.walk) {
-
-
-            // this.pos.x += this.dir.x
-            // this.pos.y += this.dir.y
+        if (this.walk) {
             this.applyforce(this.dir)
-        }else{
+        } else {
             this.vel.setMag(0)
             this.acc.setMag(0)
         }
+
+        // if (d > 5 && this.walk) {
+        //     this.applyforce(this.dir)
+        // } else{
+        //     this.vel.setMag(0)
+        //     this.acc.setMag(0)
+        // }
+
+
+
+
+
+
+
+
+        
+        // document.querySelectorAll('div#progress.hud')[0].innerHTML = `
+        // Position: <br>
+        // ${JSON.stringify(Math.round(this.pos.x * 10) / 10)}<br>
+        // ${JSON.stringify(Math.round(this.pos.y * 10) / 10)}<br>
+        // <br>
+        // Velocity: <br>
+        // ${JSON.stringify(Math.round(this.vel.x * 10) / 10)}<br>
+        // ${JSON.stringify(Math.round(this.vel.y * 10) / 10)}<br>
+        // <br>
+        // Direction: <br>
+        // ${JSON.stringify(Math.round(this.dir.x * 10) / 10)}<br>
+        // ${JSON.stringify(Math.round(this.dir.y * 10) / 10)}<br>
+        // <br>
+        // A: ${JSON.stringify(Math.round(a * 10) / 10)}<br>
+        // B: ${JSON.stringify(Math.round(b * 10) / 10)}<br>
+        // D: ${JSON.stringify(Math.round(d * 10) / 10)}<br>
+        // dA: ${JSON.stringify(Math.round((d - a) * 10) / 10)}<br>
+        // dB: ${JSON.stringify(Math.round((d - b) * 10) / 10)}<br>
+        // PT: ${JSON.stringify(pt)}<br>
+        // `;
+        
+        // PT: ${JSON.stringify(Math.round(pt * 10) / 10)}<br>
+        // <br>
+        // Acceleration: <br>
+        // ${JSON.stringify(Math.round(this.acc.x * 10) / 10)}<br>
+        // ${JSON.stringify(Math.round(this.acc.y * 10) / 10)}<br>
     }
 
     hack(agents:Array<Agent>){
@@ -252,6 +342,15 @@ export default class Particle {
         this.ctx.arc(this.pos.x, this.pos.y, Math.ceil(this.hackIndex)%this.hackRange, 0, 2 * Math.PI);
         this.ctx.stroke();
         this.ctx.closePath()
+
+        if(this.hacking){
+        this.ctx.lineWidth = 3;
+        this.ctx.strokeStyle = color;
+        this.ctx.beginPath();
+        this.ctx.arc(this.pos.x, this.pos.y, this.hackRange, 0, 2 * Math.PI);
+        this.ctx.stroke();
+        this.ctx.closePath()
+        }
        
         }
 
