@@ -98,7 +98,7 @@ export default class MGMain{
         //this.index--;
       }else if(e.keyCode===13){
         this.checkAttempt();
-      }else if(this.index<=7){
+      }else if(this.index<this.found.length){
         for(let i=0;i<this.found.length;i++){
             if(this.found[i]===null){
               this.index=i;
@@ -126,7 +126,7 @@ export default class MGMain{
     this.foundStr="";
 
     let complete=true;
-    if(this.attempts>1){
+    if(this.attempts>=1){
       for(let i=0;i<this.secretW.length;i++){
           if(this.found[i]===this.secretW[i]){
             this.found[i]=this.secretW[i];
@@ -141,7 +141,7 @@ export default class MGMain{
             break;
           }
       }
-      this.attempts--;
+     
       if(complete){
         
           this.complete=true;
@@ -149,7 +149,12 @@ export default class MGMain{
           //setTimeout(this.answer,2000);
           setTimeout(this.answer.bind(this), 2000);
           //this.answer();
+      }else if(this.attempts===1){
+        this.complete=0;
+        setTimeout(this.answerWrong.bind(this), 2000);
+
       }
+      this.attempts--;
 
     }else{
       
