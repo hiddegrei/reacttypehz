@@ -3,15 +3,8 @@ import MGMain from "./MGMain";
  import Game from "../Game";
 
 export default class MiniGame4 extends MGMain{
-    private secretW:Array<string>=[]
-    private attempts:number
-    private found:any[]
-    private index:number;
-    private complete:any
-    private attemptsArr:Array<string>=[]
-    private foundStr:string
-    private started:boolean
-    private image!: HTMLImageElement;
+   
+   
     
     /**
    * Create an instance of this object
@@ -20,89 +13,11 @@ export default class MiniGame4 extends MGMain{
    * @param canvas canvas
    */
     constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
-      super(4,room,ctx, canvas)
-      this.secretW=["3","4","2","4","m","e","s","s","i"]
-      this.found=[null,null,null,null,null,null,null,null,null]
-      //window.addEventListener('keydown',this.checkKey,false);
-      // document.onkeydown = this.checkKey.bind(this);
-      this.index=0
-      this.attempts=6
-      this.foundStr=""
-     // this.complete=false
-     this.started=true
-     this.image = Game.loadNewImage("./img/background/password2.jpg")
-
-    }
-
-  public checkKey(e:any) {
-      //console.log(e.keyCode)
-      if(e.keyCode===8){
-        this.found[this.index--]=null
-        //this.index--
-      }else if(e.keyCode===13){
-        this.checkAttempt()
-      }else if(this.index<=8){
-        for(let i=0;i<this.found.length;i++){
-          if(this.found[i]===null){
-            this.index=i
-            break;
-          }
-        }
-       
-        if(e.keyCode<=57){
-          this.found[this.index]=String.fromCharCode(e.keyCode)
-          
-
-        }else{
-          this.found[this.index]=String.fromCharCode(e.keyCode+32)
-          
-        }
-        
-        this.index++
-      }
-
-      
-
-  }
-
-  public checkAttempt(){
-    for(let i=0;i<this.found.length;i++){
-      this.foundStr+=this.found[i]
-    }
-    this.attemptsArr.push(this.foundStr)
-    this.foundStr=""
-
-    let complete=true
-    if(this.attempts>1){
-    for(let i=0;i<this.secretW.length;i++){
-      if(this.found[i]===this.secretW[i]){
-        this.found[i]=this.secretW[i]
-      }else{
-        this.found[i]=null
-        complete=false
-      }
-    }
-    for(let i=0;i<this.found.length;i++){
-      if(this.found[i]===null){
-        this.index=i
-        break;
-      }
-    }
-    this.attempts--
-    if(complete){
-      this.complete=true
+      super(4,room,ctx, canvas,["3","4","2","4","m","e","s","s","i"],[null,null,null,null,null,null,null,null,null])
      
-      //setTimeout(this.answer,2000)
-      setTimeout(this.answer.bind(this), 4000);
-      //this.answer()
-     
+
     }
-  }else{
-    this.complete=0
-    setTimeout(this.answerWrong.bind(this), 2000);
-   //this.answer()
-  }
-  }
+
 
  
 
@@ -208,25 +123,4 @@ export default class MiniGame4 extends MGMain{
         
     }
 
-     /**
-   * @param text
-   * @param xCoordinate
-   * @param yCoordinate
-   * @param fontSize
-   * @param color
-   * @param alignment
-   */
-  public writeTextToCanvas(
-    text: string,
-    fontSize: number = 20,
-    xCoordinate: number,
-    yCoordinate: number,
-    alignment: CanvasTextAlign = 'start',
-    color: string = 'black',
-  ): void {
-    this.ctx.font = `700 ${fontSize}px sans-serif`;
-    this.ctx.fillStyle = color;
-    this.ctx.textAlign = alignment;
-    this.ctx.fillText(text, xCoordinate, yCoordinate);
-  }
 }

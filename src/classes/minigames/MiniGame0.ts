@@ -16,7 +16,7 @@ export default class MiniGame0 extends MGMain {
     
     private answer1:boolean
 
-    private complete:any;
+   
 
     
 
@@ -27,7 +27,7 @@ export default class MiniGame0 extends MGMain {
      * @param canvas canvas
      */
   	constructor(ctx: CanvasRenderingContext2D, room: Room, canvas: HTMLCanvasElement) {
-    	super(0, room, ctx, canvas);
+    	super(0, room, ctx, canvas,[],[]);
     	this.imageBob = Game.loadNewImage("./img/players/bob.png");
     	this.imageBackground = Game.loadNewImage("./img/background/password2.jpg");
       this.particle=new Particle(window.innerWidth/2,window.innerHeight/2,ctx)

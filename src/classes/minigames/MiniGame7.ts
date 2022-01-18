@@ -15,7 +15,7 @@ export default class MiniGame7 extends MGMain {
     private randomNumberPositionDX: number[];
     private randomNumberPositionDY: number[];
     private randomSize: number[];
-    private started:boolean;
+    
     
     /**
    	* Create an instance of this object
@@ -24,7 +24,7 @@ export default class MiniGame7 extends MGMain {
    	* @param canvas canvas
    	*/
     constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
-      	super(7,room, ctx, canvas);
+      	super(7,room, ctx, canvas,[],[]);
       	this.roomId=7;
       	this.locked = true;
       	this.combination = [];

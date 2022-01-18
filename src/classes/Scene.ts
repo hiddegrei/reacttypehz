@@ -82,11 +82,13 @@ export default class Scene {
 
   private keyDown!:number ;
 
-  private playerRadius:number
+  private playerRadius:number;
 
-  private timeTurnAroundAgents:number
+  private timeTurnAroundAgents:number;
 
-  private testImg:HTMLImageElement
+  private testImg:HTMLImageElement;
+
+  private flash: number;
 
 
 
@@ -114,6 +116,7 @@ export default class Scene {
     this.inRoomNum = -1;
     this.keys = new Keys(this.ctx);
     this.timeHacking = 0;
+    this.flash = 1;
 
     
     
@@ -258,18 +261,27 @@ export default class Scene {
     
   }
 
-  public directorAlert() {
-    //this.ctx.drawImage(Game.loadNewImage("public/img/objects/gold_trophytest.png"), window.innerWidth/5, window.innerHeight/5);
-    // this.ctx.drawImage(this.testImg,200,200)
-    // this.ctx.strokeStyle = "rgb(0,0,0)";
-    // this.ctx.fillStyle = "rgb(255,255,255)";
-    // this.ctx.beginPath();
-    // this.ctx.rect(window.innerWidth / 1.3, window.innerHeight / 3.5, 680, 50);
-    // this.ctx.closePath();
-    // this.ctx.stroke();
-    // this.ctx.fill();
+  public directorAlert(number: number) {
+    if (number === 1) {
+      this.ctx.strokeStyle = "rgb(0,0,0)";
+      this.ctx.fillStyle = "rgb(255,0,0,0.8)";
+      this.ctx.beginPath();
+      this.ctx.rect(0, 0, window.innerWidth, window.innerHeight);
+      this.ctx.closePath();
+      this.ctx.stroke();
+      this.ctx.fill();
+    }
     
-   // this.writeTextToCanvas("Directeur: M. Oney", 30,window.innerWidth / 1.15, window.innerHeight / 3);
+    this.ctx.drawImage(this.testImg,100,100)
+    this.ctx.strokeStyle = "rgb(0,0,0)";
+    this.ctx.fillStyle = "rgb(255,255,255)";
+    this.ctx.beginPath();
+    this.ctx.rect(0, window.innerHeight / 2.5, 400, 50);
+    this.ctx.closePath();
+    this.ctx.stroke();
+    this.ctx.fill();
+    
+    this.writeTextToCanvas("Directeur: M. Oney", 30,200, window.innerHeight / 2.2);
   }
 
   public checkKeyScene(e: any) {
@@ -709,7 +721,35 @@ export default class Scene {
           window.innerHeight / 15
         );
       });
-      this.directorAlert();
+      if (this.timeLeft >= 1895 && this.timeLeft <= 1896) {
+          if(this.flash === 1){
+            this.directorAlert(1);
+            this.flash++;
+          } else if (this.flash >= 3) {
+            this.directorAlert(0);
+            this.flash = 1;
+          }else {
+            this.directorAlert(0);
+            this.flash++;
+            console.log('hello');
+          }
+        
+      }
+      if (this.timeLeft >= 1889 && this.timeLeft <= 1890) {
+        if(this.flash === 1){
+          this.directorAlert(1);
+          this.flash++;
+        } else if (this.flash >= 3) {
+          this.directorAlert(0);
+          this.flash = 1;
+        }else {
+          this.directorAlert(0);
+          this.flash++;
+        }
+      
+    }
+      
+      
   }
 
   /**
