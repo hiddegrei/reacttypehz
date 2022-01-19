@@ -188,31 +188,30 @@ export default class Scene {
 
 
   public directorAlert(number: number) {
+    let ctxAlert = this.canvas.getContext("2d") as CanvasRenderingContext2D;
     if (number === 1) {
-      this.ctx.strokeStyle = "rgb(0,0,0)";
-      this.ctx.fillStyle = "rgb(255,0,0,0.8)";
-      this.ctx.beginPath();
-      this.ctx.rect(0, 0, window.innerWidth, window.innerHeight);
-      this.ctx.closePath();
-      this.ctx.stroke();
-      this.ctx.fill();
+      ctxAlert.strokeStyle = "rgb(0,0,0)";
+      ctxAlert.fillStyle = "rgb(255,0,0,0.8)";
+      ctxAlert.beginPath();
+      ctxAlert.rect(0, 0, window.innerWidth, window.innerHeight);
+      ctxAlert.closePath();
+      ctxAlert.stroke();
+      ctxAlert.fill();
     }
 
-    this.ctx.drawImage(this.testImg, 100, 100);
-    this.ctx.strokeStyle = "rgb(0,0,0)";
-    this.ctx.fillStyle = "rgb(255,255,255)";
-    this.ctx.beginPath();
-    this.ctx.rect(0, window.innerHeight / 2.5, 400, 50);
-    this.ctx.closePath();
-    this.ctx.stroke();
-    this.ctx.fill();
+    ctxAlert.drawImage(this.testImg, 100, 100);
+    ctxAlert.strokeStyle = "rgb(0,0,0)";
+    ctxAlert.fillStyle = "rgb(255,255,255)";
+    ctxAlert.beginPath();
+    ctxAlert.rect(0, window.innerHeight / 2.5, 500, 50);
+    ctxAlert.closePath();
+    ctxAlert.stroke();
+    ctxAlert.fill();
 
-    this.writeTextToCanvas(
-      "Directeur: M. Oney",
-      30,
-      200,
-      window.innerHeight / 2.2
-    );
+    ctxAlert.font = `30px sans-serif`;
+    ctxAlert.fillStyle = 'red';
+    ctxAlert.textAlign = 'left';
+    ctxAlert.fillText("Directeur: M. Oney", 200, window.innerHeight / 2.2);
   }
 
   public checkKeyScene(e: any) {
