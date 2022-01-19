@@ -103,7 +103,8 @@ export default class Border {
 
     }
     }else{
-      this.ctx.strokeStyle = "rgb(0,0,255)";
+      if(this.type==="door"){
+      this.ctx.strokeStyle = "rgb(255,255,255)";
     this.ctx.lineWidth = 2;
     this.ctx.beginPath();
     this.ctx.moveTo(this.a.x, this.a.y);
@@ -111,7 +112,7 @@ export default class Border {
     this.ctx.closePath();
     this.ctx.stroke();
     this.ctx.fill()
-
+      }
     }
   }
 }

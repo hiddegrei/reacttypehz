@@ -21,6 +21,7 @@ import MiniGameC from "./minigames/MiniGameC";
 import MiniGameShop from "./minigames/MiniGameShop";
 
 export default class Room{
+  private static readonly TIMEOUT_ROOMS=40000
     public visitedRooms:Array<boolean>=[];
     public timeoutRooms:any[]=[] ;
     public roomId:number
@@ -149,6 +150,10 @@ export default class Room{
           this.miniGameFinished=false
           //timeout room
           return 90
+        }else if(this.roomId===80){
+          this.miniGameFinished=false
+          //timeout room
+          return 81
         }
         else{
           //timeout room
@@ -272,6 +277,20 @@ export default class Room{
       
         this.visitedRooms[roomId]=true
        // console.log(roomId,this.visitedRooms[roomId])
+    }
+
+    public timeOutRooms(elapsed:number){
+      for (let i = 0; i < 17; i++) {
+        if (
+          this.timeoutRooms[i][1] === true &&
+          this.timeoutRooms[i][0] >= Room.TIMEOUT_ROOMS
+        ) {
+          this.timeoutRooms[i] = [0, false];
+        } else {
+          this.timeoutRooms[i][0] += elapsed;
+        }
+      }
+
     }
 
     /**

@@ -4,7 +4,7 @@ import Game from "../Game";
 
 export default class MiniGameP extends MGMain {
   
-  	private lockedUp!: number;
+  	private lockedUp: number;
   	
   
 	/**
@@ -15,6 +15,7 @@ export default class MiniGameP extends MGMain {
    	*/
   	constructor(ctx:CanvasRenderingContext2D,room:Room, canvas: HTMLCanvasElement){
     	super(80,room, ctx, canvas);
+		this.lockedUp=1
   
 	      if(this.lockedUp===1){
     	  this.secretW=["k","a","r","e","l","9","3","2"];
@@ -23,8 +24,9 @@ export default class MiniGameP extends MGMain {
 
     	  }
       	this.found=[null,null,null,null,null,null,null,null];
+		 
 
-		  this.loadInfo()
+		this.loadInfo()
       
      	//this.image=Game.loadNewImage("./img/background/cell2.jpg");
 
@@ -63,6 +65,7 @@ export default class MiniGameP extends MGMain {
       		}else{
           		this.secretW=["9","4","p","e","r","e","n","8"];
       		}
+			  this.loadInfo()
         
       		this.started=false;
     	}
@@ -82,16 +85,14 @@ export default class MiniGameP extends MGMain {
     	this.ctx.drawImage(this.image, 0, 0, this.image.width, this.image.height, 0, 0, window.innerWidth, window.innerHeight);
     	
     
-    	this.writeTextToCanvas("Je bent opgesloten door de bewakers! En de bewakers hebben een wachtwoord op de deur gezet! ",16,110,70);
-    	this.writeTextToCanvas("Hack het wachtwoord om vrij te komen",16,110,90);
+    	this.writeTextToCanvas("Je bent opgesloten door de bewakers! En de bewakers hebben een wachtwoord op de deur gezet! ",16,110,90);
+    	this.writeTextToCanvas("Hack het wachtwoord om vrij te komen",16,110,110);
     	
 		this.renderAttemptsBlock()
 		this.renderInfoBlock()
 		this.renderPassBlocks()
 		this.renderStreepIndex()
 		
-
-    	
     	//this.writeTextToCanvas("Informatie van de bewaker die het wachtwoord heeft verzonnen:",20,850,130);
     	
 
@@ -120,12 +121,12 @@ export default class MiniGameP extends MGMain {
    	*/
   	public checkKey(e:any) {
       	//console.log(e.keyCode);
-      	if(e.keyCode===8){
+      	if(e.keyCode===8&&this.index>=0){
         	this.found[this.index--]=null;
         	//this.index--;
       	}else if(e.keyCode===13){
         	this.checkAttemptP();
-      	}else if(this.index<=7){
+      	}else if(this.index<=7&&e.keyCode!=8){
         	for(let i=0;i<this.found.length;i++){
           		if(this.found[i]===null){
             		this.index=i;
